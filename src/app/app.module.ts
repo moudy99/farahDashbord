@@ -14,6 +14,11 @@ import { LayoutComponent } from './Components/layout/layout.component';
 import { MangeServicesComponent } from './Components/mange-services/mange-services.component';
 import { OrdersComponent } from './Components/orders/orders.component';
 import { ContactUsComponent } from './Components/contact-us/contact-us.component';
+import { AddHallComponent } from './Components/All Servicess/add-hall/add-hall.component';
+import { AddCarComponent } from './Components/All Servicess/add-car/add-car.component';
+import { AddBeautyCenterComponent } from './Components/All Servicess/add-beauty-center/add-beauty-center.component';
+import { AddDressComponent } from './Components/All Servicess/add-dress/add-dress.component';
+import { AddPhotographerComponent } from './Components/All Servicess/add-photographer/add-photographer.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,11 @@ import { ContactUsComponent } from './Components/contact-us/contact-us.component
     MangeServicesComponent,
     OrdersComponent,
     ContactUsComponent,
+    AddHallComponent,
+    AddCarComponent,
+    AddBeautyCenterComponent,
+    AddDressComponent,
+    AddPhotographerComponent,
   ],
   imports: [
     BrowserModule,

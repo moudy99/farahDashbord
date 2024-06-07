@@ -6,7 +6,9 @@
 }
 body {
   direction: rtl;
+  background: url(https://code-theme.com/html/findhouses/images/bg/bg-pattern-dot.png) 0 0 repeat !important;
 }
+
 
 * {
   box-sizing: border-box;
