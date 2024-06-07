@@ -10,6 +10,10 @@ import { LoginComponent } from './Components/login/login.component';
 import { HomeComponent } from './Components/home/home.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { AddServiceComponent } from './Components/add-service/add-service.component';
+import { LayoutComponent } from './Components/layout/layout.component';
+import { MangeServicesComponent } from './Components/mange-services/mange-services.component';
+import { OrdersComponent } from './Components/orders/orders.component';
+import { ContactUsComponent } from './Components/contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +23,10 @@ import { AddServiceComponent } from './Components/add-service/add-service.compon
     HomeComponent,
     NotFoundComponent,
     AddServiceComponent,
+    LayoutComponent,
+    MangeServicesComponent,
+    OrdersComponent,
+    ContactUsComponent,
   ],
   imports: [
     BrowserModule,

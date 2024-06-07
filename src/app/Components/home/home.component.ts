@@ -13,12 +13,9 @@ export class HomeComponent implements OnInit {
   UserDashboardName: any;
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('token');
-    this.tokenData = jwt_decode(this.token);
-    this.UserDashboardName =
-      this.tokenData[
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-      ];
+    // this.token = localStorage.getItem('token');
+    // this.tokenData = jwt_decode(this.token);
+    this.UserDashboardName = 'moudy';
 
     var options = {
       strings: [

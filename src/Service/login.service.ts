@@ -5,12 +5,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LoginService {
-  baseUrl = 'https://localhost:7044/academy-api/login';
+  baseUrl = 'https://localhost:44322/api/Account/login';
   checklogin = false;
   res: any;
   constructor(private http: HttpClient) {}
 
-  login(data: any) {
+  login(email: string, password: string) {
+    const data = { email, password };
     return this.http.post(this.baseUrl, data, { observe: 'response' });
   }
   getStatus(response: HttpResponse<any>): number {
