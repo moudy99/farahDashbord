@@ -1,0 +1,11 @@
+    .logo {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .bg-dark-c{
+        background-color:var(--mainColor)
+      }
+
+     

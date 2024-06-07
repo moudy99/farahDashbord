@@ -1,0 +1,120 @@
+<div class="container mt-5">
+     <div class="row justify-content-center">
+          <div class="col-12 col-md-6 col-lg-6 mb-4" *ngFor="let service of services; let i = index">
+               <div class="card h-100">
+                    <div class="card-body d-flex flex-column text-center">
+                         <div class="icon mb-3">
+                              <img [src]="service.icon" alt="{{ service.title }} icon" class="icon-image">
+                         </div>
+                         <h3 class="card-title">{{ service.title }}</h3>
+                         <button class="btn btn-primary mt-3 fs-5 fw-bold w-100" data-bs-toggle="modal"
+                              [attr.data-bs-target]="'#serviceModal' + i">
+                              اضافة الخدمة
+
+                         </button>
+
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <!-- Modals -->
+     <div *ngFor="let service of services; let i = index">
+          <div class="modal fade" [id]="'serviceModal' + i" tabindex="-1" aria-labelledby="serviceModalLabel"
+               aria-hidden="true">
+               <div class="modal-dialog">
+                    <div class="modal-content">
+                         <div class="modal-header">
+                              <h5 class="modal-title" id="serviceModalLabel">{{ service.title }}</h5>
+
+                         </div>
+                         <div class="modal-body">
+                              <form [formGroup]="serviceForms[i]">
+                                   <div *ngIf="service.title === 'اضافة قاعة'">
+                                        <!-- Inputs for اضافة قاعة -->
+                                        <div class="mb-3">
+                                             <label for="hallName" class="form-label">Hall Name</label>
+                                             <input type="text" class="form-control" id="hallName"
+                                                  formControlName="hallName">
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="hallLocation" class="form-label">Location</label>
+                                             <input type="text" class="form-control" id="hallLocation"
+                                                  formControlName="hallLocation">
+                                        </div>
+                                        <!-- Additional inputs for اضافة قاعة -->
+                                   </div>
+
+                                   <div *ngIf="service.title === 'اضافة عربية'">
+                                        <!-- Inputs for اضافة عربية -->
+                                        <div class="mb-3">
+                                             <label for="carModel" class="form-label">Car Model</label>
+                                             <input type="text" class="form-control" id="carModel"
+                                                  formControlName="carModel">
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="carColor" class="form-label">Car Color</label>
+                                             <input type="text" class="form-control" id="carColor"
+                                                  formControlName="carColor">
+                                        </div>
+                                        <!-- Additional inputs for اضافة عربية -->
+                                   </div>
+
+                                   <div *ngIf="service.title === 'اضافة بيوتي سنتر'">
+                                        <!-- Inputs for اضافة بيوتي سنتر -->
+                                        <div class="mb-3">
+                                             <label for="beautyCenterName" class="form-label">Beauty Center Name</label>
+                                             <input type="text" class="form-control" id="beautyCenterName"
+                                                  formControlName="beautyCenterName">
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="beautyCenterLocation" class="form-label">Location</label>
+                                             <input type="text" class="form-control" id="beautyCenterLocation"
+                                                  formControlName="beautyCenterLocation">
+                                        </div>
+                                        <!-- Additional inputs for اضافة بيوتي سنتر -->
+                                   </div>
+
+                                   <div *ngIf="service.title === 'اضافة فستان'">
+                                        <!-- Inputs for اضافة فستان -->
+                                        <div class="mb-3">
+                                             <label for="dressType" class="form-label">Dress Type</label>
+                                             <input type="text" class="form-control" id="dressType"
+                                                  formControlName="dressType">
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="dressSize" class="form-label">Dress Size</label>
+                                             <input type="text" class="form-control" id="dressSize"
+                                                  formControlName="dressSize">
+                                        </div>
+                                        <!-- Additional inputs for اضافة فستان -->
+                                   </div>
+
+                                   <div *ngIf="service.title === 'اضافة مصور'">
+                                        <!-- Inputs for اضافة مصور -->
+                                        <div class="mb-3">
+                                             <label for="photographerName" class="form-label">Photographer Name</label>
+                                             <input type="text" class="form-control" id="photographerName"
+                                                  formControlName="photographerName">
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="photographerExperience" class="form-label">Experience
+                                                  (Years)</label>
+                                             <input type="number" class="form-control" id="photographerExperience"
+                                                  formControlName="photographerExperience">
+                                        </div>
+                                        <!-- Additional inputs for اضافة مصور -->
+                                   </div>
+
+                                   <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                             data-bs-dismiss="modal">الغاء</button>
+                                        <button type="submit" class="btn btn-primary">إضافة</button>
+                                   </div>
+                              </form>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>

@@ -1,0 +1,58 @@
+.card {
+     border-radius: 10px;
+     transition: transform 0.3s, box-shadow 0.3s;
+   }
+   
+   .card:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 6px 13px rgba(0, 0, 0, 0.2);
+   }
+   
+   .card-title {
+     font-size: 1.5rem;
+     margin-bottom: 1rem;
+     font-weight: bold;
+   }
+   
+   .icon-image {
+     width: 80px;
+     height: 80px;
+     margin-bottom: 1rem;
+   }
+   
+   .btn {
+     background-color: var(--mainColor);
+     border: none;
+     color: #fff;
+   }
+   
+   .btn:hover {
+     background-color:  #812778;
+
+   }
+   
+   .card-body {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     height: 100%;
+   }
+   .modal-header {
+     background-color: var(--mainColor);
+     color: white;
+   }
+   
+   .modal-title {
+     font-size: 1.5rem;
+   }
+   
+   .modal-footer .btn-secondary {
+     background-color: #6c757d;
+   }
+   
+   .modal-footer .btn-primary {
+     background-color: var(--mainColor);
+     border: none;
+   }
+   

@@ -1,0 +1,72 @@
+<div class=" bg-color px-3 pt-2 h-100 " [ngStyle]="{'display': navhidden ? 'block' : 'none'}">
+    <div class="text-center d-flex flex-column my-3 pt-2 ">
+        <a class="nav-link text-center ">
+            <img src="../../../assets/images/logo.sidebar.png" class="rounded-circle mx-2 logo" height="110"
+                alt="homePage image" loading="lazy" />
+        </a>
+    </div>
+    <div class="mt-5 ">
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item   " [hidden]="!GroupsPagePower">
+                <a [routerLink]="['/home']" [routerLinkActive]="' test px-3'" [routerLinkActiveOptions]="{exact:true}"
+                    class="nav-link align-middle ">
+                    <div class="d-flex justify-content-around">
+                        <i class=" fs-4 bi bi-house-check-fill ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">الرئيسية</span>
+                    </div>
+                </a>
+            </li>
+
+
+            <li class="nav-item   " [hidden]="!GroupsPagePower">
+                <a [routerLink]="['/addService']" [routerLinkActive]="' test px-3'"
+                    [routerLinkActiveOptions]="{exact:true}" class="nav-link align-middle ">
+                    <div class="d-flex justify-content-around">
+                        <i class="fs-4 bi bi-plus-circle-fill ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">إضافة خدمة</span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="nav-item" [hidden]="!UsersPagePower">
+                <a [routerLink]="['/users']" [routerLinkActive]="' test px-3'" [routerLinkActiveOptions]="{exact:true}"
+                    class="nav-link align-middle ">
+                    <div class="d-flex justify-content-around">
+                        <i class="fs-4 bi bi-list-check ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">إدارة الخدمات</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item" [hidden]="!BranchesPagePower">
+                <a [routerLink]="['/branches']" [routerLinkActive]="' test  pe-3 ps-5'"
+                    [routerLinkActiveOptions]="{exact:true}" class="nav-link align-middle ">
+                    <div class="d-flex justify-content-around">
+                        <i class="fs-4 bi bi-inbox-fill ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">الطلبات الواردة</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item" [hidden]="!CoursesPagePower">
+                <a [routerLink]="['/courses']" [routerLinkActive]="' test px-3'"
+                    [routerLinkActiveOptions]="{exact:true}" class="nav-link align-middle">
+                    <div class="d-flex justify-content-around">
+                        <i class="fs-4 bi bi-life-preserver ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">الدعم الفني</span>
+                    </div>
+
+                </a>
+            </li>
+            <li class="nav-item" (click)="signOut()">
+                <a class="nav-link align-middle">
+                    <div class="d-flex justify-content-around">
+                        <i class="fs-4 bi bi-box-arrow-right ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5 ">تسجل خروج</span>
+                    </div>
+
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+</div>

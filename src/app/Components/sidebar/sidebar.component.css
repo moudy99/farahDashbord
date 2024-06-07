@@ -1,0 +1,29 @@
+.bg-color {
+background-color: var(--mainColor);
+}
+.nav-link {
+  color: #d1cfcf;
+}
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-link .fill path {
+  fill: #d1cfcf;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.nav-item.active:hover .nav-link {
+  color: #30475e;
+}
+.nav-item.active {
+  background-color: #fff;
+  border-radius: 5px;
+}
+.test {
+  background-color: #fff;
+  color: #05121f;
+}

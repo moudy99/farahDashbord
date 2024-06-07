@@ -1,0 +1,17 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+
+:root {
+  --mainColor:#54244f;
+}
+body {
+  direction: rtl;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+* {
+  font-family: "Tajawal", sans-serif;
+}
