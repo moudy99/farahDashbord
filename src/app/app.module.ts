@@ -19,6 +19,7 @@ import { AddCarComponent } from './Components/All Servicess/add-car/add-car.comp
 import { AddBeautyCenterComponent } from './Components/All Servicess/add-beauty-center/add-beauty-center.component';
 import { AddDressComponent } from './Components/All Servicess/add-dress/add-dress.component';
 import { AddPhotographerComponent } from './Components/All Servicess/add-photographer/add-photographer.component';
+import { AuthService } from './Service/auth.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { AddPhotographerComponent } from './Components/All Servicess/add-photogr
     ReactiveFormsModule,
     RouterModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

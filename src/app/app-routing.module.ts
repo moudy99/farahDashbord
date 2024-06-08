@@ -13,11 +13,13 @@ import { AddCarComponent } from './Components/All Servicess/add-car/add-car.comp
 import { AddBeautyCenterComponent } from './Components/All Servicess/add-beauty-center/add-beauty-center.component';
 import { AddDressComponent } from './Components/All Servicess/add-dress/add-dress.component';
 import { AddPhotographerComponent } from './Components/All Servicess/add-photographer/add-photographer.component';
-
+import { authGuard } from './Guard/auth.guard';
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
@@ -39,7 +41,6 @@ const routes: Routes = [
       { path: '**', component: NotFoundComponent },
     ],
   },
-  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

@@ -29,6 +29,7 @@ export class SidebarComponent implements DoCheck {
 
   signOut() {
     localStorage.clear();
+    sessionStorage.clear();
     this.navhidden = false;
     this.router.navigate(['/login']);
   }

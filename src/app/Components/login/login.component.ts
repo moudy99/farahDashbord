@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { LoginService } from 'src/Service/login.service';
+import { LoginService } from 'src/app/Service/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,26 @@ export class LoginComponent {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
           console.log(response);
-          this.router.navigate(['/home']);
+          console.log(response.body);
+          console.log(response.body.data);
+          // Check the structure of the response
+          if (response && response.body.succeeded && response.body.data.token) {
+            const token = response.body.data.token;
+            const role = response.body.data.role;
+            const username = response.body.data.name;
+
+            if (role === 'Owner') {
+              localStorage.setItem('token', token);
+              localStorage.setItem('role', role);
+              sessionStorage.setItem('username', username);
+              this.router.navigate(['/home']);
+            } else {
+              this.errorMessage = 'غير مسموح للمستخدم الدخول الي لوحة التحكم.';
+              console.error('Unauthorized role.');
+            }
+          } else {
+            console.error('Token not found in the response data.');
+          }
         },
         error: (error) => {
           this.errorMessage = 'الايميل او كلمة المرور غير صحيح.';
