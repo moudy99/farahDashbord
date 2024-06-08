@@ -1,21 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/Service/login.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-  errorMessage: string | undefined;
+export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
   constructor(private router: Router, private loginService: LoginService) {}
+
+  ngOnInit(): void {}
 
   login() {
     if (this.loginForm.invalid) {
@@ -25,39 +27,55 @@ export class LoginComponent {
     const email = this.loginForm.value.username;
     const password = this.loginForm.value.password;
 
-    // Ensure that email and password are strings
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
-          console.log(response);
-          console.log(response.body);
-          console.log(response.body.data);
-          // Check the structure of the response
           if (response && response.body.succeeded && response.body.data.token) {
             const token = response.body.data.token;
             const role = response.body.data.role;
-            const username = response.body.data.name;
+            const accountStatus = response.body.data.accountStatus;
 
             if (role === 'Owner') {
-              localStorage.setItem('token', token);
-              localStorage.setItem('role', role);
-              sessionStorage.setItem('username', username);
-              this.router.navigate(['/home']);
+              if (accountStatus === 'Pending') {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'قيد المراجعة',
+                  text: 'نحن حالياً نراجع حسابك، سيتم إرسال رسالة إلى بريدك الإلكتروني بمجرد قبول حسابك. شكراً لانتظارك.',
+                });
+              } else if (accountStatus === 'Accepted') {
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+                sessionStorage.setItem('username', response.body.data.name);
+                this.router.navigate(['/home']);
+              } else {
+                console.error('حالة الحساب غير معروفة.');
+              }
             } else {
-              this.errorMessage = 'غير مسموح للمستخدم الدخول الي لوحة التحكم.';
-              console.error('Unauthorized role.');
+              Swal.fire({
+                icon: 'error',
+                title: 'خطأ',
+                text: 'غير مسموح لك بتسجيل الدخول هنا.',
+              });
             }
           } else {
-            console.error('Token not found in the response data.');
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ',
+              text: 'حاول الدخول مرة اخري.',
+            });
           }
         },
         error: (error) => {
-          this.errorMessage = 'الايميل او كلمة المرور غير صحيح.';
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+          });
           console.log(error);
         },
       });
     } else {
-      console.error('Email or password is not a string.');
+      console.error('البريد الإلكتروني أو كلمة المرور ليست سلسلة نصية.');
     }
   }
 }
