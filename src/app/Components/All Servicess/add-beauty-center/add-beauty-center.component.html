@@ -49,8 +49,7 @@
 
                                    <div class="mb-3">
                                         <label class="form-label">صور</label>
-                                        <input type="file" (change)="onFileSelected($event)" multiple
-                                             class="form-control" />
+                                        <input type="file" id="fileInput" (change)="onFileSelected($event)" multiple>
                                         <div *ngIf="images.length > 0" class="mt-2">
                                              <p>الصور المختارة:</p>
                                              <ul class="list-group">

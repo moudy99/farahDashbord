@@ -10,12 +10,4 @@
 img{
   border-radius: 10px;
 }
- .image-sty {
-    border-radius: 15px;
-    filter: blur(2px) brightness(0.9);
-    transition: all 0.3s ease-in-out;
-  }
 
-  .image-sty:hover {
-    filter: blur(0);
-  }
