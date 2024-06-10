@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Governorate } from '../Interfaces/governorate';
 import { City } from '../Interfaces/city';
+import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
 export class AddressService {
-  private baseUrl = 'https://localhost:44322/api';
+  private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
 

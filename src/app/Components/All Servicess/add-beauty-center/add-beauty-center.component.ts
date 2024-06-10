@@ -139,20 +139,20 @@ export class AddBeautyCenterComponent implements OnInit {
     formData.append('Gove', this.beautyCenterForm.get('gove')?.value);
     formData.append('City', this.beautyCenterForm.get('city')?.value);
     formData.append('OwnerID', this.ownerID);
-    formData.append('BeautyCenterID', this.beautyCenterID);
     this.images.forEach((image, index) => {
       formData.append(`Images[${index}]`, image.file, image.file.name);
     });
     formData.append('Services', JSON.stringify(this.services));
-
-    console.log('FormData entries:');
+    const formDataObject: any = {};
     formData.forEach((value, key) => {
       if (value instanceof File) {
-        console.log(`${key}: ${value.name} (File)`);
+        formDataObject[key] = { name: value.name, type: 'File' };
       } else {
-        console.log(`${key}: ${value}`);
+        formDataObject[key] = value;
       }
     });
+
+    console;
 
     this.beautyCenterService.addBeautyCenter(formData).subscribe({
       next: (response) => {
