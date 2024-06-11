@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // this.token = localStorage.getItem('token');
     // this.tokenData = jwt_decode(this.token);
-    this.UserDashboardName = 'moudy';
+    this.UserDashboardName = sessionStorage.getItem('username');
 
     var options = {
       strings: [

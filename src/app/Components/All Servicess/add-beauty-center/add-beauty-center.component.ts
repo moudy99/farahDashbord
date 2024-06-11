@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { BeautyCenterService } from 'src/app/Service/beauty-center.service';
 import { AddressService } from 'src/app/Service/address.service';
 import { City } from 'src/app/Interfaces/city';
 import { Governorate } from 'src/app/Interfaces/governorate';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-add-beauty-center',
@@ -13,15 +14,12 @@ import { Governorate } from 'src/app/Interfaces/governorate';
 })
 export class AddBeautyCenterComponent implements OnInit {
   beautyCenterForm: FormGroup;
+  serviceForm: FormGroup;
   images: { file: File; url: string }[] = [];
-  services: any[] = [];
-  newService: any = {};
   ownerID: string = 'owner-id-string';
-  beautyCenterID: string = 'beauty-center-id-string';
-
   AllGovernments: Governorate[] = [];
   Cites: City[] = [];
-  selectedGovernorate: Governorate | null = null;
+  editingServiceIndex: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +31,13 @@ export class AddBeautyCenterComponent implements OnInit {
       description: ['', Validators.required],
       gove: ['', Validators.required],
       city: [{ value: '', disabled: true }, Validators.required],
+      services: this.fb.array([]),
+    });
+
+    this.serviceForm = this.fb.group({
+      serviceName: ['', Validators.required],
+      serviceDescription: ['', Validators.required],
+      serviceTime: ['', Validators.required],
     });
   }
 
@@ -68,6 +73,46 @@ export class AddBeautyCenterComponent implements OnInit {
       });
   }
 
+  get services(): FormArray {
+    return this.beautyCenterForm.get('services') as FormArray;
+  }
+
+  openServiceModal() {
+    this.serviceForm.reset();
+    const serviceModalElement = document.getElementById('serviceModal');
+    if (serviceModalElement) {
+      const serviceModal = new Modal(serviceModalElement);
+      serviceModal.show();
+    }
+  }
+
+  addServiceFromModal() {
+    if (this.serviceForm.invalid) {
+      return;
+    }
+
+    if (this.editingServiceIndex !== null) {
+      this.services
+        .at(this.editingServiceIndex)
+        .setValue(this.serviceForm.value);
+      this.editingServiceIndex = null;
+    } else {
+      this.services.push(this.fb.group(this.serviceForm.value));
+    }
+
+    const serviceModalElement = document.getElementById('serviceModal');
+    if (serviceModalElement) {
+      const serviceModal = Modal.getInstance(serviceModalElement);
+      if (serviceModal) {
+        serviceModal.hide();
+      }
+    }
+  }
+
+  removeService(index: number) {
+    this.services.removeAt(index);
+  }
+
   onFileSelected(event: any) {
     if (event.target.files.length + this.images.length > 10) {
       Swal.fire({
@@ -91,41 +136,12 @@ export class AddBeautyCenterComponent implements OnInit {
     this.images = this.images.filter((img) => img !== image);
   }
 
-  openServiceModal() {
-    this.newService = {};
-  }
-
-  addService() {
-    if (
-      this.newService.name &&
-      this.newService.description &&
-      this.newService.price &&
-      this.newService.appointment
-    ) {
-      this.services.push({ ...this.newService });
-    } else {
+  onSubmit(): void {
+    if (this.beautyCenterForm.invalid || this.images.length === 0) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
-        text: 'يرجى ملء جميع تفاصيل الخدمة.',
-      });
-    }
-  }
-
-  removeService(service: any) {
-    this.services = this.services.filter((s) => s !== service);
-  }
-
-  onSubmit() {
-    if (
-      this.beautyCenterForm.invalid ||
-      this.images.length === 0 ||
-      this.services.length === 0
-    ) {
-      Swal.fire({
-        icon: 'error',
-        title: 'خطأ',
-        text: 'يرجى ملء جميع الحقول وإضافة الصور والخدمات.',
+        text: 'يرجى ملء جميع الحقول وإضافة الصور.',
       });
       return;
     }
@@ -139,39 +155,41 @@ export class AddBeautyCenterComponent implements OnInit {
     formData.append('Gove', this.beautyCenterForm.get('gove')?.value);
     formData.append('City', this.beautyCenterForm.get('city')?.value);
     formData.append('OwnerID', this.ownerID);
+
     this.images.forEach((image, index) => {
-      formData.append(`Images[${index}]`, image.file, image.file.name);
-    });
-    formData.append('Services', JSON.stringify(this.services));
-    const formDataObject: any = {};
-    formData.forEach((value, key) => {
-      if (value instanceof File) {
-        formDataObject[key] = { name: value.name, type: 'File' };
-      } else {
-        formDataObject[key] = value;
-      }
+      formData.append('Images', image.file, image.file.name);
     });
 
-    console;
+    const services = this.beautyCenterForm.get('services') as FormArray;
+    const servicesData = services.value;
 
-    this.beautyCenterService.addBeautyCenter(formData).subscribe({
-      next: (response) => {
+    servicesData.forEach((service: any, index: number) => {
+      formData.append(`Services[${index}].ServiceName`, service.serviceName);
+      formData.append(
+        `Services[${index}].ServiceDescription`,
+        service.serviceDescription
+      );
+      formData.append(`Services[${index}].ServiceTime`, service.serviceTime);
+    });
+
+    this.beautyCenterService.addBeautyCenter(formData).subscribe(
+      (response: any) => {
         Swal.fire({
           icon: 'success',
-          title: 'تمت الإضافة بنجاح',
+          title: 'نجاح',
           text: 'تمت إضافة بيوتي سنتر بنجاح.',
         });
         this.beautyCenterForm.reset();
         this.images = [];
-        this.services = [];
+        services.clear();
       },
-      error: (error) => {
+      (error: any) => {
         Swal.fire({
           icon: 'error',
           title: 'خطأ',
-          text: 'حدث خطأ أثناء إضافة بيوتي سنتر. حاول مرة أخرى.',
+          text: 'حدث خطأ أثناء إضافة بيوتي سنتر.',
         });
-      },
-    });
+      }
+    );
   }
 }
