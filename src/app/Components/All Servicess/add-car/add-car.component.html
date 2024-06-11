@@ -50,24 +50,23 @@
                                              class="text-danger">المدينة مطلوبة</div>
                                    </div>
                                    <div class="mb-3">
-                                        <label class="form-label">صور</label>
-                                        <input type="file" (change)="onFileSelected($event)" multiple
-                                             class="form-control" />
-                                        <div *ngIf="images.length > 0" class="mt-2">
-                                             <p>الصور المختارة:</p>
-                                             <ul class="list-group">
-                                                  <li *ngFor="let image of images"
-                                                       class="list-group-item d-flex align-content-center flex-row-reverse justify-content-end">
-                                                       <img [src]="image.url" alt="{{ image.file.name }}"
-                                                            class="img-thumbnail mx-3" width="50">
-                                                       {{ image.file.name }}
-                                                       <button type="button"
-                                                            class="mx-3 btn btn-danger btn-sm float-end"
-                                                            (click)="removeImage(image)">حذف</button>
-                                                  </li>
-                                             </ul>
+                                        <label class="form-label" for="images">الصور</label>
+                                        <input type="file" id="images" class="form-control"
+                                             (change)="onFileSelected($event)" multiple />
+                                        <div *ngIf="images.length === 0 && carServiceForm.get('images')?.touched"
+                                             class="text-danger">الصور مطلوبة</div>
+                                        <div class="mt-3 d-flex flex-wrap">
+                                             <div *ngFor="let image of images" class="me-2 mb-2 position-relative">
+                                                  <img [src]="image.url" class="img-thumbnail"
+                                                       style="height: 100px; width: 100px;" />
+                                                  <button type="button"
+                                                       class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                       (click)="removeImage(image)">x</button>
+                                             </div>
                                         </div>
                                    </div>
+
+
                                    <button class="btn btn-outline-light d-flex justify-content-center m-auto"
                                         type="submit">إرسال</button>
                               </form>
