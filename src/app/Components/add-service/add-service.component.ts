@@ -29,7 +29,7 @@ export class AddServiceComponent {
     },
     {
       title: 'اضافة مصور',
-      icon: '../../../assets/images/Photographer .svg',
+      icon: '../../../assets/images/Photographer.svg',
       route: 'addPhotographer',
     },
   ];
