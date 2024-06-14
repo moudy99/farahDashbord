@@ -1,12 +1,22 @@
-<div class="container mt-5">
-     <div class="row justify-content-center">
-          <div class="col-12 col-md-6 col-lg-6 mb-4" *ngFor="let service of services">
-               <div class="card h-100">
-                    <div class="card-body d-flex flex-column text-center">
-                         <div class="icon mb-3">
-                              <img [src]="service.icon" alt="{{ service.title }} icon" class="icon-image">
+<section id="advertisers" class="advertisers-service-sec">
+     <div class="container">
+          <div class="row">
+               <div class="section-header text-center">
+                    <h2 class="fw-bold fs-1">
+                         اختر
+                         <span class="b-class-secondary">الخدمة الجديدة</span>
+                    </h2>
+                    <p class="sec-icon"><i class="bi bi-gear"></i></p>
+               </div>
+          </div>
+          <div class="row mt-5 mt-md-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
+               <div class="col mb-4" *ngFor="let service of services">
+                    <div class="service-card">
+                         <div class="icon-wrapper">
+                              <i class="{{ service.icon }}"></i>
                          </div>
-                         <h3 class="card-title">{{ service.title }}</h3>
+                         <h3>{{ service.title }}</h3>
+                         <p>{{ service.description }}</p>
                          <a [routerLink]="['/addService', service.route]">
                               <button class="btn btn-primary mt-3 fs-5 fw-bold w-100">
                                    اضافة الخدمة
@@ -16,4 +26,4 @@
                </div>
           </div>
      </div>
-</div>
+</section>

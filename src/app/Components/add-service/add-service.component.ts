@@ -9,28 +9,33 @@ export class AddServiceComponent {
   services = [
     {
       title: 'اضافة قاعة',
-      icon: '../../../assets/images/wedding-hall.svg',
+      icon: 'bi bi-building',
       route: 'addHall',
+      description: 'يمكنك إضافة قاعة جديدة لمناسبتك الخاصة بسهولة.',
     },
     {
       title: 'اضافة عربية',
-      icon: '../../../assets/images/Car.svg',
+      icon: 'bi bi-car-front',
       route: 'addCar',
+      description: 'إضافة سيارة لتوصيل الضيوف أو العروسين بأناقة.',
     },
     {
       title: 'اضافة بيوتي سنتر',
-      icon: '../../../assets/images/beauty-center.svg',
+      icon: 'bi bi-scissors',
       route: 'addBeautyCenter',
+      description: 'إضافة بيوتي سنتر لتجهيز العروس بأحدث صيحات الجمال.',
     },
     {
       title: 'اضافة فستان',
-      icon: '../../../assets/images/dress.svg',
+      icon: 'bi bi-person-standing-dress',
       route: 'addDress',
+      description: 'إضافة فستان زفاف لتكمل إطلالتك الخاصة.',
     },
     {
       title: 'اضافة مصور',
-      icon: '../../../assets/images/Photographer.svg',
+      icon: 'bi bi-camera',
       route: 'addPhotographer',
+      description: 'إضافة مصور لالتقاط أجمل اللحظات في مناسبتك.',
     },
   ];
 }
