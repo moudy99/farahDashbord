@@ -14,7 +14,16 @@ export class BeautyCenterService {
   addBeautyCenter(formData: FormData): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log('Sending data to endpoint:', formData);
     return this.http.post(this.apiUrl, formData, { headers });
+  }
+
+  addBeautyServices(servicesData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+    return this.http.post(`${this.apiUrl}/AddBeautyService`, servicesData, {
+      headers,
+    });
   }
 }
