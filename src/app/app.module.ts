@@ -25,6 +25,7 @@ import { AuthService } from './Service/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // Import NoopAnimationsModule
 import { CarouselModule } from 'ngx-owl-carousel-o'; // Import CarouselModule here
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -51,8 +52,9 @@ import { CarouselModule } from 'ngx-owl-carousel-o'; // Import CarouselModule he
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    BrowserAnimationsModule, // Add BrowserAnimationsModule or NoopAnimationsModule here
-    CarouselModule, // Add CarouselModule here
+    BrowserAnimationsModule,
+    CarouselModule,
+    NgxSpinnerModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
