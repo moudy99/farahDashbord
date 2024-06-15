@@ -14,6 +14,12 @@ import { AddBeautyCenterComponent } from './Components/All Servicess/add-beauty-
 import { AddDressComponent } from './Components/All Servicess/add-dress/add-dress.component';
 import { AddPhotographerComponent } from './Components/All Servicess/add-photographer/add-photographer.component';
 import { authGuard } from './Guard/auth.guard';
+import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './Components/edit-profile/change-password/change-password.component';
+import { GeneralComponent } from './Components/edit-profile/general/general.component';
+import { SocialLinksComponent } from './Components/edit-profile/social-links/social-links.component';
+import { InfoComponent } from './Components/edit-profile/info/info.component';
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -38,6 +44,18 @@ const routes: Routes = [
       { path: 'mangeServices', component: MangeServicesComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'contactUs', component: ContactUsComponent },
+      {
+        path: 'editProfile',
+        component: EditProfileComponent,
+        canActivate: [authGuard],
+        children: [
+          { path: '', redirectTo: 'general', pathMatch: 'full' },
+          { path: 'changePassword', component: ChangePasswordComponent },
+          { path: 'general', component: GeneralComponent },
+          { path: 'socialLinks', component: SocialLinksComponent },
+          { path: 'info', component: InfoComponent },
+        ],
+      },
       { path: '**', component: NotFoundComponent },
     ],
   },

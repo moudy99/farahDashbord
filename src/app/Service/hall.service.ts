@@ -12,7 +12,8 @@ export class HallService {
   constructor(private http: HttpClient) {}
 
   addHall(formData: FormData): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post(this.apiUrl, formData, { headers });
   }
