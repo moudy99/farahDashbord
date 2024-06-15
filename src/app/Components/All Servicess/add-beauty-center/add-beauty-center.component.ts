@@ -19,7 +19,6 @@ export class AddBeautyCenterComponent implements OnInit {
   ownerID: string = 'owner-id-string';
   AllGovernments: Governorate[] = [];
   Cites: City[] = [];
-  editingServiceIndex: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +37,7 @@ export class AddBeautyCenterComponent implements OnInit {
       serviceName: ['', Validators.required],
       serviceDescription: ['', Validators.required],
       serviceTime: ['', Validators.required],
+      servicePrice: ['', Validators.required],
     });
   }
 
@@ -91,14 +91,14 @@ export class AddBeautyCenterComponent implements OnInit {
       return;
     }
 
-    if (this.editingServiceIndex !== null) {
-      this.services
-        .at(this.editingServiceIndex)
-        .setValue(this.serviceForm.value);
-      this.editingServiceIndex = null;
-    } else {
-      this.services.push(this.fb.group(this.serviceForm.value));
-    }
+    const newService = this.fb.group({
+      serviceName: this.serviceForm.get('serviceName')?.value,
+      serviceDescription: this.serviceForm.get('serviceDescription')?.value,
+      serviceTime: this.serviceForm.get('serviceTime')?.value,
+      servicePrice: this.serviceForm.get('servicePrice')?.value,
+    });
+
+    this.services.push(newService);
 
     const serviceModalElement = document.getElementById('serviceModal');
     if (serviceModalElement) {
@@ -146,6 +146,46 @@ export class AddBeautyCenterComponent implements OnInit {
       return;
     }
 
+    const beautyCenterFormData = this.constructBeautyCenterFormData();
+
+    this.beautyCenterService.addBeautyCenter(beautyCenterFormData).subscribe(
+      (beautyCenterResponse: any) => {
+        const beautyCenterId = beautyCenterResponse.data.beautyCenterId;
+        const servicesData = this.constructServicesFormData(beautyCenterId);
+
+        console.log('Services Data:', JSON.stringify(servicesData, null, 2)); // Log the JSON data to the console
+
+        this.beautyCenterService.addBeautyServices(servicesData).subscribe(
+          (servicesResponse: any) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'نجاح',
+              text: 'تمت إضافة البيوتي سنتر والخدمات بنجاح.',
+            });
+            this.beautyCenterForm.reset();
+            this.images = [];
+            this.services.clear();
+          },
+          (error: any) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ',
+              text: 'حدث خطأ أثناء إضافة الخدمات للبيوتي سنتر.',
+            });
+          }
+        );
+      },
+      (error: any) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'خطأ',
+          text: 'حدث خطأ أثناء إضافة البيوتي سنتر.',
+        });
+      }
+    );
+  }
+
+  constructBeautyCenterFormData(): FormData {
     const formData = new FormData();
     formData.append('Name', this.beautyCenterForm.get('name')?.value);
     formData.append(
@@ -160,36 +200,18 @@ export class AddBeautyCenterComponent implements OnInit {
       formData.append('Images', image.file, image.file.name);
     });
 
-    const services = this.beautyCenterForm.get('services') as FormArray;
-    const servicesData = services.value;
+    return formData;
+  }
 
-    servicesData.forEach((service: any, index: number) => {
-      formData.append(`Services[${index}].ServiceName`, service.serviceName);
-      formData.append(
-        `Services[${index}].ServiceDescription`,
-        service.serviceDescription
-      );
-      formData.append(`Services[${index}].ServiceTime`, service.serviceTime);
-    });
-
-    this.beautyCenterService.addBeautyCenter(formData).subscribe(
-      (response: any) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'نجاح',
-          text: 'تمت إضافة بيوتي سنتر بنجاح.',
-        });
-        this.beautyCenterForm.reset();
-        this.images = [];
-        services.clear();
-      },
-      (error: any) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'خطأ',
-          text: 'حدث خطأ أثناء إضافة بيوتي سنتر.',
-        });
-      }
-    );
+  constructServicesFormData(beautyCenterId: number): any {
+    const services = (this.beautyCenterForm.get('services') as FormArray).value;
+    const servicesData = services.map((service: any) => ({
+      beautyCenterId: beautyCenterId,
+      name: service.serviceName,
+      description: service.serviceDescription,
+      price: service.servicePrice,
+      appointment: service.serviceTime,
+    }));
+    return servicesData;
   }
 }

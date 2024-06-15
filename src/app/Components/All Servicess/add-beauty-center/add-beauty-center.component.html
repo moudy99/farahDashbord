@@ -119,6 +119,13 @@
                               <div *ngIf="serviceForm.get('serviceTime')?.invalid && serviceForm.get('serviceTime')?.touched"
                                    class="text-danger">وقت الخدمة مطلوب</div>
                          </div>
+                         <div class="mb-3">
+                              <label class="form-label" for="servicePrice">سعر الخدمة</label>
+                              <input type="number" id="servicePrice" class="form-control"
+                                   formControlName="servicePrice" />
+                              <div *ngIf="serviceForm.get('servicePrice')?.invalid && serviceForm.get('servicePrice')?.touched"
+                                   class="text-danger">سعر الخدمة مطلوب</div>
+                         </div>
                     </form>
                </div>
                <div class="modal-footer">
