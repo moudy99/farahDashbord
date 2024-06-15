@@ -12,7 +12,8 @@ export class CarService {
   constructor(private http: HttpClient) {}
 
   addCarService(carData: FormData): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post(this.baseUrl, carData, { headers });
   }

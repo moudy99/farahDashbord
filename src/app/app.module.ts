@@ -26,6 +26,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // Import NoopAnimationsModule
 import { CarouselModule } from 'ngx-owl-carousel-o'; // Import CarouselModule here
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './Components/edit-profile/change-password/change-password.component';
+import { GeneralComponent } from './Components/edit-profile/general/general.component';
+import { SocialLinksComponent } from './Components/edit-profile/social-links/social-links.component';
+import { InfoComponent } from './Components/edit-profile/info/info.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +49,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AddBeautyCenterComponent,
     AddDressComponent,
     AddPhotographerComponent,
+    EditProfileComponent,
+    ChangePasswordComponent,
+    GeneralComponent,
+    SocialLinksComponent,
+    InfoComponent,
   ],
   imports: [
     BrowserModule,
