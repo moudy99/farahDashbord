@@ -1,30 +1,44 @@
-<section class="gradient-custom mt-5">
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+<section class="gradient-custom mt-2">
   <div class="container w-75">
     <div class="d-flex justify-content-center">
       <div class="col-md-9">
         <div class="card bg-dark-c text-white ww" style="border-radius: 1rem;">
           <div class="card-body">
-            <div class="logo m-3 text-center">
-              <img src="../../../assets/images/logo.sidebar.png" alt="Logo" width="30%">
-            </div>
-            <div class="col-12">
-              <form [formGroup]="loginForm">
-                <div class="form-outline form-white mb-4">
-                  <label class="form-label" for="typeEmailX">الايميل</label>
-                  <input type="email" id="username" class="form-control form-control-lg" formControlName="username" />
-                </div>
-                <div class="form-outline form-white mb-4">
-                  <label class="form-label" for="password">كلمة المرور</label>
-                  <input type="password" id="password" class="form-control form-control-lg"
-                    formControlName="password" />
-                </div>
-                <div class="form-check mb-4 d-flex align-items-center justify-content-center gap-4 flex-row-reverse ">
-                  <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe" />
-                  <label class="form-check-label fs-4" for="rememberMe">تذكرني</label>
-                </div>
-                <button class="btn btn-outline-light d-flex justify-content-center m-auto" type="submit"
-                  (click)="login()">تسجيل الدخول</button>
-              </form>
+            <div *ngIf="!isLoading">
+              <div class="logo m-3 text-center">
+                <img src="../../../assets/images/logo.sidebar.png" alt="Logo" width="30%">
+              </div>
+              <div class="col-12">
+                <form [formGroup]="loginForm">
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="username">الايميل</label>
+                    <input type="email" id="username" class="form-control form-control-lg" formControlName="username" />
+                  </div>
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="password">كلمة المرور</label>
+                    <input type="password" id="password" class="form-control form-control-lg"
+                      formControlName="password" />
+                  </div>
+                  <div class="d-flex align-content-center justify-content-evenly flex-row-reverse">
+                    <div
+                      class="rememberMe-check form-check d-flex align-items-center justify-content-center gap-2 flex-row-reverse">
+                      <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe" />
+                      <label class="form-check-label fs-4" for="rememberMe">تذكرني</label>
+                    </div>
+                    <div class="signIn-btn">
+                      <button class="btn btn-outline-light d-flex justify-content-center m-auto" type="submit"
+                        (click)="login()">تسجيل الدخول</button>
+                    </div>
+                  </div>
+                  <div class="text-center mt-4">
+                    <a href="javascript:void(0);" (click)="openForgotPasswordPopup()"
+                      class="text-light fs-4 forgetPassword">نسيت كلمة المرور؟</a>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

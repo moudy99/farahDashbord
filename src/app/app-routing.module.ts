@@ -14,7 +14,6 @@ import { AddBeautyCenterComponent } from './Components/All Servicess/add-beauty-
 import { AddDressComponent } from './Components/All Servicess/add-dress/add-dress.component';
 import { AddPhotographerComponent } from './Components/All Servicess/add-photographer/add-photographer.component';
 import { authGuard } from './Guard/auth.guard';
-
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
