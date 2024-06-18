@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     rememberMe: new FormControl(false),
   });
 
-  isLoading = false; // Add isLoading flag
+  isLoading = false;
 
   constructor(
     private router: Router,

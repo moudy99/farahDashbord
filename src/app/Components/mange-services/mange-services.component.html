@@ -1,1 +1,86 @@
-<button class="btn btn-lg btn-success" (click)="getAllServices()">Get</button>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+     <p style="color: white">Loading...</p>
+</ngx-spinner>
+<div class="overflow-hidden demo">
+     <div class="row">
+          <div class="col-md-12">
+               <div class="panel">
+                    <div class="panel-heading">
+                         <div class="row">
+                              <div class="col col-sm-12 text-center">
+                                   <p class="title">جميع <span>خدماتي</span></p>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="panel-body table-responsive">
+                         <table class="table table-hover">
+                              <thead>
+                                   <tr class="active">
+                                        <th>#</th>
+                                        <th>اسم الخدمة</th>
+                                        <th>وقت الإضافة</th>
+                                        <th>نوع الخدمة</th>
+                                        <th>وصف الخدمة</th>
+                                        <th>الإجراءات</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   <tr *ngFor="let service of paginatedServices; let i = index">
+                                        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                                        <td>
+                                             <div class="text-truncate" title="{{ service.name }}">{{ service.name }}
+                                             </div>
+                                        </td>
+                                        <td>{{ service.timeAdded | date:'short' }}</td>
+                                        <td>
+                                             <span [ngClass]="{
+                       'label-success': service.type === 'Beauty Center',
+                       'label-info': service.type === 'Hall',
+                       'label-primary': service.type === 'Car',
+                       'label-warning': service.type === 'Photographer'
+                     }">{{ service.type }}</span>
+                                        </td>
+                                        <td>
+                                             <div class="text-truncate" title="{{ service.description }}">{{
+                                                  service.description }}</div>
+                                        </td>
+                                        <td>
+                                             <ul class="action-list">
+                                                  <li><a href="#" class="btn"><em class="fa fa-trash"></em></a></li>
+                                                  <li><a href="#" class="btn"><em class="fa fa-edit"></em></a></li>
+                                             </ul>
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+                    <div class="panel-footer">
+                         <div class="row">
+                              <div class="col-xs-12 text-center">
+                                   <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                             <li [class.disabled]="currentPage === 1"
+                                                  (click)="changePage(currentPage - 1)">
+                                                  <a class="page-link" aria-label="Previous">
+                                                       <span aria-hidden="true">&laquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li *ngFor="let page of pages" [class.active]="currentPage === page"
+                                                  (click)="changePage(page)">
+                                                  <a class="page-link">{{ page }}</a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(currentPage + 1)">
+                                                  <a class="page-link" aria-label="Next">
+                                                       <span aria-hidden="true">&raquo;</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </nav>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
