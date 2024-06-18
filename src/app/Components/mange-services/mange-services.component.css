@@ -9,14 +9,14 @@
    
    .panel .panel-heading {
      background: var(--mainColor);
-     padding: 20px 40px;
+     padding: 10px 0px;
      border-radius: 0;
      margin: 0 0;
    }
    
    .panel .panel-heading .title {
      color: #fff;
-     font-size: 40px;
+     font-size: 1rem;
      font-weight: 400;
      margin: 0;
    }
@@ -65,6 +65,7 @@
      align-items: center;
      justify-content: center;
      margin-top: 50px;
+     direction: ltr;
    }
    
    .pagination li {
@@ -92,35 +93,54 @@
      display: inline-block;
      font-weight: 600;
    }
-   
-   .label-success {
-     background-color: #5cb85c;
-     color: #fff;
-     border-radius: 5px;
-     padding: 5px 10px;
-   }
-   
-   .label-info {
-     background-color: #5bc0de;
-     color: #fff;
-     border-radius: 5px;
-     padding: 5px 10px;
-   }
-   
-   .label-primary {
-     background-color: #337ab7;
-     color: #fff;
-     border-radius: 5px;
-     padding: 5px 10px;
-   }
-   
-   .label-warning {
-     background-color: #f0ad4e;
-     color: #fff;
-     border-radius: 5px;
-     padding: 5px 10px;
-   }
-   
+   .label-success, .label-info,.label-primary,  .label-warning,.label-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+  }
+  
+  .label-success {
+    background-color: #28a745;
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: 1px solid #218838;
+  }
+  
+  .label-info {
+    background-color: #17a2b8;
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border: 1px solid #138496;
+  }
+  
+  .label-primary {
+    background-color: #007bff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: 1px solid #0056b3;
+  }
+  
+  .label-warning {
+    background-color: #ffc107;
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border: 1px solid #e0a800;
+  }
+  
+  .label-danger {
+    background-color: #dc3545;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: 1px solid #c82333;
+  }
+  
+  .label:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+  
    .panel .panel-body .table tbody .action-list {
      padding: 0;
      margin: 0;
@@ -191,4 +211,13 @@
      overflow: hidden;
      text-overflow: ellipsis;
    }
-   
+   .not-found{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   }
+   .not-found >p {
+    color: var(--mainColor);
+   }
