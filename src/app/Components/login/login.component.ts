@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     const email = this.loginForm.value.username;
     const password = this.loginForm.value.password;
-    const rememberMe = !!this.loginForm.value.rememberMe; // Convert to boolean
+    const rememberMe = !!this.loginForm.value.rememberMe;
 
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
@@ -67,14 +67,14 @@ export class LoginComponent implements OnInit {
                   cancelButtonText: 'لا',
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    this.spinner.show(); // Show spinner when starting to send OTP
+                    this.spinner.show();
                     this.sendOtpService.resendOTP().subscribe({
                       next: () => {
-                        this.spinner.hide(); // Hide spinner after OTP is sent
+                        this.spinner.hide();
                         this.promptForOtp();
                       },
                       error: (error) => {
-                        this.spinner.hide(); // Hide spinner in case of error
+                        this.spinner.hide();
                         Swal.fire({
                           icon: 'error',
                           title: 'خطأ',
@@ -153,10 +153,10 @@ export class LoginComponent implements OnInit {
   }
 
   verifyOtp(otp: string) {
-    this.spinner.show(); // Show spinner while verifying OTP
+    this.spinner.show();
     this.sendOtpService.confirmEmail(otp).subscribe({
       next: (verifyResponse) => {
-        this.spinner.hide(); // Hide spinner after OTP verification
+        this.spinner.hide();
         if (verifyResponse && verifyResponse.succeeded) {
           Swal.fire({
             icon: 'success',
@@ -178,7 +178,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.spinner.hide(); // Hide spinner in case of error
+        this.spinner.hide();
         Swal.fire({
           icon: 'error',
           title: 'خطأ',
