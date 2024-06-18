@@ -1,8 +1,9 @@
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
      <p style="color: white">Loading...</p>
 </ngx-spinner>
+
 <div class="overflow-hidden demo">
-     <div class="row">
+     <div class="row" *ngIf="paginatedServices.length > 0; else noServices">
           <div class="col-md-12">
                <div class="panel">
                     <div class="panel-heading">
@@ -46,8 +47,9 @@
                                         </td>
                                         <td>
                                              <ul class="action-list">
-                                                  <li><a href="#" class="btn"><em class="fa fa-trash"></em></a></li>
-                                                  <li><a href="#" class="btn"><em class="fa fa-edit"></em></a></li>
+                                                  <li><a (click)="DeleteService(service)" class="btn"><em
+                                                                 class="fa fa-trash"></em></a></li>
+                                                  <li><a class="btn"><em class="fa fa-edit"></em></a></li>
                                              </ul>
                                         </td>
                                    </tr>
@@ -83,4 +85,12 @@
                </div>
           </div>
      </div>
+     <ng-template #noServices>
+          <div class="row">
+               <div class="col-md-12 text-center not-found">
+                    <img src="../../../assets/NotFound.webp" alt="No services found" width="400" height="300">
+                    <p class="display-1 fw-bold">لا توجد خدمات متاحة حاليًا</p>
+               </div>
+          </div>
+     </ng-template>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetServicesService } from 'src/app/Service/get-services.service';
+import { ServicesManagementService } from 'src/app/Service/services-management.service';
 import { BeautyCenter } from './../../Interfaces/ServicesInfo/beauty-center';
 import { Hall } from './../../Interfaces/ServicesInfo/hall';
 import { Car } from './../../Interfaces/ServicesInfo/car';
@@ -22,7 +23,7 @@ export class MangeServicesComponent implements OnInit {
   allServices: any[] = [];
   paginatedServices: any[] = [];
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 8;
   totalPages: number = 0;
   pages: number[] = [];
 
@@ -30,6 +31,7 @@ export class MangeServicesComponent implements OnInit {
 
   constructor(
     private getServices: GetServicesService,
+    private servicesManagementService: ServicesManagementService,
     private spinner: NgxSpinnerService
   ) {}
 
@@ -105,5 +107,72 @@ export class MangeServicesComponent implements OnInit {
       this.currentPage = page;
       this.updatePaginatedServices();
     }
+  }
+  DeleteService(service: any) {
+    Swal.fire({
+      title: 'هل أنت متأكد؟',
+      text: 'لن تتمكن من التراجع عن هذا!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'نعم، احذفه!',
+      cancelButtonText: 'إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.spinner.show();
+
+        let serviceType = '';
+        let id = 0;
+
+        switch (service.type) {
+          case 'Beauty Center':
+            serviceType = 'BeautyCenter';
+            id = service.beautyCenterId;
+            break;
+          case 'Car':
+            serviceType = 'Car';
+            id = service.carID;
+            break;
+          case 'Hall':
+            serviceType = 'Hall';
+            id = service.hallID;
+            break;
+          case 'Photographer':
+            serviceType = 'Photography';
+            id = service.photographyID;
+            break;
+          default:
+            return; // or handle unknown service type
+        }
+
+        this.servicesManagementService.RemoveService(serviceType, id).subscribe(
+          (response) => {
+            this.isLoading = false;
+            this.spinner.hide();
+            if (response.succeeded) {
+              Swal.fire('تم الحذف!', 'تم حذف الخدمة بنجاح.', 'success');
+              this.loadServices();
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'خطأ',
+                text: 'حدث خطأ أثناء حذف الخدمة. يرجى المحاولة مرة أخرى.',
+              });
+            }
+          },
+          (error) => {
+            this.isLoading = false;
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ',
+              text: 'حدث خطأ أثناء حذف الخدمة. يرجى المحاولة مرة أخرى.',
+            });
+          }
+        );
+      }
+    });
   }
 }
