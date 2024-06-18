@@ -1,223 +1,265 @@
 .demo {
-     font-family: 'Poppins', sans-serif;
-   }
-   
-   .panel {
-     border-radius: 0;
-     border: none;
-   }
-   
-   .panel .panel-heading {
-     background: var(--mainColor);
-     padding: 10px 0px;
-     border-radius: 0;
-     margin: 0 0;
-   }
-   
-   .panel .panel-heading .title {
-     color: #fff;
-     font-size: 1rem;
-     font-weight: 400;
-     margin: 0;
-   }
-   
-   .panel .panel-heading .title span {
-     font-weight: 600;
-   }
-   
-   .panel .panel-body .table {
-     margin: 0;
-   }
-   
-   .panel .panel-body .table tr td {
-     border-color: #e7e7e7;
-   }
-   
-   .panel .panel-body .table thead tr.active th {
-     background-color: white;
-     font-size: 20px;
-     font-weight: 600;
-     padding: 12px;
-     border-top: 1px solid #e7e7e7;
-     border-bottom-color: #e7e7e7;
-     color: var(--mainColor);
-     font-weight: bold;
-   }
-   
-   .panel .panel-body .table tbody tr:hover {
-     background-color: rgba(0, 0, 0, 0.03);
-   }
-   
-   .panel .panel-body .table tbody tr td {
-     color: var(--mainColor);
-     font-size: 16px;
-     padding: 12px 12px;
-     vertical-align: middle;
-   }
-   
-   .panel .panel-footer .col {
-     line-height: 35px;
-   }
-   
-   .pagination {
-     margin: 0;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     margin-top: 50px;
-     direction: ltr;
-   }
-   
-   .pagination li {
-     display: inline;
-   }
-   
-   .pagination li a {
-     color: var(--mainColor);
-     font-size: 15px;
-     font-weight: 600;
-     text-align: center;
-     line-height: 33px;
-     height: 35px;
-     width: 35px;
-     padding: 0;
-     display: block;
-     transition: all 0.3s ease 0s;
-   }
-   
-   .panel .panel-body .table tbody td span.label {
-     font-size: 13px;
-     color: #fff;
-     padding: 5px 10px;
-     border-radius: 12px;
-     display: inline-block;
-     font-weight: 600;
-   }
-   .label-success, .label-info,.label-primary,  .label-warning,.label-danger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 12px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.panel {
+  border-radius: 0;
+  border: none;
+}
+
+.panel .panel-heading {
+  background: var(--mainColor);
+  padding: 10px 0px;
+  border-radius: 0;
+  margin: 0 0;
+}
+
+.panel .panel-heading .title {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.panel .panel-heading .title span {
+  font-weight: 600;
+}
+
+.panel .panel-body .table {
+  margin: 0;
+}
+
+.panel .panel-body .table tr td {
+  border-color: #e7e7e7;
+}
+
+.panel .panel-body .table thead tr.active th {
+  background-color: white;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 12px;
+  border-top: 1px solid #e7e7e7;
+  border-bottom-color: #e7e7e7;
+  color: var(--mainColor);
+  font-weight: bold;
+}
+
+.panel .panel-body .table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.panel .panel-body .table tbody tr td {
+  color: var(--mainColor);
+  font-size: 16px;
+  padding: 12px 12px;
+  vertical-align: middle;
+}
+
+.panel .panel-footer .col {
+  line-height: 35px;
+}
+
+.pagination {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  direction: ltr;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination li a {
+  color: var(--mainColor);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 33px;
+  height: 35px;
+  width: 35px;
+  padding: 0;
+  display: block;
+  transition: all 0.3s ease 0s;
+}
+
+.panel .panel-body .table tbody td span.label {
+  font-size: 13px;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 12px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.label-success,
+.label-info,
+.label-primary,
+.label-warning,
+.label-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+}
+
+.label-success {
+  background-color: #28a745;
+  background: linear-gradient(135deg, #28a745, #218838);
+  border: 1px solid #218838;
+}
+
+.label-info {
+  background-color: #17a2b8;
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  border: 1px solid #138496;
+}
+
+.label-primary {
+  background-color: #007bff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: 1px solid #0056b3;
+}
+
+.label-warning {
+  background-color: #ffc107;
+  background: linear-gradient(135deg, #ffc107, #e0a800);
+  border: 1px solid #e0a800;
+}
+
+.label-danger {
+  background-color: #dc3545;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  border: 1px solid #c82333;
+}
+
+.label:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.panel .panel-body .table tbody .action-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panel .panel-body .table tbody .action-list li {
+  margin: 0 3px;
+  display: inline-block;
+}
+
+.panel .panel-body .table tbody .action-list li a {
+  color: #f41127;
+  background-color: rgb(244 17 39 / 0.11);
+  font-size: 18px;
+  border: none;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  padding: 5px 10px;
+  position: relative; 
+}
+
+.panel .panel-body .table tbody .action-list li:last-child a {
+  color: #0d6efd;
+  background-color: rgb(13 110 253 / 0.11);
+}
+
+.panel .panel-body .table tbody .action-list li a:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.panel .panel-footer {
+  background-color: #fff;
+  padding: 10px 25px 25px;
+  border: none;
+}
+
+.pagination li a:hover,
+.pagination li a:focus,
+.pagination li.active a {
+  color: #fff;
+  background-color: var(--mainColor);
+  border-color: var(--mainColor);
+  cursor: pointer;
+}
+
+.pagination li.disabled a {
+  color: #ccc;
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}
+
+@media only screen and (max-width: 767px) {
+  .panel .panel-heading {
+    padding: 20px;
   }
-  
-  .label-success {
-    background-color: #28a745;
-    background: linear-gradient(135deg, #28a745, #218838);
-    border: 1px solid #218838;
+  .panel .panel-heading .title {
+    margin: 0 0 10px;
+    text-align: center;
   }
-  
-  .label-info {
-    background-color: #17a2b8;
-    background: linear-gradient(135deg, #17a2b8, #138496);
-    border: 1px solid #138496;
+  .inline-form {
+    text-align: center;
   }
-  
-  .label-primary {
-    background-color: #007bff;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border: 1px solid #0056b3;
-  }
-  
-  .label-warning {
-    background-color: #ffc107;
-    background: linear-gradient(135deg, #ffc107, #e0a800);
-    border: 1px solid #e0a800;
-  }
-  
-  .label-danger {
-    background-color: #dc3545;
-    background: linear-gradient(135deg, #dc3545, #c82333);
-    border: 1px solid #c82333;
-  }
-  
-  .label:hover {
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-  
-   .panel .panel-body .table tbody .action-list {
-     padding: 0;
-     margin: 0;
-     list-style: none;
-   }
-   
-   .panel .panel-body .table tbody .action-list li {
-     margin: 0 3px;
-     display: inline-block;
-   }
-   
-   .panel .panel-body .table tbody .action-list li a {
-     color: #f41127;
-     background-color: rgb(244 17 39 / 0.11);
-     font-size: 18px;
-     border: none;
-     transition: all 0.3s ease;
-     border-radius: 5px;
-     padding: 5px 10px;
-   }
-   
-   .panel .panel-body .table tbody .action-list li:last-child a {
-     color: #0d6efd;
-     background-color: rgb(13 110 253 / 0.11);
-   }
-   
-   .panel .panel-body .table tbody .action-list li a:hover {
-     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-   }
-   
-   .panel .panel-footer {
-     background-color: #fff;
-     padding: 10px 25px 25px;
-     border: none;
-   }
-   
-   .pagination li a:hover,
-   .pagination li a:focus,
-   .pagination li.active a {
-     color: #fff;
-     background-color: var(--mainColor);
-     border-color: var(--mainColor);
-     cursor: pointer;
-   }
-   
-   .pagination li.disabled a {
-     color: #ccc;
-     background-color: #f9f9f9;
-     cursor: not-allowed;
-   }
-   
-   @media only screen and (max-width: 767px) {
-     .panel .panel-heading {
-       padding: 20px;
-     }
-     .panel .panel-heading .title {
-       margin: 0 0 10px;
-       text-align: center;
-     }
-     .inline-form {
-       text-align: center;
-     }
-   }
-   
-   .text-truncate {
-     max-width: 150px;
-     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-   }
-   .not-found{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-   }
-   .not-found >p {
-    color: var(--mainColor);
-   }
+}
+
+.text-truncate {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.not-found {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.not-found > p {
+  color: var(--mainColor);
+}
+
+.panel .panel-body .table tbody .action-list li a:before,
+.panel .panel-body .table tbody .action-list li a:after {
+  content: attr(data-tip) ; 
+  color: #fff;
+  background-color: var(--mainColor);
+  font-size: 14px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  display: none;
+  transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+  top: -35px;
+  transition: all 0.3s ease;
+}
+
+.panel .panel-body .table tbody .action-list li a:after {
+  content: '';
+  height: 15px;
+  width: 15px;
+  padding: 0;
+  border-radius: 0;
+  transform: translateX(-50%) rotate(45deg);
+  top: -18px;
+  z-index: -1;
+}
+
+.panel .panel-body .table tbody .action-list li a:hover:before,
+.panel .panel-body .table tbody .action-list li a:hover:after {
+  display: block;
+}
+

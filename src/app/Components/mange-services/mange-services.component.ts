@@ -144,7 +144,7 @@ export class MangeServicesComponent implements OnInit {
             id = service.photographyID;
             break;
           default:
-            return; // or handle unknown service type
+            return;
         }
 
         this.servicesManagementService.RemoveService(serviceType, id).subscribe(
