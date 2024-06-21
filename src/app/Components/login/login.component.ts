@@ -48,83 +48,12 @@ export class LoginComponent implements OnInit {
         next: (response: any) => {
           this.spinner.hide();
           this.isLoading = false;
-          if (response && response.body.succeeded && response.body.data.token) {
-            const token = response.body.data.token;
-            const role = response.body.data.role;
-            const accountStatus = response.body.data.accountStatus;
-            const isConfirmed = response.body.data.isEmailConfirmed;
-
-            localStorage.setItem('token', token);
-
-            if (role === 'Owner') {
-              if (!isConfirmed) {
-                Swal.fire({
-                  icon: 'info',
-                  title: 'لم يتم تأكيد البريد الإلكتروني',
-                  text: 'هل تريد إرسال رمز التفعيل إلى بريدك الإلكتروني؟',
-                  showCancelButton: true,
-                  confirmButtonText: 'نعم',
-                  cancelButtonText: 'لا',
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    this.spinner.show();
-                    this.sendOtpService.resendOTP().subscribe({
-                      next: () => {
-                        this.spinner.hide();
-                        this.promptForOtp();
-                      },
-                      error: (error) => {
-                        this.spinner.hide();
-                        Swal.fire({
-                          icon: 'error',
-                          title: 'خطأ',
-                          text: 'حدث خطأ أثناء إرسال الرمز. حاول مرة أخرى.',
-                        });
-                      },
-                    });
-                  }
-                });
-              } else if (accountStatus === 'Pending') {
-                Swal.fire({
-                  icon: 'info',
-                  title: 'قيد المراجعة',
-                  text: 'نحن حالياً نراجع حسابك، سيتم إرسال رسالة إلى بريدك الإلكتروني بمجرد قبول حسابك. شكراً لانتظارك.',
-                });
-              } else if (accountStatus === 'Accepted') {
-                this.storeCredentials(
-                  rememberMe,
-                  token,
-                  role,
-                  response.body.data.name
-                );
-                this.router.navigate(['/home']);
-              } else {
-                console.error('حالة الحساب غير معروفة.');
-              }
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'خطأ',
-                text: 'غير مسموح لك بتسجيل الدخول هنا.',
-              });
-            }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'خطأ',
-              text: 'حاول الدخول مرة أخرى.',
-            });
-          }
+          this.handleLoginResponse(response, rememberMe);
         },
         error: (error) => {
           this.spinner.hide();
           this.isLoading = false;
-          Swal.fire({
-            icon: 'error',
-            title: 'خطأ',
-            text: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
-          });
-          console.log(error);
+          this.handleLoginError(error);
         },
       });
     } else {
@@ -134,11 +63,107 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  promptForOtp() {
+  handleLoginResponse(response: any, rememberMe: boolean) {
+    if (response && response.body.succeeded && response.body.data.token) {
+      const token = response.body.data.token;
+      const role = response.body.data.role;
+      const accountStatus = response.body.data.accountStatus;
+      const isConfirmed = response.body.data.isEmailConfirmed;
+      console.log(role);
+      localStorage.setItem('token', token);
+
+      if (role === 'Admin') {
+        this.handleAdminLogin(token, role, response.body.data.name, rememberMe);
+      } else if (role === 'Owner') {
+        this.handleOwnerLogin(
+          isConfirmed,
+          accountStatus,
+          token,
+          role,
+          response.body.data.name,
+          rememberMe
+        );
+      } else {
+        this.showErrorMessage('غير مسموح لك بتسجيل الدخول هنا.');
+      }
+    } else {
+      this.showErrorMessage('حاول الدخول مرة أخرى.');
+    }
+  }
+
+  handleAdminLogin(
+    token: string,
+    role: string,
+    name: string,
+    rememberMe: boolean
+  ) {
+    this.storeCredentials(rememberMe, token, role, name);
+    this.router.navigate(['/home']);
+  }
+
+  handleOwnerLogin(
+    isConfirmed: boolean,
+    accountStatus: string,
+    token: string,
+    role: string,
+    name: string,
+    rememberMe: boolean
+  ) {
+    if (!isConfirmed) {
+      Swal.fire({
+        icon: 'info',
+        title: 'لم يتم تأكيد البريد الإلكتروني',
+        text: 'هل تريد إرسال رمز التفعيل إلى بريدك الإلكتروني؟',
+        showCancelButton: true,
+        confirmButtonText: 'نعم',
+        cancelButtonText: 'لا',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.spinner.show();
+          this.sendOtpService.resendOTP().subscribe({
+            next: () => {
+              this.spinner.hide();
+              this.promptForOtp();
+            },
+            error: (error) => {
+              this.spinner.hide();
+              this.showErrorMessage(
+                'حدث خطأ أثناء إرسال الرمز. حاول مرة أخرى.'
+              );
+            },
+          });
+        }
+      });
+    } else if (accountStatus === 'Pending') {
+      Swal.fire({
+        icon: 'info',
+        title: 'قيد المراجعة',
+        text: 'نحن حالياً نراجع حسابك، سيتم إرسال رسالة إلى بريدك الإلكتروني بمجرد قبول حسابك. شكراً لانتظارك.',
+      });
+    } else if (accountStatus === 'Accepted') {
+      this.storeCredentials(rememberMe, token, role, name);
+      this.router.navigate(['/home']);
+    } else {
+      console.error('حالة الحساب غير معروفة.');
+    }
+  }
+
+  handleLoginError(error: any) {
+    Swal.fire({
+      icon: 'error',
+      title: 'خطأ',
+      text: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+    });
+    console.log(error);
+  }
+
+  promptForOtp(errorMessage?: string) {
     Swal.fire({
       icon: 'info',
       title: 'تم إرسال رمز التفعيل',
-      text: 'تم إرسال رمز التفعيل إلى بريدك الإلكتروني. يرجى إدخال الرمز هنا لتفعيل بريدك الإلكتروني:',
+      text:
+        errorMessage ||
+        'تم إرسال رمز التفعيل إلى بريدك الإلكتروني. يرجى إدخال الرمز هنا لتفعيل بريدك الإلكتروني:',
       input: 'text',
       inputPlaceholder: 'أدخل رمز التفعيل',
       showCancelButton: true,
@@ -168,24 +193,14 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/login']);
           });
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'خطأ',
-            text: 'الرمز غير صحيح أو منتهي الصلاحية. يرجى المحاولة مرة أخرى.',
-          }).then(() => {
-            this.promptForOtp();
-          });
+          this.promptForOtp(
+            'الرمز غير صحيح أو منتهي الصلاحية. يرجى المحاولة مرة أخرى.'
+          );
         }
       },
       error: (error) => {
         this.spinner.hide();
-        Swal.fire({
-          icon: 'error',
-          title: 'خطأ',
-          text: 'حدث خطأ أثناء التحقق من الرمز. حاول مرة أخرى.',
-        }).then(() => {
-          this.promptForOtp();
-        });
+        this.promptForOtp('حدث خطأ أثناء التحقق من الرمز. حاول مرة أخرى.');
       },
     });
   }
@@ -242,21 +257,25 @@ export class LoginComponent implements OnInit {
             text: 'تم إرسال رابط استعادة كلمة المرور إلى بريدك الإلكتروني. صالح لمدة 30 يومًا.',
           });
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'خطأ',
-            text: 'حدث خطأ أثناء إرسال الرابط. يرجى المحاولة مرة أخرى.',
-          });
+          this.promptForOtp(
+            'الرمز غير صحيح أو منتهي الصلاحية. يرجى المحاولة مرة أخرى.'
+          );
         }
       },
       error: (error) => {
         this.spinner.hide();
-        Swal.fire({
-          icon: 'error',
-          title: 'خطأ',
-          text: 'حدث خطأ أثناء إرسال الرابط. يرجى المحاولة مرة أخرى.',
-        });
+        this.promptForOtp(
+          'الرمز غير صحيح أو منتهي الصلاحية. يرجى المحاولة مرة أخرى.'
+        );
       },
+    });
+  }
+
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'خطأ',
+      text: message,
     });
   }
 }

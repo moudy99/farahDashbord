@@ -19,6 +19,8 @@ import { ChangePasswordComponent } from './Components/edit-profile/change-passwo
 import { GeneralComponent } from './Components/edit-profile/general/general.component';
 import { SocialLinksComponent } from './Components/edit-profile/social-links/social-links.component';
 import { InfoComponent } from './Components/edit-profile/info/info.component';
+import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
+import { roleGuard } from './Guard/role.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,6 +32,12 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'addService', component: AddServiceComponent },
+      {
+        path: 'allUsers',
+        component: AllUsersComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Admin' },
+      },
       { path: 'addService/addHall', component: AddHallComponent },
       { path: 'addService/addCar', component: AddCarComponent },
       {
@@ -42,12 +50,23 @@ const routes: Routes = [
         component: AddPhotographerComponent,
       },
       { path: 'mangeServices', component: MangeServicesComponent },
-      { path: 'orders', component: OrdersComponent },
-      { path: 'contactUs', component: ContactUsComponent },
+      {
+        path: 'orders',
+        component: OrdersComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Owner' },
+      },
+      {
+        path: 'contactUs',
+        component: ContactUsComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Owner' },
+      },
       {
         path: 'editProfile',
         component: EditProfileComponent,
-        canActivate: [authGuard],
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Owner' },
         children: [
           { path: '', redirectTo: 'general', pathMatch: 'full' },
           { path: 'changePassword', component: ChangePasswordComponent },

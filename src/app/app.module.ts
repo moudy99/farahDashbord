@@ -31,6 +31,7 @@ import { ChangePasswordComponent } from './Components/edit-profile/change-passwo
 import { GeneralComponent } from './Components/edit-profile/general/general.component';
 import { SocialLinksComponent } from './Components/edit-profile/social-links/social-links.component';
 import { InfoComponent } from './Components/edit-profile/info/info.component';
+import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { InfoComponent } from './Components/edit-profile/info/info.component';
     GeneralComponent,
     SocialLinksComponent,
     InfoComponent,
+    AllUsersComponent,
   ],
   imports: [
     BrowserModule,
