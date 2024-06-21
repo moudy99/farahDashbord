@@ -19,7 +19,6 @@
                                    <tr class="active">
                                         <th>#</th>
                                         <th>اسم المالك</th>
-                                        <th>صورة</th>
                                         <th>حالة الحساب</th>
                                         <th>حالة الحظر</th>
                                         <th>نوع الحساب</th>
@@ -29,16 +28,18 @@
                               <tbody>
                                    <tr *ngFor="let owner of paginatedOwners; let i = index">
                                         <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-                                        <td>{{ owner.firstName }} {{ owner.lastName }}</td>
                                         <td>
-                                             <div class="circle-avatar"
-                                                  [style.background-image]="'url(' + owner.profileImage + ')'"
-                                                  title="صورة المالك"></div>
+                                             <div class="user-icon">
+                                                  <div class="circle-avatar"
+                                                       [style.background-image]="'url(' + owner.profileImage + ')'"
+                                                       title="صورة المالك"></div>
+                                                  <span class="owner-name">{{ owner.firstName }} {{ owner.lastName
+                                                       }}</span>
+                                             </div>
                                         </td>
                                         <td>{{ getAccountStatusName(owner.accountStatus) }}</td>
                                         <td class="text-center toggle-block">
                                              <label class="switch">
-                                                  <!-- Use owner.isBlocked as the ngModel -->
                                                   <input type="checkbox" [checked]="owner.isBlocked"
                                                        (click)="toggleBlockStatus($event, owner)">
                                                   <span class="slider round"></span>
@@ -50,14 +51,14 @@
                                         <td class="text-center">
                                              <ul class="action-list">
                                                   <li><a (click)="onDeleteOwner(owner)" data-tip="حذف" class="btn"><em
-                                                                 class="fa fa-trash"></em></a>
-                                                  </li>
+                                                                 class="fa fa-trash"></em></a></li>
                                                   <li><a data-tip="عرض" class="btn"><em class="fa fa-eye"></em></a></li>
                                              </ul>
                                         </td>
                                    </tr>
                               </tbody>
                          </table>
+
                     </div>
 
                     <div class="panel-footer">

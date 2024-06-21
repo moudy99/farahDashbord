@@ -1,16 +1,18 @@
+import { OwnerResponse } from './../../../Interfaces/owner-response';
+import { Owner } from './../../../Interfaces/owner';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { GetUsersService } from 'src/app/Service/get-users.service';
 import { OwnerAccountStatus } from 'src/app/enums/owner-account-status';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-all-users',
   templateUrl: './all-users.component.html',
   styleUrls: ['./all-users.component.css'],
 })
 export class AllUsersComponent implements OnInit {
-  paginatedOwners: any[] = [];
+  paginatedOwners: Owner[] = [];
   currentPage: number = 1;
   pageSize: number = 8;
   totalPages: number = 0;
@@ -41,8 +43,12 @@ export class AllUsersComponent implements OnInit {
         this.isBlocked
       )
       .subscribe(
-        (response: any) => {
-          this.paginatedOwners = response.data;
+        (response: OwnerResponse) => {
+          this.paginatedOwners = response.data.map((owner) => ({
+            ...owner,
+            profileImage: `${environment.UrlForImages}/${owner.profileImage}`,
+          }));
+          console.log(this.paginatedOwners);
           this.totalPages = response.paginationInfo.totalPages;
           this.generatePageNumbers();
           this.spinner.hide();
@@ -53,7 +59,6 @@ export class AllUsersComponent implements OnInit {
         }
       );
   }
-
   generatePageNumbers(): void {
     const totalPagesToShow = 5;
     const pagesToShow = totalPagesToShow * 2;
@@ -90,7 +95,7 @@ export class AllUsersComponent implements OnInit {
     }
   }
 
-  toggleBlockStatus(event: Event, owner: any): void {
+  toggleBlockStatus(event: Event, owner: Owner): void {
     event.stopPropagation();
     this.spinner.show();
     const action = owner.isBlocked ? 'unblock' : 'block';
@@ -122,7 +127,7 @@ export class AllUsersComponent implements OnInit {
     );
   }
 
-  onDeleteOwner(owner: any): void {
+  onDeleteOwner(owner: Owner): void {
     Swal.fire({
       title: 'هل أنت متأكد؟',
       text: 'لن تتمكن من استعادة هذا المالك بعد الحذف!',
