@@ -24,7 +24,6 @@ import { AddPhotographerComponent } from './Components/All Servicess/add-photogr
 import { AuthService } from './Service/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // Import NoopAnimationsModule
-import { CarouselModule } from 'ngx-owl-carousel-o'; // Import CarouselModule here
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './Components/edit-profile/change-password/change-password.component';
@@ -67,7 +66,6 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
     ReactiveFormsModule,
     RouterModule,
     BrowserAnimationsModule,
-    CarouselModule,
     NgxSpinnerModule,
   ],
   providers: [AuthService],
