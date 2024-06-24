@@ -21,7 +21,7 @@ import { SocialLinksComponent } from './Components/edit-profile/social-links/soc
 import { InfoComponent } from './Components/edit-profile/info/info.component';
 import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
 import { roleGuard } from './Guard/role.guard';
-
+import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -35,6 +35,12 @@ const routes: Routes = [
       {
         path: 'allUsers',
         component: AllUsersComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Admin' },
+      },
+      {
+        path: 'allCustomers',
+        component: AllCustomersComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Admin' },
       },

@@ -32,6 +32,7 @@ import { GeneralComponent } from './Components/edit-profile/general/general.comp
 import { SocialLinksComponent } from './Components/edit-profile/social-links/social-links.component';
 import { InfoComponent } from './Components/edit-profile/info/info.component';
 import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
+import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AllUsersComponent } from './Components/Admin/all-users/all-users.compon
     SocialLinksComponent,
     InfoComponent,
     AllUsersComponent,
+    AllCustomersComponent,
   ],
   imports: [
     BrowserModule,
