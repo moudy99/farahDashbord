@@ -153,7 +153,7 @@ export class AddBeautyCenterComponent implements OnInit {
         const beautyCenterId = beautyCenterResponse.data.beautyCenterId;
         const servicesData = this.constructServicesFormData(beautyCenterId);
 
-        console.log('Services Data:', JSON.stringify(servicesData, null, 2)); // Log the JSON data to the console
+        console.log('Services Data:', JSON.stringify(servicesData, null, 2)); 
 
         this.beautyCenterService.addBeautyServices(servicesData).subscribe(
           (servicesResponse: any) => {

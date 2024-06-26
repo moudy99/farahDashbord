@@ -32,13 +32,13 @@ import { SocialLinksComponent } from './Components/edit-profile/social-links/soc
 import { InfoComponent } from './Components/edit-profile/info/info.component';
 import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
 import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
-
+import { SignalrService } from './Service/signalr.service';
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     LoginComponent,
-    HomeComponent, // Add HomeComponent to declarations
+    HomeComponent,
     NotFoundComponent,
     AddServiceComponent,
     LayoutComponent,
@@ -68,7 +68,7 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
     BrowserAnimationsModule,
     NgxSpinnerModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, SignalrService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
