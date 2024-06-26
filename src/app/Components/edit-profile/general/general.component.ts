@@ -14,7 +14,8 @@ export class GeneralComponent implements OnInit {
 editProfileForm:FormGroup;
 AllGovernments: Governorate[] = [];
 Cites: City[] = [];
-constructor(private fb: FormBuilder,private addressService:AddressService ,private ownerService:OwnerService){
+constructor(private fb: FormBuilder,private addressService:AddressService
+   ,private ownerService:OwnerService){
   this.editProfileForm=this.fb.group({
     FirstName:['',Validators.required],
     LastName:['',Validators.required],
@@ -28,6 +29,12 @@ constructor(private fb: FormBuilder,private addressService:AddressService ,priva
   });
 }
 ngOnInit(): void {
+  let email = localStorage.getItem('email');
+  if (email) {
+    this.GetOwnerProfileInfo(email);
+  } else {
+    console.error('Email not found in local storage.');
+  }
   this.loadGovernorates();
 
   this.editProfileForm
@@ -56,6 +63,38 @@ onGovernorateChange(governorateID: number): void {
       this.editProfileForm.get('CityID')?.enable();
     });
 }
+GetOwnerProfileInfo(Email: string) {
+  this.ownerService.GetOwnerInfo(Email).subscribe(
+    (response: any) => {
+      console.log('Full response:', response); // Log the entire response
+
+      const data = response.data;
+      console.log('Data:', data); // Log the data object
+
+      if (data) {
+        console.log('FirstName:', data.firstName); // Log FirstName specifically
+
+        this.editProfileForm.patchValue({
+          FirstName: data.firstName,
+          LastName: data.lastName,
+          Email: data.email,
+          PhoneNumber: data.phoneNumber,
+          SSN: data.ssn,
+          GovID: data.govID,
+          CityID: data.cityID,
+          YourFavirotePerson: data.yourFavirotePerson,
+          SetNewProfileImage: data.setNewProfileImage
+        });
+      } else {
+        console.error('Data is undefined or null');
+      }
+    },
+    (error: any) => {
+      console.error('Error fetching owner info:', error);
+    }
+  );
+}
+
 
 onSubmit(): void {
   this.editProfileForm.markAllAsTouched();
