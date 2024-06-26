@@ -35,19 +35,23 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid || this.isLoading) {
       return;
     }
-
+  
     this.isLoading = true;
     this.spinner.show();
-
+  
     const email = this.loginForm.value.username;
     const password = this.loginForm.value.password;
     const rememberMe = !!this.loginForm.value.rememberMe;
-
+  
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
           this.spinner.hide();
           this.isLoading = false;
+          
+          // Store email in local storage after login success
+          localStorage.setItem('email', email);
+  
           this.handleLoginResponse(response, rememberMe);
         },
         error: (error) => {
@@ -62,6 +66,7 @@ export class LoginComponent implements OnInit {
       console.error('البريد الإلكتروني أو كلمة المرور ليست سلسلة نصية.');
     }
   }
+  
 
   handleLoginResponse(response: any, rememberMe: boolean) {
     if (response && response.body.succeeded && response.body.data.token) {
