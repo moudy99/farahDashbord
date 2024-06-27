@@ -1,0 +1,115 @@
+<div class="overflow-hidden demo">
+     <div class="row" *ngIf="paginatedOwners.length > 0; else noOwners">
+          <div class="col-md-12">
+               <div class="panel">
+                    <div class="panel-heading">
+                         <div class="row">
+                              <div class="col col-sm-12 text-center">
+                                   <p class="title">جميع <span>طلبات المالكين</span></p>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="panel-body table-responsive mx-4">
+                         <table class="table table-hover">
+                              <thead>
+                                   <tr class="active">
+                                        <th>#</th>
+                                        <th>اسم المالك</th>
+                                        <th>حالة الحساب</th>
+                                        <th>نوع الحساب</th>
+                                        <th>الإجراءات</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   <tr *ngFor="let owner of paginatedOwners; let i = index">
+                                        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                                        <td>
+                                             <div class="user-icon">
+                                                  <div class="circle-avatar"
+                                                       [style.background-image]="'url(' + owner.profileImage + ')'"
+                                                       title="صورة المالك"></div>
+                                                  <span class="owner-name">{{ owner.firstName }} {{ owner.lastName
+                                                       }}</span>
+                                             </div>
+                                        </td>
+                                        <td>{{ getAccountStatusName(owner.accountStatus) }}</td>
+                                        <td [ngClass]="'user-type user-type-' + getUserTypeName(owner.userType)">
+                                             {{ getUserTypeName(owner.userType) }}
+                                        </td>
+                                        <td class="text-center">
+                                             <ul class="action-list">
+                                                  <li>
+                                                       <button (click)="acceptOwner(owner)"
+                                                            class="btn action-btn btn-success" data-tip="قبول">
+                                                            <em class="fa fa-check"></em> قبول
+                                                       </button>
+                                                  </li>
+                                                  <li>
+                                                       <button (click)="declineOwner(owner)"
+                                                            class="btn action-btn btn-danger" data-tip="رفض">
+                                                            <em class="fa fa-times"></em> رفض
+                                                       </button>
+                                                  </li>
+                                                  <li>
+                                                       <a (click)="showDetails(owner)" class="btn action-btn btn-info"
+                                                            data-tip="عرض">
+                                                            <em class="fa fa-eye"></em> عرض التفاصيل
+                                                       </a>
+                                                  </li>
+                                             </ul>
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+
+                    <div class="panel-footer">
+                         <div class="row">
+                              <div class="col-xs-12 text-center">
+                                   <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                             <li [class.disabled]="currentPage === 1" (click)="changePage(1)">
+                                                  <a class="page-link" aria-label="First">
+                                                       <span aria-hidden="true">First</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === 1"
+                                                  (click)="changePage(currentPage - 1)">
+                                                  <a class="page-link" aria-label="Previous">
+                                                       <span aria-hidden="true">&laquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li *ngFor="let page of pages" [class.active]="currentPage === page"
+                                                  (click)="changePage(page)">
+                                                  <a class="page-link">{{ page }}</a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(currentPage + 1)">
+                                                  <a class="page-link" aria-label="Next">
+                                                       <span aria-hidden="true">&raquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(totalPages)">
+                                                  <a class="page-link" aria-label="Last">
+                                                       <span aria-hidden="true">Last</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </nav>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <ng-template #noOwners>
+          <div class="row">
+               <div class="col-md-12 text-center not-found">
+                    <img src="../../../assets/NotFound.webp" alt="لم يتم العثور على مالكين" width="400" height="300">
+                    <p class="display-1 fw-bold">لا توجد مالكين متاحين حاليًا</p>
+               </div>
+          </div>
+     </ng-template>
+</div>
