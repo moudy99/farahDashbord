@@ -1,13 +1,22 @@
+.container {
+  padding: 0 15px; 
+}
 
-.style
-{
-  margin-top: 10rem !important;
+.text-center {
+  text-align: center;
 }
-.sty{
+
+.image-sty, .admin-image-sty {
   max-width: 100%;
-  max-height: 100%;
-}
-img{
+  height: auto;
+  max-height: 550px; 
   border-radius: 10px;
 }
 
+.mb-4 {
+  margin-bottom: 1.5rem !important; 
+}
+
+.mb-md-0 {
+  margin-bottom: 0 !important; 
+}

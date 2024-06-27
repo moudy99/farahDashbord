@@ -1,16 +1,18 @@
-<div class="container d-flex flex-column text-center sty">
-  <div class="row d-flex">
-    <div class="col-md-6">
-      <div class="row align-items-center style">
+<div class="container d-flex flex-column text-center mt-5">
+  <div class="row d-flex align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div class="row align-items-center">
         <div class="col-md-12">
-          <h1 class=" mb-5">أهلا <strong>{{ UserDashboardName }}</strong></h1>
+          <h1 *ngIf="userRole === 'Owner'" class="mb-4">أهلاً <strong>{{ UserDashboardName }}</strong></h1>
+          <h1 *ngIf="userRole === 'Admin'" class="mb-4">مرحبًا أيها المدير</h1>
           <h1 class="fw-bold typed-message"></h1>
         </div>
-
       </div>
     </div>
-    <div class="col-md-6">
-      <img src="../../../assets/images/7314112.svg" alt="your-image-description" class="sty image-sty" />
+    <div class="col-md-6 d-flex justify-content-center">
+      <img *ngIf="userRole === 'Owner'" src="../../../assets/images/7314112.svg" alt="Owner Image" class="image-sty" />
+      <img *ngIf="userRole === 'Admin'" src="../../../assets/images/AdminHome.svg" alt="Admin Image"
+        class="image-sty admin-image-sty" />
     </div>
   </div>
 </div>
