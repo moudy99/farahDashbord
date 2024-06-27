@@ -33,6 +33,8 @@ import { InfoComponent } from './Components/edit-profile/info/info.component';
 import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
 import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
 import { SignalrService } from './Service/signalr.service';
+import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-requests/new-owners-requests.component';
+import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +59,8 @@ import { SignalrService } from './Service/signalr.service';
     InfoComponent,
     AllUsersComponent,
     AllCustomersComponent,
+    NewOwnersRequestsComponent,
+    NewAddServicesRequestsComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,23 +7,19 @@ import { GetUsersService } from 'src/app/Service/get-users.service';
 import { OwnerAccountStatus } from 'src/app/enums/owner-account-status';
 import { environment } from 'src/environments/environment';
 import { OwnerService } from 'src/app/Service/owner.service';
+
 @Component({
-  selector: 'app-all-users',
-  templateUrl: './all-users.component.html',
-  styleUrls: ['./all-users.component.css'],
+  selector: 'app-new-owners-requests',
+  templateUrl: './new-owners-requests.component.html',
+  styleUrls: ['./new-owners-requests.component.css'],
 })
-export class AllUsersComponent implements OnInit {
+export class NewOwnersRequestsComponent implements OnInit {
   paginatedOwners: Owner[] = [];
   currentPage: number = 1;
   pageSize: number = 8;
   totalPages: number = 0;
   pages: number[] = [];
   isLoading: boolean = false;
-
-  accountStatus: number | null = null;
-  isBlocked: boolean | null = null;
-
-  originalIsBlocked: boolean | null = null;
 
   constructor(
     private getUsersService: GetUsersService,
@@ -32,18 +28,13 @@ export class AllUsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllOwners();
+    this.getAllPendingOwners();
   }
 
-  getAllOwners(): void {
+  getAllPendingOwners(): void {
     this.spinner.show();
     this.ownerServices
-      .getAllOwners(
-        this.currentPage,
-        this.pageSize,
-        this.accountStatus,
-        this.isBlocked
-      )
+      .getAllOwners(this.currentPage, this.pageSize, 0, null)
       .subscribe(
         (response: OwnerResponse) => {
           this.paginatedOwners = response.data.map((owner) => ({
@@ -55,11 +46,12 @@ export class AllUsersComponent implements OnInit {
           this.spinner.hide();
         },
         (error) => {
-          console.error('Error fetching owners:', error);
+          console.error('Error fetching pending owners:', error);
           this.spinner.hide();
         }
       );
   }
+
   generatePageNumbers(): void {
     const totalPagesToShow = 5;
     const pagesToShow = totalPagesToShow * 2;
@@ -91,8 +83,7 @@ export class AllUsersComponent implements OnInit {
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      console.log('Page changed to:', this.currentPage);
-      this.getAllOwners();
+      this.getAllPendingOwners();
     }
   }
 
@@ -102,17 +93,14 @@ export class AllUsersComponent implements OnInit {
     const action = owner.isBlocked ? 'unblock' : 'block';
     const ownerId = owner.id;
 
-    this.originalIsBlocked = owner.isBlocked;
-    console.log(this.originalIsBlocked, ownerId, action, owner.isBlocked);
     this.ownerServices.toggleBlockStatus(ownerId, action).subscribe(
       (response) => {
         this.spinner.hide();
         Swal.fire({
           icon: 'success',
-          title: 'نجاح!',
+          title: 'Success!',
           text: response.message,
         });
-
         owner.isBlocked = !owner.isBlocked;
       },
       (error) => {
@@ -120,29 +108,48 @@ export class AllUsersComponent implements OnInit {
         console.error('Error toggling block status:', error);
         Swal.fire({
           icon: 'error',
-          title: 'خطأ!',
-          text: 'فشل تغيير حالة الحظر.',
+          title: 'Error!',
+          text: 'Failed to change block status.',
         });
-        owner.isBlocked = this.originalIsBlocked;
       }
     );
   }
 
-  onDeleteOwner(owner: Owner): void {
-    Swal.fire({
-      title: 'هل أنت متأكد؟',
-      text: 'لن تتمكن من استعادة هذا المالك بعد الحذف!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'نعم، احذفه!',
-      cancelButtonText: 'إلغاء',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log('Deleting owner:', owner);
+  acceptOwner(owner: Owner): void {
+    this.spinner.show();
+    console.log('Accepting owner:', owner);
+    this.ownerServices.acceptOwner(owner.id).subscribe(
+      (response) => {
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'تم العملية بنجاح',
+          text: 'تم قبول طلب انضمام المالك بنجاح',
+        }).then(() => {
+          this.getAllPendingOwners();
+        });
+      },
+      (error) => {
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'error',
+          title: 'خطا',
+          text: 'حدث خطأ أثناء قبول طلب المالك. الرجاء المحاولة مرة أخرى.',
+        });
       }
+    );
+  }
+
+  declineOwner(owner: Owner): void {
+    // Implement decline owner logic (e.g., send decline request to backend)
+    console.log('Declining owner:', owner.id);
+  }
+
+  showDetails(owner: Owner): void {
+    this.ownerServices.GetOwnerDetails(owner.id).subscribe((response) => {
+      console.log(response);
     });
+    console.log('Showing details for owner:', owner);
   }
 
   getAccountStatusName(status: number): string {
