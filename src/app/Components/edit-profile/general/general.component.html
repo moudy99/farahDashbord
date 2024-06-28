@@ -73,12 +73,12 @@
                 شخصك المفضل مطلوب
             </div>
         </div>
-
         <div class="form-group">
-            <label class="form-label" for="SetNewProfileImage">تعيين صورة بروفايل جديدة</label>
-            <input type="file" id="SetNewProfileImage" class="form-control" formControlName="SetNewProfileImage" />
-            <div *ngIf="editProfileForm.get('SetNewProfileImage')?.invalid && editProfileForm.get('SetNewProfileImage')?.touched" class="text-danger">
-                تعيين صورة بروفايل جديدة مطلوب
+            <label class="form-label" for="profileImage"> صورة البروفايل </label>
+            <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Profile Image" class="profile-image img-fluid" />
+            <input type="file" id="profileImage" class="form-control" (change)="onFileChange($event)" />
+            <div *ngIf="editProfileForm.get('profileImage')?.invalid && editProfileForm.get('profileImage')?.touched" class="text-danger">
+                 صورة البروفايل  
             </div>
         </div>
 
