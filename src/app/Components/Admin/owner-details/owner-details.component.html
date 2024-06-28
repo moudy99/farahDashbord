@@ -1,0 +1,97 @@
+<div class="container form__wrapper">
+     <div class="row" *ngIf="selectedOwner | async as selectedOwner; else noOwners">
+          <div class="col-md-12">
+               <h2>تفاصيل المالك</h2>
+
+               <form>
+                    <div class="row">
+                         <div class="col-md-6">
+                              <div class="form-group">
+                                   <label class="form-label" for="FirstName">الاسم الاول</label>
+                                   <input type="text" id="FirstName" class="form-control"
+                                        [value]="selectedOwner?.firstName" readonly />
+                              </div>
+                         </div>
+
+                         <div class="col-md-6">
+                              <div class="form-group">
+                                   <label class="form-label" for="LastName">الاسم الثاني</label>
+                                   <input type="text" id="LastName" class="form-control"
+                                        [value]="selectedOwner?.lastName" readonly />
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="form-group">
+                         <label class="form-label" for="Email">البريد الإلكتروني</label>
+                         <input type="email" id="Email" class="form-control" [value]="selectedOwner?.email" readonly />
+                    </div>
+
+                    <div class="form-group">
+                         <label class="form-label" for="PhoneNumber">رقم الهاتف</label>
+                         <input type="tel" id="PhoneNumber" class="form-control rtl"
+                              [value]="selectedOwner?.phoneNumber" readonly />
+                    </div>
+
+                    <div class="form-group">
+                         <label class="form-label" for="SSN">رقم البطاقه</label>
+                         <input type="text" id="SSN" class="form-control" [value]="selectedOwner?.ssn" readonly />
+                    </div>
+
+                    <div class="form-group">
+                         <label class="form-label" for="Gov">المحافظه</label>
+                         <input type="text" id="Gov" class="form-control" [value]="gov" readonly />
+                    </div>
+
+                    <div class="form-group">
+                         <label class="form-label" for="City">المدينة</label>
+                         <input type="text" id="City" class="form-control" [value]="city" readonly />
+                    </div>
+
+                    <div class="row">
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="ProfileImage">الصورة الشخصية</label>
+                                   <div class="profile-image-container">
+                                        <img [src]="selectedOwner?.profileImage || '../../../../assets/NotFound.webp'"
+                                             alt="profile image">
+                                   </div>
+                              </div>
+                         </div>
+
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="IdFrontImage">صورة الوجه الامامي من البطاقة</label>
+                                   <div class="id-image-container">
+                                        <img [src]="selectedOwner?.idFrontImage || '../../../../assets/NotFound.webp'"
+                                             alt="id front image">
+                                   </div>
+                              </div>
+                         </div>
+
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="IdBackImage">صورة الوجه الخلفي من البطاقة</label>
+                                   <div class="id-image-container">
+                                        <img [src]="selectedOwner?.idBackImage || '../../../../assets/NotFound.webp'"
+                                             alt="id back image">
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="text-center mt-4">
+                         <button id="cancel" class="btn btn-lg goback" (click)="goBack()">رجوع</button>
+                    </div>
+               </form>
+          </div>
+     </div>
+
+     <ng-template #noOwners>
+          <div class="row">
+               <div class="col-md-12 text-center not-found">
+                    <img src="../../../assets/NotFound.webp" alt="لم يتم العثور على مالكين" class="not-found-image">
+                    <p class="display-4 fw-bold mt-4">لا توجد معلومات</p>
+               </div>
+          </div>
+     </ng-template>
+</div>

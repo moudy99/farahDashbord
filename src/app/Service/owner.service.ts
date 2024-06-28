@@ -61,6 +61,13 @@ export class OwnerService {
     const url = `${environment.baseUrl}/Admin/AcceptOwner?ownerId=${ownerId}`;
     return this.http.put(url, headers);
   }
+  declineOwner(ownerId: string): Observable<any> {
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${environment.baseUrl}/Admin/DeclineOwner?ownerId=${ownerId}`;
+    return this.http.put(url, headers);
+  }
   GetOwnerInfo(email: string) {
     const token =
       localStorage.getItem('token') || sessionStorage.getItem('token');

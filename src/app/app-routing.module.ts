@@ -24,6 +24,7 @@ import { roleGuard } from './Guard/role.guard';
 import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
 import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-requests/new-owners-requests.component';
 import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
+import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-details.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -55,6 +56,12 @@ const routes: Routes = [
       {
         path: 'newOwnersRequests',
         component: NewOwnersRequestsComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Admin' },
+      },
+      {
+        path: 'ownerDetails',
+        component: OwnerDetailsComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Admin' },
       },

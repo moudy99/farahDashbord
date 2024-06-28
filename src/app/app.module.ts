@@ -2,6 +2,7 @@
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +36,10 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
 import { SignalrService } from './Service/signalr.service';
 import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-requests/new-owners-requests.component';
 import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
+import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-details.component';
+import { StoreModule } from '@ngrx/store';
+import { ownersReducer } from './reducers/owners.reducer';
+import { EffectsModule } from '@ngrx/effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +66,7 @@ import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-serv
     AllCustomersComponent,
     NewOwnersRequestsComponent,
     NewAddServicesRequestsComponent,
+    OwnerDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +77,8 @@ import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-serv
     RouterModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    NgbModalModule,
+    StoreModule.forRoot({ owners: ownersReducer }),
   ],
   providers: [AuthService, SignalrService],
   bootstrap: [AppComponent],

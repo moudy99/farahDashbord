@@ -1,4 +1,6 @@
-import { OwnerResponse } from './../../../Interfaces/owner-response';
+import { OwnersState } from './../../../reducers/owners.reducer';
+import { Governorate } from './../../../Interfaces/governorate';
+import { City } from './../../../Interfaces/city';
 import { Owner } from './../../../Interfaces/owner';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +9,10 @@ import { GetUsersService } from 'src/app/Service/get-users.service';
 import { OwnerAccountStatus } from 'src/app/enums/owner-account-status';
 import { environment } from 'src/environments/environment';
 import { OwnerService } from 'src/app/Service/owner.service';
+import { OwnerResponse } from 'src/app/Interfaces/owner-response';
+import { selectOwner } from 'src/app/actions/owners.actions';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-owners-requests',
@@ -14,6 +20,7 @@ import { OwnerService } from 'src/app/Service/owner.service';
   styleUrls: ['./new-owners-requests.component.css'],
 })
 export class NewOwnersRequestsComponent implements OnInit {
+  selectedOwner: Owner | null = null;
   paginatedOwners: Owner[] = [];
   currentPage: number = 1;
   pageSize: number = 8;
@@ -24,7 +31,9 @@ export class NewOwnersRequestsComponent implements OnInit {
   constructor(
     private getUsersService: GetUsersService,
     private spinner: NgxSpinnerService,
-    private ownerServices: OwnerService
+    private ownerServices: OwnerService,
+    private router: Router,
+    private store: Store<{ owners: OwnersState }>
   ) {}
 
   ngOnInit(): void {
@@ -124,7 +133,9 @@ export class NewOwnersRequestsComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'تم العملية بنجاح',
-          text: 'تم قبول طلب انضمام المالك بنجاح',
+          text: 'تم قبول المالك بنجاح',
+          timer: 2000,
+          showConfirmButton: false,
         }).then(() => {
           this.getAllPendingOwners();
         });
@@ -133,27 +144,50 @@ export class NewOwnersRequestsComponent implements OnInit {
         this.spinner.hide();
         Swal.fire({
           icon: 'error',
-          title: 'خطا',
-          text: 'حدث خطأ أثناء قبول طلب المالك. الرجاء المحاولة مرة أخرى.',
+          title: 'حدث خطأ',
+          text: 'فشل في قبول طلب المالك',
+          timer: 2000,
+          showConfirmButton: false,
         });
       }
     );
   }
 
   declineOwner(owner: Owner): void {
-    // Implement decline owner logic (e.g., send decline request to backend)
-    console.log('Declining owner:', owner.id);
+    this.spinner.show();
+    console.log('Declining owner:', owner);
+    this.ownerServices.declineOwner(owner.id).subscribe(
+      (response) => {
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'تم العملية بنجاح',
+          text: 'تم رفض المالك بنجاح',
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          this.getAllPendingOwners();
+        });
+      },
+      (error) => {
+        this.spinner.hide();
+        Swal.fire({
+          icon: 'error',
+          title: 'حدث خطأ',
+          text: 'فشل في رفض طلب المالك',
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    );
   }
-
   showDetails(owner: Owner): void {
-    this.ownerServices.GetOwnerDetails(owner.id).subscribe((response) => {
-      console.log(response);
-    });
-    console.log('Showing details for owner:', owner);
+    this.store.dispatch(selectOwner({ owner }));
+    this.router.navigate(['/ownerDetails']);
   }
 
   getAccountStatusName(status: number): string {
-    return OwnerAccountStatus[status];
+    return OwnerAccountStatus[status] || 'غير معروف';
   }
 
   getUserTypeName(userType: number): string {

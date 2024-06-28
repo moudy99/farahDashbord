@@ -6,6 +6,8 @@ export interface Owner {
   ssn: string;
   govID: number;
   cityID: number;
+  gov: string;
+  city: string;
   email: string;
   phoneNumber: string;
   profileImage: string;
