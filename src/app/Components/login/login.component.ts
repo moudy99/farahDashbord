@@ -35,23 +35,24 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid || this.isLoading) {
       return;
     }
-  
+
     this.isLoading = true;
     this.spinner.show();
-  
+
     const email = this.loginForm.value.username;
     const password = this.loginForm.value.password;
     const rememberMe = !!this.loginForm.value.rememberMe;
-  
+
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
+          console.log(response);
           this.spinner.hide();
           this.isLoading = false;
-          
+
           // Store email in local storage after login success
           localStorage.setItem('email', email);
-  
+
           this.handleLoginResponse(response, rememberMe);
         },
         error: (error) => {
@@ -66,7 +67,6 @@ export class LoginComponent implements OnInit {
       console.error('البريد الإلكتروني أو كلمة المرور ليست سلسلة نصية.');
     }
   }
-  
 
   handleLoginResponse(response: any, rememberMe: boolean) {
     if (response && response.body.succeeded && response.body.data.token) {
@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit {
         this.handleAdminLogin(token, role, response.body.data.name, rememberMe);
       } else if (role === 'Owner') {
         this.handleOwnerLogin(
+          response.body.data.isBlocked,
           isConfirmed,
           accountStatus,
           token,
@@ -105,8 +106,8 @@ export class LoginComponent implements OnInit {
     this.storeCredentials(rememberMe, token, role, name);
     this.router.navigate(['/home']);
   }
-
   handleOwnerLogin(
+    isBlocked: boolean,
     isConfirmed: boolean,
     accountStatus: string,
     token: string,
@@ -114,7 +115,13 @@ export class LoginComponent implements OnInit {
     name: string,
     rememberMe: boolean
   ) {
-    if (!isConfirmed) {
+    if (isBlocked) {
+      Swal.fire({
+        icon: 'error',
+        title: 'تم حظر الحساب',
+        html: 'لقد تم حظر حسابك بسبب مخالفة شروطنا وأحكامنا. يرجى التواصل مع الدعم عبر البريد الإلكتروني <a href="mailto:Farah.Offical@farah.com">Farah.Offical@farah.com</a>',
+      });
+    } else if (!isConfirmed) {
       Swal.fire({
         icon: 'info',
         title: 'لم يتم تأكيد البريد الإلكتروني',
@@ -148,6 +155,12 @@ export class LoginComponent implements OnInit {
     } else if (accountStatus === 'Accepted') {
       this.storeCredentials(rememberMe, token, role, name);
       this.router.navigate(['/home']);
+    } else if (accountStatus === 'Decline') {
+      Swal.fire({
+        icon: 'error',
+        title: 'تم رفض الحساب',
+        html: 'تم رفض حسابك. يرجى التواصل مع الدعم عبر البريد الإلكتروني <a href="mailto:Farah.Offical@farah.com">Farah.Offical@farah.com</a>',
+      });
     } else {
       console.error('حالة الحساب غير معروفة.');
     }

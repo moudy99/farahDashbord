@@ -201,6 +201,7 @@ input:checked + .slider:before {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 1.2rem;
+  direction: ltr;
 }
 
 .not-found {
