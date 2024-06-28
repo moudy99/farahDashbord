@@ -96,91 +96,90 @@ export class NewOwnersRequestsComponent implements OnInit {
     }
   }
 
-  toggleBlockStatus(event: Event, owner: Owner): void {
-    event.stopPropagation();
-    this.spinner.show();
-    const action = owner.isBlocked ? 'unblock' : 'block';
-    const ownerId = owner.id;
-
-    this.ownerServices.toggleBlockStatus(ownerId, action).subscribe(
-      (response) => {
-        this.spinner.hide();
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: response.message,
-        });
-        owner.isBlocked = !owner.isBlocked;
-      },
-      (error) => {
-        this.spinner.hide();
-        console.error('Error toggling block status:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'Failed to change block status.',
-        });
-      }
-    );
-  }
-
   acceptOwner(owner: Owner): void {
     this.spinner.show();
     console.log('Accepting owner:', owner);
-    this.ownerServices.acceptOwner(owner.id).subscribe(
-      (response) => {
+    Swal.fire({
+      icon: 'info',
+      title: 'تأكيد العملية',
+      text: 'هل أنت متأكد أنك ترغب في قبول المالك؟',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، قبول',
+      cancelButtonText: 'لا، إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ownerServices.acceptOwner(owner.id).subscribe(
+          (response) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'تم العملية بنجاح',
+              text: 'تم قبول المالك بنجاح',
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              this.getAllPendingOwners();
+            });
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'error',
+              title: 'حدث خطأ',
+              text: 'فشل في قبول طلب المالك',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          }
+        );
+      } else {
         this.spinner.hide();
-        Swal.fire({
-          icon: 'success',
-          title: 'تم العملية بنجاح',
-          text: 'تم قبول المالك بنجاح',
-          timer: 2000,
-          showConfirmButton: false,
-        }).then(() => {
-          this.getAllPendingOwners();
-        });
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire({
-          icon: 'error',
-          title: 'حدث خطأ',
-          text: 'فشل في قبول طلب المالك',
-          timer: 2000,
-          showConfirmButton: false,
-        });
       }
-    );
+    });
   }
 
   declineOwner(owner: Owner): void {
     this.spinner.show();
     console.log('Declining owner:', owner);
-    this.ownerServices.declineOwner(owner.id).subscribe(
-      (response) => {
+    Swal.fire({
+      icon: 'info',
+      title: 'تأكيد العملية',
+      text: 'هل أنت متأكد أنك ترغب في رفض المالك؟',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، رفض',
+      cancelButtonText: 'لا، إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ownerServices.declineOwner(owner.id).subscribe(
+          (response) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'تم العملية بنجاح',
+              text: 'تم رفض المالك بنجاح',
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              this.getAllPendingOwners();
+            });
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'error',
+              title: 'حدث خطأ',
+              text: 'فشل في رفض طلب المالك',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          }
+        );
+      } else {
         this.spinner.hide();
-        Swal.fire({
-          icon: 'success',
-          title: 'تم العملية بنجاح',
-          text: 'تم رفض المالك بنجاح',
-          timer: 2000,
-          showConfirmButton: false,
-        }).then(() => {
-          this.getAllPendingOwners();
-        });
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire({
-          icon: 'error',
-          title: 'حدث خطأ',
-          text: 'فشل في رفض طلب المالك',
-          timer: 2000,
-          showConfirmButton: false,
-        });
       }
-    );
+    });
   }
+
   showDetails(owner: Owner): void {
     this.store.dispatch(selectOwner({ owner }));
     this.router.navigate(['/ownerDetails']);

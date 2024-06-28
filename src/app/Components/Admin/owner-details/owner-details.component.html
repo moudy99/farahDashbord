@@ -53,8 +53,11 @@
                               <div class="form-group">
                                    <label class="form-label" for="ProfileImage">الصورة الشخصية</label>
                                    <div class="profile-image-container">
-                                        <img [src]="selectedOwner?.profileImage || '../../../../assets/NotFound.webp'"
-                                             alt="profile image">
+                                        <a [href]="selectedOwner?.profileImage || '../../../../assets/NotFound.webp'"
+                                             data-lightbox="profile" data-title="Profile Image">
+                                             <img [src]="selectedOwner?.profileImage || '../../../../assets/NotFound.webp'"
+                                                  alt="profile image">
+                                        </a>
                                    </div>
                               </div>
                          </div>
@@ -63,8 +66,11 @@
                               <div class="form-group">
                                    <label class="form-label" for="IdFrontImage">صورة الوجه الامامي من البطاقة</label>
                                    <div class="id-image-container">
-                                        <img [src]="selectedOwner?.idFrontImage || '../../../../assets/NotFound.webp'"
-                                             alt="id front image">
+                                        <a [href]="selectedOwner?.idFrontImage || '../../../../assets/NotFound.webp'"
+                                             data-lightbox="id-front" data-title="ID Front Image">
+                                             <img [src]="selectedOwner?.idFrontImage || '../../../../assets/NotFound.webp'"
+                                                  alt="id front image">
+                                        </a>
                                    </div>
                               </div>
                          </div>
@@ -73,12 +79,16 @@
                               <div class="form-group">
                                    <label class="form-label" for="IdBackImage">صورة الوجه الخلفي من البطاقة</label>
                                    <div class="id-image-container">
-                                        <img [src]="selectedOwner?.idBackImage || '../../../../assets/NotFound.webp'"
-                                             alt="id back image">
+                                        <a [href]="selectedOwner?.idBackImage || '../../../../assets/NotFound.webp'"
+                                             data-lightbox="id-back" data-title="ID Back Image">
+                                             <img [src]="selectedOwner?.idBackImage || '../../../../assets/NotFound.webp'"
+                                                  alt="id back image">
+                                        </a>
                                    </div>
                               </div>
                          </div>
                     </div>
+
                     <div class="text-center mt-4">
                          <button id="cancel" class="btn btn-lg goback" (click)="goBack()">رجوع</button>
                     </div>

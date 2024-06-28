@@ -40,6 +40,8 @@ import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-de
 import { StoreModule } from '@ngrx/store';
 import { ownersReducer } from './reducers/owners.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { LightboxModule } from 'ngx-lightbox';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +81,7 @@ import { EffectsModule } from '@ngrx/effects';
     NgxSpinnerModule,
     NgbModalModule,
     StoreModule.forRoot({ owners: ownersReducer }),
+    LightboxModule,
   ],
   providers: [AuthService, SignalrService],
   bootstrap: [AppComponent],
