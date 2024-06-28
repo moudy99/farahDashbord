@@ -2,6 +2,7 @@
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,13 +33,21 @@ import { SocialLinksComponent } from './Components/edit-profile/social-links/soc
 import { InfoComponent } from './Components/edit-profile/info/info.component';
 import { AllUsersComponent } from './Components/Admin/all-users/all-users.component';
 import { AllCustomersComponent } from './Components/Admin/all-customers/all-customers.component';
+import { SignalrService } from './Service/signalr.service';
+import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-requests/new-owners-requests.component';
+import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
+import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-details.component';
+import { StoreModule } from '@ngrx/store';
+import { ownersReducer } from './reducers/owners.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { LightboxModule } from 'ngx-lightbox';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     LoginComponent,
-    HomeComponent, // Add HomeComponent to declarations
+    HomeComponent,
     NotFoundComponent,
     AddServiceComponent,
     LayoutComponent,
@@ -57,6 +66,9 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
     InfoComponent,
     AllUsersComponent,
     AllCustomersComponent,
+    NewOwnersRequestsComponent,
+    NewAddServicesRequestsComponent,
+    OwnerDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,8 +79,11 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
     RouterModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    NgbModalModule,
+    StoreModule.forRoot({ owners: ownersReducer }),
+    LightboxModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, SignalrService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

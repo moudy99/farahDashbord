@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { GetUsersService } from 'src/app/Service/get-users.service';
 import { OwnerAccountStatus } from 'src/app/enums/owner-account-status';
 import { environment } from 'src/environments/environment';
+import { OwnerService } from 'src/app/Service/owner.service';
 @Component({
   selector: 'app-all-users',
   templateUrl: './all-users.component.html',
@@ -26,7 +27,8 @@ export class AllUsersComponent implements OnInit {
 
   constructor(
     private getUsersService: GetUsersService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private ownerServices: OwnerService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class AllUsersComponent implements OnInit {
 
   getAllOwners(): void {
     this.spinner.show();
-    this.getUsersService
+    this.ownerServices
       .getAllOwners(
         this.currentPage,
         this.pageSize,
@@ -48,7 +50,6 @@ export class AllUsersComponent implements OnInit {
             ...owner,
             profileImage: `${environment.UrlForImages}/${owner.profileImage}`,
           }));
-          console.log(this.paginatedOwners);
           this.totalPages = response.paginationInfo.totalPages;
           this.generatePageNumbers();
           this.spinner.hide();
@@ -103,7 +104,7 @@ export class AllUsersComponent implements OnInit {
 
     this.originalIsBlocked = owner.isBlocked;
     console.log(this.originalIsBlocked, ownerId, action, owner.isBlocked);
-    this.getUsersService.toggleBlockStatus(ownerId, action).subscribe(
+    this.ownerServices.toggleBlockStatus(ownerId, action).subscribe(
       (response) => {
         this.spinner.hide();
         Swal.fire({
