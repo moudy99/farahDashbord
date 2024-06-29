@@ -1,21 +1,22 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
 export class SignalrService {
-  private hubConnection!: signalR.HubConnection;
+  private chatHubConnection!: signalR.HubConnection;
+  private notificationHubConnection!: signalR.HubConnection;
   private messages: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(
     []
   );
-  private apiUrl: string = 'https://localhost:44322/api/Chat/send-message';
 
-  constructor(private http: HttpClient) {
-    this.startConnection();
-    this.addTransferMessageListener();
+  constructor(private http: HttpClient, private toastr: ToastrService) {
+    // this.startChatHubConnection();
+    // this.startNotificationsHubConnection();
   }
 
   private get token() {
@@ -24,21 +25,24 @@ export class SignalrService {
     );
   }
 
-  public startConnection = () => {
-    this.hubConnection = new signalR.HubConnectionBuilder()
+  // Start Chat Hub Connection
+  public startChatHubConnection = () => {
+    this.chatHubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:44322/chathub', {
         accessTokenFactory: () => this.token,
       })
       .build();
 
-    this.hubConnection
+    this.chatHubConnection
       .start()
-      .then(() => console.log('Connection started'))
-      .catch((err) => console.log('Error while starting connection: ' + err));
+      .then(() => console.log('Chat Hub Connection started'))
+      .catch((err) =>
+        console.log('Error while starting chat hub connection: ' + err)
+      );
   };
 
   public addTransferMessageListener = () => {
-    this.hubConnection.on('ReceiveMessage', (message) => {
+    this.chatHubConnection.on('ReceiveMessage', (message) => {
       this.messages.next([...this.messages.value, message]);
     });
   };
@@ -56,16 +60,41 @@ export class SignalrService {
       Authorization: `Bearer ${token}`,
     });
 
-    this.http.post(this.apiUrl, dto, { headers }).subscribe(
-      () => {
-        console.log('Message sent successfully');
-      },
-      (error) => {
-        console.error('Error sending message:', error);
-      }
-    );
+    this.http
+      .post(`${environment.baseUrl}/chat/sendMessage`, dto, { headers })
+      .subscribe(
+        () => {
+          console.log('Message sent successfully');
+        },
+        (error) => {
+          console.error('Error sending message:', error);
+        }
+      );
   }
+
   public getMessages() {
     return this.messages.asObservable();
   }
+
+  // Start Notifications Hub Connection
+  public startNotificationsHubConnection = () => {
+    this.notificationHubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:44322/notificationHub', {
+        accessTokenFactory: () => this.token,
+      })
+      .build();
+
+    this.notificationHubConnection
+      .start()
+      .then(() => this.toastr.info('تم الاتصال بمركز الإشعارات', 'تم الاتصال'))
+      .catch((err) =>
+        console.log('Error while starting notification hub connection: ' + err)
+      );
+  };
+
+  public newOwnerRegister = (callback: (data: any) => void): void => {
+    this.notificationHubConnection.on('newOwnerRegister', (data) => {
+      callback(data);
+    });
+  };
 }

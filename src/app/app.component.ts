@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     sessionStorage.clear();
+
     // this.router.navigate(['/login']);
   }
 }
