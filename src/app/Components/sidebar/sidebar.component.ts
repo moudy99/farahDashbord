@@ -31,21 +31,18 @@ export class SidebarComponent implements DoCheck, OnInit {
   ngOnInit(): void {
     this.role = this.authService.getRole();
     this.signalrService.startNotificationsHubConnection();
-    this.signalrService.newOwnerRegister(() => {
-      this.newOwnerRegisterNotification();
-    });
+    if (this.role === 'Admin') {
+      this.signalrService.newOwnerRegister(() => {
+        this.newOwnerRegisterNotification();
+      });
+      this.signalrService.newServiceAdded((data) => {
+        this.newServicesNotification(data);
+      });
+    }
   }
 
   ngDoCheck(): void {
     this.token = localStorage.getItem('token');
-
-    // if (this.token != null) {
-    //   this.navhidden = true;
-    //   this.tokenData = jwt_decode(this.token);
-
-    // } else {
-    //   this.navhidden = false;
-    // }
     this.navhidden = true;
   }
 
@@ -64,8 +61,8 @@ export class SidebarComponent implements DoCheck, OnInit {
       this.newOwnersRegisterCount = `${this.OwnersNum}`;
     }
   }
-  public newServicesNotification(): void {
-    this.toastr.info('تم تسجيل مالك جديد في الموقع', 'تسجيل مالك جديد');
+  public newServicesNotification(data: any): void {
+    this.toastr.info(`تم اضافة خدمة ${data}`, 'اضافة خدمة جديدة');
     this.ServicesCount++;
     if (this.ServicesCount > 9) {
       this.newServicesAddedCount = `+9`;
@@ -73,6 +70,7 @@ export class SidebarComponent implements DoCheck, OnInit {
       this.newServicesAddedCount = `${this.ServicesCount}`;
     }
   }
+
   public newComplaintNotification(): void {
     this.toastr.info('تم تسجيل مالك جديد في الموقع', 'تسجيل مالك جديد');
     this.ComplainsNum++;
@@ -81,5 +79,17 @@ export class SidebarComponent implements DoCheck, OnInit {
     } else {
       this.newComplainsCount = `${this.ComplainsNum}`;
     }
+  }
+  public openComplaint() {
+    this.ComplainsNum = 0;
+    this.newComplainsCount = `${this.ComplainsNum}`;
+  }
+  public openNewServices() {
+    this.ServicesCount = 0;
+    this.newServicesAddedCount = `${this.ServicesCount}`;
+  }
+  public openNewOwnerRequests() {
+    this.OwnersNum = 0;
+    this.newOwnersRegisterCount = `${this.OwnersNum}`;
   }
 }

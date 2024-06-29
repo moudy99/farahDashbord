@@ -25,6 +25,7 @@ import { AllCustomersComponent } from './Components/Admin/all-customers/all-cust
 import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-requests/new-owners-requests.component';
 import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
 import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-details.component';
+import { ComplainsComponent } from './Components/Admin/complains/complains.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -48,14 +49,20 @@ const routes: Routes = [
         data: { expectedRole: 'Admin' },
       },
       {
+        path: 'newOwnersRequests',
+        component: NewOwnersRequestsComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Admin' },
+      },
+      {
         path: 'newAddServicesRequests',
         component: NewAddServicesRequestsComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Admin' },
       },
       {
-        path: 'newOwnersRequests',
-        component: NewOwnersRequestsComponent,
+        path: 'complains',
+        component: ComplainsComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Admin' },
       },
