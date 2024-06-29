@@ -41,6 +41,7 @@ import { StoreModule } from '@ngrx/store';
 import { ownersReducer } from './reducers/owners.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { LightboxModule } from 'ngx-lightbox';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,22 @@ import { LightboxModule } from 'ngx-lightbox';
     NgbModalModule,
     StoreModule.forRoot({ owners: ownersReducer }),
     LightboxModule,
+    ToastrModule.forRoot({
+      progressBar: true,
+      positionClass: 'toast-top-left',
+      timeOut: 2000,
+      extendedTimeOut: 1000,
+      closeButton: true,
+      tapToDismiss: true,
+      newestOnTop: true,
+      preventDuplicates: true,
+      easing: 'ease-in',
+      easeTime: 300,
+      progressAnimation: 'increasing',
+      toastClass: 'ngx-toastr animated bounceInLeft',
+      titleClass: 'ngx-toastr-title',
+      messageClass: 'ngx-toastr-message',
+    }),
   ],
   providers: [AuthService, SignalrService],
   bootstrap: [AppComponent],
