@@ -97,4 +97,10 @@ export class SignalrService {
       callback(data);
     });
   };
+  public newServiceAdded = (callback: (data: any) => void): void => {
+    this.notificationHubConnection.on('newServicesAdded', (data) => {
+      console.log('newServicesAdded event received:', data);
+      callback(data);
+    });
+  };
 }

@@ -42,6 +42,7 @@ import { ownersReducer } from './reducers/owners.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { LightboxModule } from 'ngx-lightbox';
 import { ToastrModule } from 'ngx-toastr';
+import { ComplainsComponent } from './Components/Admin/complains/complains.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ToastrModule } from 'ngx-toastr';
     NewOwnersRequestsComponent,
     NewAddServicesRequestsComponent,
     OwnerDetailsComponent,
+    ComplainsComponent,
   ],
   imports: [
     BrowserModule,
