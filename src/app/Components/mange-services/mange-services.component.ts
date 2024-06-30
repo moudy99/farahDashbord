@@ -43,7 +43,7 @@ export class MangeServicesComponent implements OnInit {
     this.isLoading = true;
     this.spinner.show();
 
-    this.getServices.getAllServices().subscribe(
+    this.getServices.getAllOwnerServices().subscribe(
       (responseData: any) => {
         this.beautyCenters = responseData.data.beautyCenters;
         this.halls = responseData.data.halls;
