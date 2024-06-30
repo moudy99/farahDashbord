@@ -233,7 +233,7 @@ export class NewAddServicesRequestsComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'حدث خطأ',
-              text: 'فشل في قبول طلب المالك',
+              text: 'فشل في قبول طلب الخدمة',
               timer: 2000,
               showConfirmButton: false,
             });
@@ -244,7 +244,70 @@ export class NewAddServicesRequestsComponent implements OnInit {
       }
     });
   }
-  declineService(service: any) {}
+
+  declineService(service: any) {
+    this.spinner.show();
+    console.log('Accepting owner:', service);
+    let serviceId: number = 0;
+    switch (service.type) {
+      case 'hall':
+        serviceId = service.hallID;
+        break;
+      case 'photography':
+        serviceId = service.photographyID;
+        break;
+      case 'car':
+        serviceId = service.carID;
+        break;
+      case 'beautyCenter':
+        serviceId = service.beautyCenterId;
+        break;
+      default:
+        serviceId = 0;
+        break;
+    }
+    this.declineServiceAlert(serviceId);
+  }
+
+  declineServiceAlert(serviceId: number) {
+    Swal.fire({
+      icon: 'info',
+      title: 'تأكيد العملية',
+      text: 'هل أنت متأكد أنك ترغب في رفض الخدمة؟',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، رفضص',
+      cancelButtonText: 'لا، إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.getServicesService.declineService(serviceId).subscribe(
+          (response) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'تم العملية بنجاح',
+              text: 'تم رفض الخدمة بنجاح',
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              this.loadPendingServices();
+            });
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'error',
+              title: 'حدث خطأ',
+              text: 'فشل في رفض طلب المالك',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          }
+        );
+      } else {
+        this.spinner.hide();
+      }
+    });
+  }
 
   showDetails(service: any) {}
 
