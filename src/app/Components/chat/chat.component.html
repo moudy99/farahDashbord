@@ -1,0 +1,23 @@
+<div class="chat-container">
+     <div class="chat-header">
+          <img [src]="chatPartner.imageUrl" alt="Chat Partner" class="chat-partner-image">
+          <span class="chat-partner-name">{{ chatPartner.name }}</span>
+     </div>
+
+     <div class="chat-body">
+          <div *ngFor="let message of messages"
+               [ngClass]="{'my-message': message.isMine, 'partner-message': !message.isMine}">
+               <img [src]="message.isMine ? myImageUrl : chatPartner.imageUrl" alt="User Image" class="user-image">
+               <div class="message-content">
+                    <p>{{ message.text }}</p>
+                    <span class="message-time">{{ message.time | date:'shortTime' }}</span>
+               </div>
+          </div>
+     </div>
+
+     <div class="chat-footer">
+          <input type="text" [(ngModel)]="newMessage" placeholder="اكتب رسالتك هنا...">
+          <button (click)="sendMessage()">إرسال</button>
+          <button (click)="sendAttachment()">إرفاق</button>
+     </div>
+</div>

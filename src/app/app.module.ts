@@ -43,6 +43,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LightboxModule } from 'ngx-lightbox';
 import { ToastrModule } from 'ngx-toastr';
 import { ComplainsComponent } from './Components/Admin/complains/complains.component';
+import { ChatComponent } from './Components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { ComplainsComponent } from './Components/Admin/complains/complains.compo
     NewAddServicesRequestsComponent,
     OwnerDetailsComponent,
     ComplainsComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
