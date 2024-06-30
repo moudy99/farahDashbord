@@ -20,7 +20,8 @@ declare var bootstrap: any;
 export class EditHallComponent implements OnInit {
   hallServiceForm: FormGroup;
   images: { file: File; url: string }[] = [];
-  existingImages: string[] = []; 
+  imageUrls: string[] = [];
+
   ownerID: string = 'owner-id-string';
   AllGovernments: Governorate[] = [];
   Cites: City[] = [];
@@ -115,7 +116,7 @@ export class EditHallComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    if (event.target.files.length + this.images.length + this.existingImages.length > 10) {
+    if (event.target.files.length + this.images.length > 10) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
@@ -137,14 +138,14 @@ export class EditHallComponent implements OnInit {
     this.images = this.images.filter((img) => img !== image);
   }
 
-  removeExistingImage(url: string) {
-    this.existingImages = this.existingImages.filter(imgUrl => imgUrl !== url);
+  removeImageUrl(imageUrl: string) {
+    this.imageUrls = this.imageUrls.filter((url) => url !== imageUrl);
   }
 
   onSubmit(): void {
     this.hallServiceForm.markAllAsTouched();
 
-    if (this.hallServiceForm.invalid || (this.images.length === 0 && this.existingImages.length === 0)) {
+    if (this.hallServiceForm.invalid || (this.images.length === 0 && this.imageUrls.length === 0)) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
@@ -166,10 +167,6 @@ export class EditHallComponent implements OnInit {
       formData.append('Pictures', image.file, image.file.name);
     });
 
-    this.existingImages.forEach((url, index) => {
-      formData.append(`ExistingPictures[${index}]`, url);
-    });
-
     const features = this.hallServiceForm.get('features') as FormArray;
     const featuresData = features.value;
 
@@ -188,7 +185,7 @@ export class EditHallComponent implements OnInit {
         });
         this.hallServiceForm.reset();
         this.images = [];
-        this.existingImages = [];
+        this.imageUrls = [];
         features.clear();
       },
       (error: any) => {
@@ -214,7 +211,7 @@ export class EditHallComponent implements OnInit {
       city: data.city,
     });
 
-    this.existingImages = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
+    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
 
     data.features.forEach((feature: string) => {
       this.features.push(this.fb.group({ feature: [feature, Validators.required] }));
