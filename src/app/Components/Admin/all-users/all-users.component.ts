@@ -7,6 +7,10 @@ import { GetUsersService } from 'src/app/Service/get-users.service';
 import { OwnerAccountStatus } from 'src/app/enums/owner-account-status';
 import { environment } from 'src/environments/environment';
 import { OwnerService } from 'src/app/Service/owner.service';
+import { selectOwner } from 'src/app/actions/owners.actions';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-all-users',
   templateUrl: './all-users.component.html',
@@ -28,7 +32,9 @@ export class AllUsersComponent implements OnInit {
   constructor(
     private getUsersService: GetUsersService,
     private spinner: NgxSpinnerService,
-    private ownerServices: OwnerService
+    private ownerServices: OwnerService,
+    private store: Store<{}>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -143,6 +149,11 @@ export class AllUsersComponent implements OnInit {
         console.log('Deleting owner:', owner);
       }
     });
+  }
+  showDetails(owner: any) {
+    console.log(owner);
+    this.store.dispatch(selectOwner({ owner }));
+    this.router.navigate(['/ownerDetails']);
   }
 
   getAccountStatusName(status: number): string {

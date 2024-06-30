@@ -77,7 +77,8 @@ export class OwnerService {
   }
 
   UpdateOwnerInfo(UpdateOwnerInfo: FormData): Observable<any> {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put(this.baseUrl, UpdateOwnerInfo, { headers });
   }
@@ -88,4 +89,5 @@ export class OwnerService {
     const url = `${environment.UrlForImages}/${imagePath}`;
     return this.http.get(url, { headers, responseType: 'blob' });
   }
+
 }

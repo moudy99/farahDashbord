@@ -1,21 +1,29 @@
-<div class="container form__wrapper"> 
+<div class="container form__wrapper">
     <h2>تعديل البروفايل</h2>
-    
+
+    <div class="profile-image-container mb-5">
+        <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Profile Image" class="profile-image img-fluid" />
+    </div>
+
     <form (ngSubmit)="onSubmit()" [formGroup]="editProfileForm">
-  
+
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label class="form-label" for="FirstName">الاسم الاول</label>
-                <input type="text" id="FirstName" class="form-control" formControlName="FirstName" placeholder="الاسم الاول" />
-                <div *ngIf="editProfileForm.get('FirstName')?.invalid && editProfileForm.get('FirstName')?.touched" class="text-danger">
-                    الاسم الاول  مطلوب
+                <input type="text" id="FirstName" class="form-control" formControlName="FirstName"
+                    placeholder="الاسم الاول" />
+                <div *ngIf="editProfileForm.get('FirstName')?.invalid && editProfileForm.get('FirstName')?.touched"
+                    class="text-danger">
+                    الاسم الاول مطلوب
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <label class="form-label" for="LastName">الاسم الثاني</label>
-                <input type="text" id="LastName" class="form-control" formControlName="LastName" placeholder="الاسم الثاني" />
-                <div *ngIf="editProfileForm.get('LastName')?.invalid && editProfileForm.get('LastName')?.touched" class="text-danger">
+                <input type="text" id="LastName" class="form-control" formControlName="LastName"
+                    placeholder="الاسم الثاني" />
+                <div *ngIf="editProfileForm.get('LastName')?.invalid && editProfileForm.get('LastName')?.touched"
+                    class="text-danger">
                     الاسم الثاني مطلوب
                 </div>
             </div>
@@ -23,71 +31,77 @@
 
         <div class="form-group">
             <label class="form-label" for="Email">البريد الإلكتروني</label>
-            <input type="email" id="Email" class="form-control" formControlName="Email" placeholder="البريد الإلكتروني" />
-            <div *ngIf="editProfileForm.get('Email')?.invalid && editProfileForm.get('Email')?.touched" class="text-danger">
+            <input type="email" id="Email" class="form-control fw-light" formControlName="Email" readonly
+                placeholder="البريد الإلكتروني" />
+            <div *ngIf="editProfileForm.get('Email')?.invalid && editProfileForm.get('Email')?.touched"
+                class="text-danger">
                 البريد الإلكتروني مطلوب
             </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="PhoneNumber">رقم الهاتف</label>
-            <input type="tel" id="PhoneNumber" class="form-control" formControlName="PhoneNumber" placeholder="رقم الهاتف" />
-            <div *ngIf="editProfileForm.get('PhoneNumber')?.invalid && editProfileForm.get('PhoneNumber')?.touched" class="text-danger">
+            <input type="tel" id="PhoneNumber" class="form-control text-end " formControlName="PhoneNumber"
+                placeholder="رقم الهاتف" />
+            <div *ngIf="editProfileForm.get('PhoneNumber')?.invalid && editProfileForm.get('PhoneNumber')?.touched"
+                class="text-danger">
                 رقم الهاتف مطلوب
             </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="SSN">رقم البطاقه </label>
-            <input type="text" id="SSN" class="form-control" formControlName="SSN" placeholder="رقم البطاقه " />
+            <input type="text" id="SSN" class="form-control fw-light" formControlName="SSN" placeholder="رقم البطاقه "
+                readonly />
             <div *ngIf="editProfileForm.get('SSN')?.invalid && editProfileForm.get('SSN')?.touched" class="text-danger">
-                رقم  البطاقه مطلوب
+                رقم البطاقه مطلوب
             </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="GovID"> المحافظه</label>
-            <select id="GovID" class="form-control" formControlName="GovID">
-                <option *ngFor="let governorate of AllGovernments"
-                     [value]="governorate.governorateID">{{ governorate.name }}</option>
-           </select>
-            <div *ngIf="editProfileForm.get('GovID')?.invalid && editProfileForm.get('GovID')?.touched" class="text-danger">
-                ادخل المحافظه            </div>
+            <select id="GovID" class="form-control fw-bold" formControlName="GovID">
+                <option *ngFor="let governorate of AllGovernments" [value]="governorate.governorateID">
+                    {{
+                    governorate.name }}</option>
+            </select>
+            <div *ngIf="editProfileForm.get('GovID')?.invalid && editProfileForm.get('GovID')?.touched"
+                class="text-danger">
+                ادخل المحافظه </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="CityID"> المدينة</label>
-            <select id="CityID" class="form-control" formControlName="CityID">
-                <option *ngFor="let city of Cites" [value]="city.id">{{ city.name }}
-                </option>
-           </select>
-            <div *ngIf="editProfileForm.get('CityID')?.invalid && editProfileForm.get('CityID')?.touched" class="text-danger">
-                ادخل المدينة 
+            <select id="CityID" class="form-control fw-bold" formControlName="CityID">
+                <option *ngFor="let city of Cites" [value]="city.id">{{ city.name }}</option>
+            </select>
+            <div *ngIf="editProfileForm.get('CityID')?.invalid && editProfileForm.get('CityID')?.touched"
+                class="text-danger">
+                ادخل المدينة
             </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="YourFavirotePerson">شخصك المفضل</label>
-            <input type="text" id="YourFavirotePerson" class="form-control" formControlName="YourFavirotePerson" placeholder="شخصك المفضل" />
-            <div *ngIf="editProfileForm.get('YourFavirotePerson')?.invalid && editProfileForm.get('YourFavirotePerson')?.touched" class="text-danger">
+            <input type="text" id="YourFavirotePerson" class="form-control" formControlName="YourFavirotePerson"
+                placeholder="شخصك المفضل" />
+            <div *ngIf="editProfileForm.get('YourFavirotePerson')?.invalid && editProfileForm.get('YourFavirotePerson')?.touched"
+                class="text-danger">
                 شخصك المفضل مطلوب
             </div>
         </div>
         <div class="form-group">
-            <label class="form-label" for="profileImage"> صورة البروفايل </label>
-            <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Profile Image" class="profile-image img-fluid" />
+            <label class="form-label" for="profileImage">اختيار صورة البروفايل جديده</label>
             <input type="file" id="profileImage" class="form-control" (change)="onFileChange($event)" />
-            <div *ngIf="editProfileForm.get('profileImage')?.invalid && editProfileForm.get('profileImage')?.touched" class="text-danger">
-                 صورة البروفايل  
+            <div *ngIf="editProfileForm.get('profileImage')?.invalid && editProfileForm.get('profileImage')?.touched"
+                class="text-danger">
+                صورة البروفايل مطلوبة
             </div>
         </div>
 
         <div class="form__btns">
-            <button id="cancel" class="btn btn-outline-primary">إلغاء</button>
-            <button id="save" [disabled]="editProfileForm.invalid" class="btn btn-primary">تعديل</button>
+            <button id="save" [disabled]="editProfileForm.invalid" class="btn action-btn save">حفظ</button>
         </div>
-  
+
     </form>
 </div>
-
-

@@ -5,11 +5,13 @@ import { Governorate } from 'src/app/Interfaces/governorate';
 import { OwnerService } from './../../../Service/owner.service';
 import { AddressService } from './../../../Service/address.service';
 import Swal from 'sweetalert2';
+import jwtDecode from 'jwt-decode';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-general',
   templateUrl: './general.component.html',
-  styleUrls: ['./general.component.css']
+  styleUrls: ['./general.component.css'],
 })
 export class GeneralComponent implements OnInit {
   editProfileForm: FormGroup;
@@ -18,7 +20,11 @@ export class GeneralComponent implements OnInit {
   profileImageUrl: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private addressService: AddressService, private ownerService: OwnerService) {
+  constructor(
+    private fb: FormBuilder,
+    private addressService: AddressService,
+    private ownerService: OwnerService
+  ) {
     this.editProfileForm = this.fb.group({
       FirstName: ['', Validators.required],
       LastName: ['', Validators.required],
@@ -28,7 +34,7 @@ export class GeneralComponent implements OnInit {
       GovID: ['', Validators.required],
       CityID: [{ value: '', disabled: true }, Validators.required],
       YourFavirotePerson: ['', Validators.required],
-      profileImage: ['']
+      profileImage: [''],
     });
   }
 
@@ -41,14 +47,18 @@ export class GeneralComponent implements OnInit {
     }
     this.loadGovernorates();
 
-    this.editProfileForm.get('GovID')?.valueChanges.subscribe((governorateID: number) => {
-      if (governorateID) {
-        this.onGovernorateChange(governorateID);
-      } else {
-        this.Cites = [];
-        this.editProfileForm.get('CityID')?.reset({ value: '', disabled: true });
-      }
-    });
+    this.editProfileForm
+      .get('GovID')
+      ?.valueChanges.subscribe((governorateID: number) => {
+        if (governorateID) {
+          this.onGovernorateChange(governorateID);
+        } else {
+          this.Cites = [];
+          this.editProfileForm
+            .get('CityID')
+            ?.reset({ value: '', disabled: true });
+        }
+      });
   }
 
   loadGovernorates(): void {
@@ -58,15 +68,18 @@ export class GeneralComponent implements OnInit {
   }
 
   onGovernorateChange(governorateID: number): void {
-    this.addressService.getCitiesByGovId(governorateID).subscribe((response: any) => {
-      this.Cites = response.data;
-      this.editProfileForm.get('CityID')?.enable();
-    });
+    this.addressService
+      .getCitiesByGovId(governorateID)
+      .subscribe((response: any) => {
+        this.Cites = response.data;
+        this.editProfileForm.get('CityID')?.enable();
+      });
   }
 
   GetOwnerProfileInfo(Email: string): void {
     this.ownerService.GetOwnerInfo(Email).subscribe(
       (response: any) => {
+        console.log(response);
         const data = response.data;
         console.log('Owner Info:', data); // Debug log
 
@@ -79,15 +92,9 @@ export class GeneralComponent implements OnInit {
             SSN: data.ssn,
             GovID: data.govID,
             CityID: data.cityID,
-            YourFavirotePerson: data.yourFavirotePerson
+            YourFavirotePerson: data.yourFavirotePerson,
           });
-
-          // Fetch and set the profile image
-          if (data.profileImage) {
-            this.getProfileImage(data.profileImage);
-          } else {
-            console.error('Profile image path is undefined');
-          }
+          this.profileImageUrl = `${environment.UrlForImages}${data.profileImage}`;
         } else {
           console.error('Data is undefined or null');
         }
@@ -98,30 +105,15 @@ export class GeneralComponent implements OnInit {
     );
   }
 
-  getProfileImage(imagePath: string): void {
-    console.log('Image Path:', imagePath); // Debug log
-    
-    this.ownerService.GetProfileImage(imagePath).subscribe(
-      (imageBlob: Blob) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.profileImageUrl = reader.result;
-        };
-        reader.readAsDataURL(imageBlob);
-      },
-      (error: any) => {
-        console.error('Error fetching profile image:', error);
-      }
-    );
-  }
-
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.selectedFile = file;
-      
+
       const reader = new FileReader();
-      reader.onload = e => this.profileImageUrl = reader.result;
+      reader.onload = () => {
+        this.profileImageUrl = reader.result as string;
+      };
       reader.readAsDataURL(file);
     }
   }
@@ -142,11 +134,17 @@ export class GeneralComponent implements OnInit {
     formData.append('FirstName', this.editProfileForm.get('FirstName')?.value);
     formData.append('LastName', this.editProfileForm.get('LastName')?.value);
     formData.append('Email', this.editProfileForm.get('Email')?.value);
-    formData.append('PhoneNumber', this.editProfileForm.get('PhoneNumber')?.value);
+    formData.append(
+      'PhoneNumber',
+      this.editProfileForm.get('PhoneNumber')?.value
+    );
     formData.append('SSN', this.editProfileForm.get('SSN')?.value);
     formData.append('GovID', this.editProfileForm.get('GovID')?.value);
     formData.append('CityID', this.editProfileForm.get('CityID')?.value);
-    formData.append('YourFavirotePerson', this.editProfileForm.get('YourFavirotePerson')?.value);
+    formData.append(
+      'YourFavirotePerson',
+      this.editProfileForm.get('YourFavirotePerson')?.value
+    );
 
     if (this.selectedFile) {
       formData.append('SetNewProfileImage', this.selectedFile);
@@ -168,5 +166,16 @@ export class GeneralComponent implements OnInit {
         });
       }
     );
+  }
+
+  getCurrentOwnerID(): any {
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      const id: string = decodedToken.uid;
+      return id;
+    }
+    return null;
   }
 }
