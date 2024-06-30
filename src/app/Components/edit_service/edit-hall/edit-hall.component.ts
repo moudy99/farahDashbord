@@ -8,6 +8,7 @@ import { AddressService } from 'src/app/Service/address.service';
 import { City } from 'src/app/Interfaces/city';
 import { Governorate } from 'src/app/Interfaces/governorate';
 import { GetUsersService } from 'src/app/Service/get-users.service';
+import { environment } from 'src/environments/environment.development';
 
 declare var bootstrap: any;
 
@@ -19,11 +20,13 @@ declare var bootstrap: any;
 export class EditHallComponent implements OnInit {
   hallServiceForm: FormGroup;
   images: { file: File; url: string }[] = [];
+  imageUrls: string[] = [];
+
   ownerID: string = 'owner-id-string';
   AllGovernments: Governorate[] = [];
   Cites: City[] = [];
   newFeature: string = '';
-  hallId:string|null="";
+  hallId: string | null = "";
 
   constructor(
     private fb: FormBuilder,
@@ -31,7 +34,7 @@ export class EditHallComponent implements OnInit {
     private addressService: AddressService,
     private router: Router,
     private route: ActivatedRoute,
-    private getUsersService :GetUsersService
+    private getUsersService: GetUsersService
   ) {
     this.hallServiceForm = this.fb.group({
       name: ['', Validators.required],
@@ -56,7 +59,7 @@ export class EditHallComponent implements OnInit {
       }
     });
 
-     this.hallId = this.route.snapshot.paramMap.get('id');
+    this.hallId = this.route.snapshot.paramMap.get('id');
     if (this.hallId) {
       this.getUsersService.getServiceById(this.hallId).subscribe(
         (response: any) => {
@@ -81,6 +84,7 @@ export class EditHallComponent implements OnInit {
   onGovernorateChange(governorateID: number): void {
     this.addressService.getCitiesByGovId(governorateID).subscribe((response: any) => {
       this.Cites = response.data;
+
       this.hallServiceForm.get('city')?.enable();
     });
   }
@@ -134,10 +138,14 @@ export class EditHallComponent implements OnInit {
     this.images = this.images.filter((img) => img !== image);
   }
 
+  removeImageUrl(imageUrl: string) {
+    this.imageUrls = this.imageUrls.filter((url) => url !== imageUrl);
+  }
+
   onSubmit(): void {
     this.hallServiceForm.markAllAsTouched();
 
-    if (this.hallServiceForm.invalid || this.images.length === 0) {
+    if (this.hallServiceForm.invalid || (this.images.length === 0 && this.imageUrls.length === 0)) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
@@ -166,10 +174,8 @@ export class EditHallComponent implements OnInit {
       formData.append(`Features[${index}]`, feature.feature);
     });
 
-     this.hallId = this.route.snapshot.paramMap.get('id');
-    this.hallService.updateHall(this.hallId,formData).subscribe(
-     
-      
+    this.hallId = this.route.snapshot.paramMap.get('id');
+    this.hallService.updateHall(this.hallId, formData).subscribe(
       (response: any) => {
         console.log(response);
         Swal.fire({
@@ -179,12 +185,13 @@ export class EditHallComponent implements OnInit {
         });
         this.hallServiceForm.reset();
         this.images = [];
+        this.imageUrls = [];
         features.clear();
       },
       (error: any) => {
         console.log(error);
         console.log(this.hallId);
-        
+
         Swal.fire({
           icon: 'error',
           title: 'خطأ',
@@ -201,13 +208,13 @@ export class EditHallComponent implements OnInit {
       price: data.price,
       capacity: data.capacity,
       gove: data.governorateID,
-      city: data.cityID,
+      city: data.city,
     });
+
+    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
 
     data.features.forEach((feature: string) => {
       this.features.push(this.fb.group({ feature: [feature, Validators.required] }));
     });
-    
-    
   }
 }
