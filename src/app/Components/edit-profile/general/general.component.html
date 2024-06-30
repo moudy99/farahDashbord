@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label class="form-label" for="Email">البريد الإلكتروني</label>
-            <input type="email" id="Email" class="form-control" formControlName="Email" readonly
+            <input type="email" id="Email" class="form-control fw-light" formControlName="Email" readonly
                 placeholder="البريد الإلكتروني" />
             <div *ngIf="editProfileForm.get('Email')?.invalid && editProfileForm.get('Email')?.touched"
                 class="text-danger">
@@ -41,7 +41,7 @@
 
         <div class="form-group">
             <label class="form-label" for="PhoneNumber">رقم الهاتف</label>
-            <input type="tel" id="PhoneNumber" class="form-control text-end fw-light" formControlName="PhoneNumber"
+            <input type="tel" id="PhoneNumber" class="form-control text-end " formControlName="PhoneNumber"
                 placeholder="رقم الهاتف" />
             <div *ngIf="editProfileForm.get('PhoneNumber')?.invalid && editProfileForm.get('PhoneNumber')?.touched"
                 class="text-danger">
