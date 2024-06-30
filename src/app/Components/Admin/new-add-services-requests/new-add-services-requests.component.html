@@ -1,1 +1,114 @@
-<p>new-add-services-requests works!</p>
+<div class="overflow-hidden demo">
+     <div class="row" *ngIf="paginatedServices.length > 0; else noServices">
+          <div class="col-md-12">
+               <div class="panel">
+                    <div class="panel-heading">
+                         <div class="row">
+                              <div class="col col-sm-12 text-center">
+                                   <p class="title">جميع <span>طلبات الخدمات الجديدة</span></p>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="panel-body table-responsive mx-4">
+                         <table class="table table-hover">
+                              <thead>
+                                   <tr class="active">
+                                        <th>#</th>
+                                        <th>اسم المالك</th>
+                                        <th>صورة المالك</th>
+                                        <th>نوع الخدمة</th>
+                                        <th>اسم الخدمة</th>
+                                        <th>تاريخ الإضافة</th>
+                                        <th>الإجراءات</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   <tr *ngFor="let service of paginatedServices; let i = index">
+                                        <td>{{ getIndex(i) }}</td>
+                                        <td>{{ service.ownerDetails?.firstName }} {{ service.ownerDetails?.lastName }}
+                                        </td>
+                                        <td>
+                                             <div class="circle-avatar"
+                                                  [style.background-image]="'url(' + service.ownerDetails?.profileImage + ')'"
+                                                  title="صورة المالك"></div>
+                                        </td>
+                                        <td [ngClass]=" getServiceType(service).cssClass">{{
+                                             getServiceType(service).typeText }}</td>
+
+                                        <td>{{ service.name }}</td>
+                                        <td>{{ getStaticAddedTime() }}</td>
+                                        <td class="text-center">
+                                             <ul class="action-list">
+                                                  <li>
+                                                       <button (click)="acceptService(service)"
+                                                            class="btn action-btn btn-success" data-tip="قبول">
+                                                            <em class="fa fa-check"></em> قبول
+                                                       </button>
+                                                  </li>
+                                                  <li>
+                                                       <button (click)="declineService(service)"
+                                                            class="btn action-btn btn-danger" data-tip="رفض">
+                                                            <em class="fa fa-times"></em> رفض
+                                                       </button>
+                                                  </li>
+                                                  <li>
+                                                       <button (click)="showDetails(service)"
+                                                            class="btn action-btn btn-info" data-tip="عرض">
+                                                            <em class="fa fa-eye"></em> عرض التفاصيل
+                                                       </button>
+                                                  </li>
+                                             </ul>
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+                    <div class="panel-footer">
+                         <div class="row">
+                              <div class="col-xs-12 text-center">
+                                   <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                             <li [class.disabled]="currentPage === 1" (click)="changePage(1)">
+                                                  <a class="page-link" aria-label="First">
+                                                       <span aria-hidden="true">First</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === 1"
+                                                  (click)="changePage(currentPage - 1)">
+                                                  <a class="page-link" aria-label="Previous">
+                                                       <span aria-hidden="true">&laquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li *ngFor="let page of pages" [class.active]="currentPage === page"
+                                                  (click)="changePage(page)">
+                                                  <a class="page-link">{{ page }}</a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(currentPage + 1)">
+                                                  <a class="page-link" aria-label="Next">
+                                                       <span aria-hidden="true">&raquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(totalPages)">
+                                                  <a class="page-link" aria-label="Last">
+                                                       <span aria-hidden="true">Last</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </nav>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <ng-template #noServices>
+          <div class="row">
+               <div class="col-md-12 text-center">
+                    <p class="empty-message">لا توجد خدمات جديدة حالياً.</p>
+               </div>
+          </div>
+     </ng-template>
+</div>

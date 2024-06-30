@@ -77,13 +77,15 @@ export class OwnerService {
   }
 
   UpdateOwnerInfo(UpdateOwnerInfo: FormData): Observable<any> {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put(this.baseUrl, UpdateOwnerInfo, { headers });
   }
 
   GetProfileImage(imagePath: string): Observable<Blob> {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${environment.baseUrl}/${imagePath}`;
     return this.http.get(url, { headers, responseType: 'blob' });

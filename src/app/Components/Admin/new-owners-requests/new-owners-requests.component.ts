@@ -1,7 +1,3 @@
-import { OwnersState } from './../../../reducers/owners.reducer';
-import { Governorate } from './../../../Interfaces/governorate';
-import { City } from './../../../Interfaces/city';
-import { Owner } from './../../../Interfaces/owner';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
@@ -13,6 +9,7 @@ import { OwnerResponse } from 'src/app/Interfaces/owner-response';
 import { selectOwner } from 'src/app/actions/owners.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { Owner } from './../../../Interfaces/owner';
 
 @Component({
   selector: 'app-new-owners-requests',
@@ -33,7 +30,7 @@ export class NewOwnersRequestsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private ownerServices: OwnerService,
     private router: Router,
-    private store: Store<{ owners: OwnersState }>
+    private store: Store<{}>
   ) {}
 
   ngOnInit(): void {
@@ -63,29 +60,25 @@ export class NewOwnersRequestsComponent implements OnInit {
 
   generatePageNumbers(): void {
     const totalPagesToShow = 5;
-    const pagesToShow = totalPagesToShow * 2;
+    const maxPages = 10;
+
     this.pages = [];
+    let startPage = 1;
+    let endPage = this.totalPages;
 
-    if (this.totalPages <= pagesToShow) {
-      for (let i = 1; i <= this.totalPages; i++) {
-        this.pages.push(i);
-      }
-    } else {
-      let startPage = 1;
-      let endPage = this.totalPages;
-
+    if (this.totalPages > maxPages) {
       if (this.currentPage <= totalPagesToShow) {
-        endPage = pagesToShow;
+        endPage = maxPages;
       } else if (this.currentPage + totalPagesToShow >= this.totalPages) {
-        startPage = this.totalPages - pagesToShow + 1;
+        startPage = this.totalPages - maxPages + 1;
       } else {
         startPage = this.currentPage - totalPagesToShow;
-        endPage = this.currentPage + pagesToShow;
+        endPage = this.currentPage + totalPagesToShow - 1;
       }
+    }
 
-      for (let i = startPage; i <= endPage; i++) {
-        this.pages.push(i);
-      }
+    for (let i = startPage; i <= endPage; i++) {
+      this.pages.push(i);
     }
   }
 
