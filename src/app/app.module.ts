@@ -43,6 +43,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { LightboxModule } from 'ngx-lightbox';
 import { ToastrModule } from 'ngx-toastr';
 import { ComplainsComponent } from './Components/Admin/complains/complains.component';
+import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall.component';
+import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
 import { ChatComponent } from './Components/chat/chat.component';
 
 @NgModule({
@@ -74,6 +76,8 @@ import { ChatComponent } from './Components/chat/chat.component';
     OwnerDetailsComponent,
     ComplainsComponent,
     ChatComponent,
+    EditHallComponent,
+    EditcarComponent,
   ],
   imports: [
     BrowserModule,
