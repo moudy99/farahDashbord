@@ -26,8 +26,10 @@ import { NewOwnersRequestsComponent } from './Components/Admin/new-owners-reques
 import { NewAddServicesRequestsComponent } from './Components/Admin/new-add-services-requests/new-add-services-requests.component';
 import { OwnerDetailsComponent } from './Components/Admin/owner-details/owner-details.component';
 import { ComplainsComponent } from './Components/Admin/complains/complains.component';
+
 import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall.component';
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
+import { ChatComponent } from './Components/chat/chat.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -103,6 +105,12 @@ const routes: Routes = [
       {
         path: 'contactUs',
         component: ContactUsComponent,
+        canActivate: [roleGuard],
+        data: { expectedRole: 'Owner' },
+      },
+      {
+        path: 'chat',
+        component: ChatComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Owner' },
       },

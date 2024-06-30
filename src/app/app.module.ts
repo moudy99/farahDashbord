@@ -45,6 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ComplainsComponent } from './Components/Admin/complains/complains.component';
 import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall.component';
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
+import { ChatComponent } from './Components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { EditcarComponent } from './Components/edit_service/editcar/editcar.comp
     NewAddServicesRequestsComponent,
     OwnerDetailsComponent,
     ComplainsComponent,
+    ChatComponent,
     EditHallComponent,
     EditcarComponent,
   ],
