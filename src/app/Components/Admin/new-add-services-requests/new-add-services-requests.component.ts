@@ -43,11 +43,9 @@ export class NewAddServicesRequestsComponent implements OnInit {
       .getAllServices(serviceStatus, currentPage, pageSize)
       .subscribe(
         (response: any) => {
-          console.log('Services response:', response);
           const { data, paginationInfo } = response;
 
           const services = this.extractServices(data);
-          console.log('Extracted services:', services);
           this.loadOwnerDetailsForServices(services);
 
           this.currentPage = paginationInfo.currentPage;
@@ -115,7 +113,6 @@ export class NewAddServicesRequestsComponent implements OnInit {
         }
       });
     }
-
     return services;
   }
 
@@ -126,15 +123,11 @@ export class NewAddServicesRequestsComponent implements OnInit {
 
     Promise.all(ownerDetailsPromises)
       .then((ownerDetailsArray) => {
-        console.log('Owner details:', ownerDetailsArray);
-
         services.forEach((service, index) => {
           const ownerDetails = ownerDetailsArray[index];
           if (ownerDetails && ownerDetails.data) {
             service.ownerDetails = ownerDetails.data;
             service.ownerDetails.profileImage = `${environment.UrlForImages}${service.ownerDetails.profileImage}`;
-
-            console.log('Service with owner details:', service);
           } else {
             console.error(
               `Failed to load owner details for service ID: ${service.ownerID}`
@@ -188,8 +181,69 @@ export class NewAddServicesRequestsComponent implements OnInit {
     return '2023-01-01';
   }
 
-  acceptService(service: any) {}
+  acceptService(service: any) {
+    this.spinner.show();
+    console.log('Accepting owner:', service);
+    let serviceId: number = 0;
+    switch (service.type) {
+      case 'hall':
+        serviceId = service.hallID;
+        break;
+      case 'photography':
+        serviceId = service.photographyID;
+        break;
+      case 'car':
+        serviceId = service.carID;
+        break;
+      case 'beautyCenter':
+        serviceId = service.beautyCenterId;
+        break;
+      default:
+        serviceId = 0;
+        break;
+    }
+    this.acceptServiceAlert(serviceId);
+  }
 
+  acceptServiceAlert(serviceId: number) {
+    Swal.fire({
+      icon: 'info',
+      title: 'تأكيد العملية',
+      text: 'هل أنت متأكد أنك ترغب في قبول الخدمة؟',
+      showCancelButton: true,
+      confirmButtonText: 'نعم، قبول',
+      cancelButtonText: 'لا، إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.getServicesService.acceptService(serviceId).subscribe(
+          (response) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'success',
+              title: 'تم العملية بنجاح',
+              text: 'تم قبول الخدمة بنجاح',
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              this.loadPendingServices();
+            });
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire({
+              icon: 'error',
+              title: 'حدث خطأ',
+              text: 'فشل في قبول طلب المالك',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          }
+        );
+      } else {
+        this.spinner.hide();
+      }
+    });
+  }
   declineService(service: any) {}
 
   showDetails(service: any) {}

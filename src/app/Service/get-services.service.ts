@@ -29,4 +29,19 @@ export class GetServicesService {
     const url = `${environment.baseUrl}/Admin/Services?ServiceStatus=${ServiceStatus}&page=${Page}&pageSize=${pageSize}`;
     return this.http.get(url, { headers });
   }
+
+  acceptService(ServiceId: number): Observable<any> {
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${environment.baseUrl}/Admin/AcceptService?id=${ServiceId}`;
+    return this.http.put(url, headers);
+  }
+  declineService(ServiceId: number): Observable<any> {
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${environment.baseUrl}/Admin/DeclineService?id=${ServiceId}`;
+    return this.http.put(url, headers);
+  }
 }
