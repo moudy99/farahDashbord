@@ -92,7 +92,7 @@ const routes: Routes = [
       
       { path: 'mangeServices/edithall/:id', component: EditHallComponent },
           // { path: 'editbeautycenter', component: EditBeautyCenterComponent },
-      { path: 'mangeServices/editcar', component: EditcarComponent },
+      { path: 'mangeServices/editcar/:id', component: EditcarComponent },
           // { path: 'editphotographer', component: EditPhotographerComponent },
     
       
