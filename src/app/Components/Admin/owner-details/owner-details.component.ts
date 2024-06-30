@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.development';
 import { AddressService } from 'src/app/Service/address.service';
 import { Router } from '@angular/router';
 import { Lightbox, LightboxConfig } from 'ngx-lightbox';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-owner-details',
@@ -26,7 +27,8 @@ export class OwnerDetailsComponent implements OnInit, OnDestroy {
     private addressService: AddressService,
     private router: Router,
     private lightbox: Lightbox,
-    private lightboxConfig: LightboxConfig
+    private lightboxConfig: LightboxConfig,
+    private location: Location
   ) {
     this.selectedOwner = this.store.pipe(
       select((state) => state.owners.selectedOwner),
@@ -126,6 +128,7 @@ export class OwnerDetailsComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/newOwnersRequests']);
+    this.location.back();
+    // this.router.navigate(['/newOwnersRequests']);
   }
 }
