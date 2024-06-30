@@ -85,7 +85,7 @@ export class OwnerService {
   GetProfileImage(imagePath: string): Observable<Blob> {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${environment.baseUrl}/${imagePath}`;
+    const url = `${environment.UrlForImages}/${imagePath}`;
     return this.http.get(url, { headers, responseType: 'blob' });
   }
 }

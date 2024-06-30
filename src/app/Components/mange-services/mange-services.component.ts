@@ -1,3 +1,5 @@
+import { GetUsersService } from 'src/app/Service/get-users.service';
+import { HallService } from 'src/app/Service/hall.service';
 import { Component, OnInit } from '@angular/core';
 import { GetServicesService } from 'src/app/Service/get-services.service';
 import { ServicesManagementService } from 'src/app/Service/services-management.service';
@@ -10,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import Swal from 'sweetalert2';
 
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-mange-services',
   templateUrl: './mange-services.component.html',
@@ -28,12 +31,19 @@ export class MangeServicesComponent implements OnInit {
   pages: number[] = [];
 
   isLoading = false;
-
+  serviceData: any;
   constructor(
     private getServices: GetServicesService,
     private servicesManagementService: ServicesManagementService,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    private getUsersService :GetUsersService,
+    private router: Router
+
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    //this.serviceData = navigation?.extras.state?.data;
+  }
+ 
 
   ngOnInit(): void {
     this.loadServices();
@@ -108,6 +118,39 @@ export class MangeServicesComponent implements OnInit {
       this.updatePaginatedServices();
     }
   }
+  EditService(service: any) {
+    let serviceId: string;
+    let route: string;
+  
+    switch (service.type) {
+      case "Hall":
+        serviceId = service.hallID;
+        route = 'edithall';
+        break;
+      case "Beauty Center":
+        serviceId = service.beautyCenterId;
+        route = 'editbeautycenter';
+        break;
+      case "Car":
+        serviceId = service.carID;
+        route = 'editcar';
+        break;
+      case "Photographer":
+        serviceId = service.photographyID;
+        route = 'editphotographer';
+        break;
+      default:
+        console.error("Unknown service type");
+        return;
+    }
+  
+  
+        this.router.navigate(['mangeServices', route,serviceId] );
+    
+  
+  }
+  
+
   DeleteService(service: any) {
     Swal.fire({
       title: 'هل أنت متأكد؟',

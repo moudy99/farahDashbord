@@ -8,7 +8,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class GetUsersService {
+  private apiUrlForGetById = `${environment.baseUrl}/Admin/ServiceById?id=`;
   constructor(private http: HttpClient) {}
+
+
+  getServiceById(id:string){
+    return this.http.get(`${this.apiUrlForGetById}${id}`);
+  }
 
   toggleBlockCustomer(
     CustomerId: string,

@@ -49,7 +49,8 @@
                                              <ul class="action-list">
                                                   <li><a (click)="DeleteService(service)" data-tip="Delete"
                                                             class="btn"><em class="fa fa-trash"></em></a></li>
-                                                  <li><a data-tip="Edit" class="btn"><em class="fa fa-edit"></em></a>
+                                                  <li><a  
+                                                       (click)="EditService(service)" data-tip="Edit" class="btn"><em class="fa fa-edit"></em></a>
                                                   </li>
                                              </ul>
                                         </td>
@@ -95,3 +96,9 @@
           </div>
      </ng-template>
 </div>
+
+
+<!-- <div>
+   
+     <router-outlet></router-outlet>
+   </div> -->
