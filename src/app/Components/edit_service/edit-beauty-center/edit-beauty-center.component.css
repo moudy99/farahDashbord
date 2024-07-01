@@ -1,0 +1,139 @@
+.card {
+    margin-top: 20px;
+  }
+  
+  .card-title {
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+  }
+  
+  .modal-body input[type="text"],
+  .modal-body input[type="number"],
+  .modal-body input[type="datetime-local"] {
+    margin-bottom: 15px;
+  }
+  
+  .modal-footer .btn {
+    width: 100px;
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      border-radius: 0;
+    }
+  
+    .card-body {
+      padding: 15px;
+    }
+  
+    .card-title {
+      font-size: 24px;
+    }
+  
+    .modal-content {
+      border-radius: 0;
+    }
+  
+    .modal-header {
+      padding: 10px 15px;
+    }
+  
+    .modal-title {
+      font-size: 18px;
+    }
+  
+    .modal-body {
+      padding: 15px;
+    }
+  
+    .modal-footer {
+      padding: 10px 15px;
+    }
+  
+    .modal-footer .btn {
+      width: 100%;
+    }
+  }
+  
+  .modal-header {
+    background-color: var(--mainColor);
+    color: white;
+    border-bottom: none;
+  }
+  
+  .modal-header .btn-close {
+    filter: invert(1);
+  }
+  
+  .btn-custom-primary {
+    color: var(--mainColor);
+    border-color: var(--mainColor);
+    background-color: white;
+    transition: all .2s ease;
+  }
+  
+  .btn-custom-primary:hover,
+  .btn-custom-primary:focus {
+    background-color: #3e1c3a; 
+    border-color: #3e1c3a;
+    color: white;
+  }
+  
+  .btn-custom-danger {
+    background-color: #dc3545; 
+    border-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-custom-danger:hover,
+  .btn-custom-danger:focus {
+    background-color: #c82333; 
+    border-color: #bd2130;
+    color: white;
+  }
+  
+  .btn-custom-warning {
+    background-color: #ffc107; 
+    border-color: #ffc107;
+    color: black;
+  }
+  
+  
+  
+  /* Styling for modal dialog */
+  .modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 1rem);
+  }
+  
+  .modal-content {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  
+  .table-responsive {
+    margin-top: 1rem;
+  }
+  
+  .table th,
+  .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .modal-footer .btn {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
