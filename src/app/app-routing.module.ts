@@ -31,6 +31,7 @@ import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
 import { ChatComponent } from './Components/chat/chat.component';
 import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty-center/edit-beauty-center.component';
+import { EditPhotographerComponent } from './Components/edit_service/edit-photographer/edit-photographer.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -94,7 +95,7 @@ const routes: Routes = [
       { path: 'mangeServices/edithall/:id', component: EditHallComponent },
       { path: 'mangeServices/editbeautycenter/:id', component: EditBeautyCenterComponent },
       { path: 'mangeServices/editcar/:id', component: EditcarComponent },
-      // { path: 'editphotographer', component: EditPhotographerComponent },
+     { path: 'mangeServices/editphotographer/:id', component: EditPhotographerComponent },
     
       
       {

@@ -47,6 +47,7 @@ import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
 import { ChatComponent } from './Components/chat/chat.component';
 import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty-center/edit-beauty-center.component';
+import { EditPhotographerComponent } from './Components/edit_service/edit-photographer/edit-photographer.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty
     EditHallComponent,
     EditcarComponent,
     EditBeautyCenterComponent,
+    EditPhotographerComponent,
   ],
   imports: [
     BrowserModule,

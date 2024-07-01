@@ -11,9 +11,9 @@ export class GetUsersService {
   private apiUrlForGetById = `${environment.baseUrl}/Admin/ServiceById?id=`;
   constructor(private http: HttpClient) {}
 
-
+  private deleteImage = `${environment.baseUrl}/Admin/DeleteImage`;
   getServiceById(id:string){
-    return this.http.get(`${this.apiUrlForGetById}${id}`);
+    return this.http.delete(`${this.apiUrlForGetById}${id}`);
   }
 
   toggleBlockCustomer(
@@ -42,4 +42,14 @@ export class GetUsersService {
 
     return this.http.get(url, { params });
   }
+
+  DeleteImage(serviceId: string | number | null, imageName: string) {
+    // Check if serviceId is not null before using it in HttpParams
+    const params = new HttpParams()
+      .set('serviceId', serviceId !== null ? serviceId.toString() : '')
+      .set('imageName', imageName);
+  
+    return this.http.delete(this.deleteImage, { params });
+  }
+  
 }
