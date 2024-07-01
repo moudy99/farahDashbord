@@ -88,15 +88,17 @@ const routes: Routes = [
         path: 'addService/addPhotographer',
         component: AddPhotographerComponent,
       },
-      
-      { path: 'mangeServices', component: MangeServicesComponent},
-      
+
+      { path: 'mangeServices', component: MangeServicesComponent },
+
       { path: 'mangeServices/edithall/:id', component: EditHallComponent },
-      { path: 'mangeServices/editbeautycenter/:id', component: EditBeautyCenterComponent },
+      {
+        path: 'mangeServices/editbeautycenter/:id',
+        component: EditBeautyCenterComponent,
+      },
       { path: 'mangeServices/editcar/:id', component: EditcarComponent },
       // { path: 'editphotographer', component: EditPhotographerComponent },
-    
-      
+
       {
         path: 'orders',
         component: OrdersComponent,
@@ -110,7 +112,7 @@ const routes: Routes = [
         data: { expectedRole: 'Owner' },
       },
       {
-        path: 'chat',
+        path: 'orders/chat/:id',
         component: ChatComponent,
         canActivate: [roleGuard],
         data: { expectedRole: 'Owner' },
