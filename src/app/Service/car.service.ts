@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class CarService {
   private baseUrl = `${environment.baseUrl}/Car/AddCar`;
+  private apiUrlUp = `${environment.baseUrl}/Car/`;
 
   constructor(private http: HttpClient) {}
 
@@ -16,5 +17,14 @@ export class CarService {
       localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post(this.baseUrl, carData, { headers });
+  }
+  UpdateCar(id: string | null,carData: FormData): Observable<any> {
+    const token =
+    localStorage.getItem('token') || sessionStorage.getItem('token');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  const url = id ? `${this.apiUrlUp}${id}` : this.apiUrlUp;
+
+  return this.http.put(url, carData, { headers });
   }
 }

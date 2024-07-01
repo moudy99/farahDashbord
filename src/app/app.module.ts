@@ -46,6 +46,7 @@ import { ComplainsComponent } from './Components/Admin/complains/complains.compo
 import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall.component';
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
 import { ChatComponent } from './Components/chat/chat.component';
+import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty-center/edit-beauty-center.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { ChatComponent } from './Components/chat/chat.component';
     ChatComponent,
     EditHallComponent,
     EditcarComponent,
+    EditBeautyCenterComponent,
   ],
   imports: [
     BrowserModule,

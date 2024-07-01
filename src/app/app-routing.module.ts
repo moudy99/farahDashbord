@@ -30,6 +30,7 @@ import { ComplainsComponent } from './Components/Admin/complains/complains.compo
 import { EditHallComponent } from './Components/edit_service/edit-hall/edit-hall.component';
 import { EditcarComponent } from './Components/edit_service/editcar/editcar.component';
 import { ChatComponent } from './Components/chat/chat.component';
+import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty-center/edit-beauty-center.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -91,9 +92,9 @@ const routes: Routes = [
       { path: 'mangeServices', component: MangeServicesComponent},
       
       { path: 'mangeServices/edithall/:id', component: EditHallComponent },
-          // { path: 'editbeautycenter', component: EditBeautyCenterComponent },
-      { path: 'mangeServices/editcar', component: EditcarComponent },
-          // { path: 'editphotographer', component: EditPhotographerComponent },
+      { path: 'mangeServices/editbeautycenter/:id', component: EditBeautyCenterComponent },
+      { path: 'mangeServices/editcar/:id', component: EditcarComponent },
+      // { path: 'editphotographer', component: EditPhotographerComponent },
     
       
       {

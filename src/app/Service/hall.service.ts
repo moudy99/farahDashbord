@@ -23,7 +23,7 @@ export class HallService {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    // Ensure id is not null before constructing the URL
+    
     const url = id ? `${this.apiUrlUp}${id}` : this.apiUrlUp;
 
     return this.http.put(url, formData, { headers });
