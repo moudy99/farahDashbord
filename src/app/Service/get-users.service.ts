@@ -12,8 +12,8 @@ export class GetUsersService {
   constructor(private http: HttpClient) {}
 
   private deleteImage = `${environment.baseUrl}/Admin/DeleteImage`;
-  getServiceById(id:string){
-    return this.http.delete(`${this.apiUrlForGetById}${id}`);
+  getServiceById(id: string) {
+    return this.http.get(`${this.apiUrlForGetById}${id}`);
   }
 
   toggleBlockCustomer(
@@ -48,8 +48,7 @@ export class GetUsersService {
     const params = new HttpParams()
       .set('serviceId', serviceId !== null ? serviceId.toString() : '')
       .set('imageName', imageName);
-  
+
     return this.http.delete(this.deleteImage, { params });
   }
-  
 }
