@@ -1,0 +1,45 @@
+.gradient-custom {
+    /* Add your gradient background styling here */
+  }
+  
+  .mt-5 {
+    margin-top: 3rem;
+  }
+  
+  .card {
+    background-color: var(--mainColor);
+    border-radius: 1rem;
+  }
+  
+  .text-white {
+    color: #fff !important;
+  }
+  
+  .text-danger {
+    color: #dc3545 !important;
+  }
+  
+  .img-thumbnail {
+    max-width: 100px;
+    height: auto;
+  }
+  
+  .btn-outline-light {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+  }
+  
+  .btn-outline-light:hover {
+    background-color: #f8f9fa;
+    color: #343a40;
+  }
+  
+  .mx-3 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .float-end {
+    float: right;
+  }
+  

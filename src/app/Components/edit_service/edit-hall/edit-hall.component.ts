@@ -136,10 +136,12 @@ export class EditHallComponent implements OnInit {
 
   removeImage(image: { file: File; url: string }) {
     this.images = this.images.filter((img) => img !== image);
+    this.getUsersService.DeleteImage(this.hallId,image.url)
   }
 
   removeImageUrl(imageUrl: string) {
     this.imageUrls = this.imageUrls.filter((url) => url !== imageUrl);
+    this.getUsersService.DeleteImage(this.hallId,imageUrl)
   }
 
   onSubmit(): void {

@@ -155,7 +155,9 @@ export class EditBeautyCenterComponent implements OnInit {
   removeImage(image: { file: File | null; url: string }) {
     this.images = this.images.filter((img) => img !== image);
     this.beautyCenterForm.get('images')?.setValue(this.images);
+    this.getUsersService.DeleteImage(this.BeautyCenterId,image.url);
   }
+ 
 
   onSubmit(): void {
     if (this.beautyCenterForm.invalid || this.images.length === 0) {
