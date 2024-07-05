@@ -14,10 +14,7 @@ export class SignalrService {
     []
   );
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
-    // this.startChatHubConnection();
-    // this.startNotificationsHubConnection();
-  }
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   private get token() {
     return (
