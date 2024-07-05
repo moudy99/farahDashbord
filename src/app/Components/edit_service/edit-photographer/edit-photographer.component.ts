@@ -52,7 +52,8 @@ export class EditPhotographerComponent implements OnInit {
       description: data.description,
     });
 
-    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
+    this.imageUrls = data.pictureUrls
+      .map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
   }
 
   onFileSelected(event: any): void {
