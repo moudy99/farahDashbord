@@ -28,9 +28,24 @@ export class SidebarComponent implements DoCheck, OnInit {
     private signalrService: SignalrService,
     private toastr: ToastrService
   ) {}
+  // sidebar.component.ts
   ngOnInit(): void {
     this.role = this.authService.getRole();
     this.signalrService.startNotificationsHubConnection();
+
+    const storedServicesCount = localStorage.getItem('notSeenServicesCount');
+    const storedOwnersCount = localStorage.getItem('notSeenRegisteredOwners');
+
+    if (storedServicesCount) {
+      this.ServicesCount = parseInt(storedServicesCount, 10);
+      this.newServicesAddedCount = `${this.ServicesCount}`;
+    }
+
+    if (storedOwnersCount) {
+      this.OwnersNum = parseInt(storedOwnersCount, 10);
+      this.newOwnersRegisterCount = `${this.OwnersNum}`;
+    }
+
     if (this.role === 'Admin') {
       this.signalrService.newOwnerRegister(() => {
         this.newOwnerRegisterNotification();
