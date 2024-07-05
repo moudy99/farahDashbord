@@ -155,7 +155,26 @@ export class EditBeautyCenterComponent implements OnInit {
   removeImage(image: { file: File | null; url: string }) {
     this.images = this.images.filter((img) => img !== image);
     this.beautyCenterForm.get('images')?.setValue(this.images);
-    this.getUsersService.DeleteImage(this.BeautyCenterId,image.url);
+    if (this.BeautyCenterId) {
+      this.getUsersService.DeleteImage(this.BeautyCenterId, image.url).subscribe(
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الصورة بنجاح.',
+          });
+        },
+        (error: any) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'حدث خطأ أثناء حذف الصورة.',
+          });
+          console.error('Error deleting image:', error);
+        }
+      );
+    }
+   
   }
  
 

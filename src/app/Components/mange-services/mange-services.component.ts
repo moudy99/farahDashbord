@@ -162,6 +162,8 @@ export class MangeServicesComponent implements OnInit {
       confirmButtonText: 'نعم، احذفه!',
       cancelButtonText: 'إلغاء',
     }).then((result) => {
+      console.log(result);
+      
       if (result.isConfirmed) {
         this.isLoading = true;
         this.spinner.show();
@@ -192,6 +194,8 @@ export class MangeServicesComponent implements OnInit {
 
         this.servicesManagementService.RemoveService(serviceType, id).subscribe(
           (response) => {
+            console.log(response);
+            
             this.isLoading = false;
             this.spinner.hide();
             if (response.succeeded) {
