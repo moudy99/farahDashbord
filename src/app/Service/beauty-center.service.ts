@@ -8,7 +8,9 @@ import { environment } from 'src/environments/environment.development';
 })
 export class BeautyCenterService {
   private apiUrl = `${environment.baseUrl}/BeautyCenter`;
+
   private apiUrlUpdate = `${environment.baseUrl}/BeautyCenter/`;
+
 
   constructor(private http: HttpClient) {}
 
@@ -29,13 +31,14 @@ export class BeautyCenterService {
       headers,
     });
   }
-  UpdateBeautyCenter(id:string|null,formData: FormData): Observable<any> {
+  UpdateBeautyCenter(id: string | null, formData: FormData): Observable<any> {
     const token =
     localStorage.getItem('token') || sessionStorage.getItem('token');
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   const url = id ? `${this.apiUrlUpdate}${id}` : this.apiUrlUpdate;
 
-  return this.http.put(url, formData, { headers });
+
+    return this.http.put(url, formData, { headers });
   }
 
  
