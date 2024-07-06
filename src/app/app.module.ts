@@ -48,6 +48,7 @@ import { EditcarComponent } from './Components/edit_service/editcar/editcar.comp
 import { ChatComponent } from './Components/chat/chat.component';
 import { EditBeautyCenterComponent } from './Components/edit_service/edit-beauty-center/edit-beauty-center.component';
 import { EditPhotographerComponent } from './Components/edit_service/edit-photographer/edit-photographer.component';
+import { ServiceDetailsComponent } from './Components/Admin/service-details/service-details.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { EditPhotographerComponent } from './Components/edit_service/edit-photog
     EditcarComponent,
     EditBeautyCenterComponent,
     EditPhotographerComponent,
+    ServiceDetailsComponent,
   ],
   imports: [
     BrowserModule,

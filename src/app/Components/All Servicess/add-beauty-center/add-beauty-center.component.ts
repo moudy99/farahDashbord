@@ -167,6 +167,8 @@ export class AddBeautyCenterComponent implements OnInit {
             this.services.clear();
           },
           (error: any) => {
+            console.log(error);
+            
             Swal.fire({
               icon: 'error',
               title: 'خطأ',

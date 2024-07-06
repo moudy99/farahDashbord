@@ -52,7 +52,8 @@ export class EditPhotographerComponent implements OnInit {
       description: data.description,
     });
 
-    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
+    this.imageUrls = data.pictureUrls
+      .map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
   }
 
   onFileSelected(event: any): void {
@@ -147,9 +148,10 @@ export class EditPhotographerComponent implements OnInit {
             title: 'تم التعديل بنجاح',
             text: 'تم التعديل علي خدمة المصور بنجاح.',
           });
-          this.photographerServiceForm.reset();
-          this.images = [];
-          this.imageUrls = [];
+          // this.photographerServiceForm.reset();
+          // this.images = [];
+          // this.imageUrls = [];
+          this.router.navigate(['mangeServices']);
         },
         (error) => {
           Swal.fire({

@@ -44,6 +44,7 @@ export class EditHallComponent implements OnInit {
       gove: ['', Validators.required],
       city: [{ value: '', disabled: true }, Validators.required],
       features: this.fb.array([], Validators.required),
+      images: [[], Validators.required],
     });
   }
 
@@ -63,7 +64,7 @@ export class EditHallComponent implements OnInit {
     if (this.hallId) {
       this.getUsersService.getServiceById(this.hallId).subscribe(
         (response: any) => {
-          console.log('Received data in EditHallComponent:', response.data); // Log data for debugging
+          console.log('Received data in EditHallComponent:', response.data); 
           this.populateForm(response.data);
         },
         (error: any) => {
@@ -136,12 +137,49 @@ export class EditHallComponent implements OnInit {
 
   removeImage(image: { file: File; url: string }) {
     this.images = this.images.filter((img) => img !== image);
-    this.getUsersService.DeleteImage(this.hallId,image.url)
+    if (this.hallId) {
+      this.getUsersService.DeleteImage(this.hallId, image.url).subscribe(
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الصورة بنجاح.',
+          });
+        },
+        (error: any) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'حدث خطأ أثناء حذف الصورة.',
+          });
+          console.error('Error deleting image:', error);
+        }
+      );
+    }
   }
 
   removeImageUrl(imageUrl: string) {
     this.imageUrls = this.imageUrls.filter((url) => url !== imageUrl);
-    this.getUsersService.DeleteImage(this.hallId,imageUrl)
+    if (this.hallId) {
+      this.getUsersService.DeleteImage(this.hallId, imageUrl).subscribe(
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الصورة بنجاح.',
+          });
+        },
+        (error: any) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'حدث خطأ أثناء حذف الصورة.',
+          });
+          console.error('Error deleting image:', error);
+        }
+      );
+    }
+
   }
 
   onSubmit(): void {
@@ -185,10 +223,11 @@ export class EditHallComponent implements OnInit {
           title: 'نجاح',
           text: 'تمت تعديل القاعة بنجاح.',
         });
-        this.hallServiceForm.reset();
-        this.images = [];
-        this.imageUrls = [];
-        features.clear();
+        // this.hallServiceForm.reset();
+        // this.images = [];
+        // this.imageUrls = [];
+        // features.clear();
+        this.router.navigate(['mangeServices']);
       },
       (error: any) => {
         console.log(error);
@@ -211,12 +250,19 @@ export class EditHallComponent implements OnInit {
       capacity: data.capacity,
       gove: data.governorateID,
       city: data.city,
+      images: data.pictureUrls
     });
-
-    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
-
+  
+    // Log image URLs to check if they are correct
+    this.imageUrls = data.pictureUrls.map((pictureUrl: string) => {
+      const fullUrl = `${environment.UrlForImages}${pictureUrl}`;
+      console.log(fullUrl);
+      return fullUrl;
+    });
+  
     data.features.forEach((feature: string) => {
       this.features.push(this.fb.group({ feature: [feature, Validators.required] }));
     });
   }
+  
 }
