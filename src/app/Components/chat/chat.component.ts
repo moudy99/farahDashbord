@@ -5,6 +5,11 @@ import {
   ElementRef,
   AfterViewChecked,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import jwtDecode from 'jwt-decode';
+import { ChatService } from 'src/app/Service/chat.service';
+import { SignalrService } from 'src/app/Service/signalr.service';
+import { environment } from 'src/environments/environment.development';
 
 interface Message {
   text: string;
@@ -21,74 +26,65 @@ interface Message {
 export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatBody', { static: false }) private chatBody!: ElementRef;
 
+  chatId: number = 0;
+  chatData: any;
+
   chatPartner = {
-    name: 'Moudy Rasmy',
-    imageUrl: 'https://via.placeholder.com/40',
+    name: '',
+    imageUrl: '',
   };
 
   myImageUrl = 'https://via.placeholder.com/40';
   newMessage = '';
-  messages: Message[] = [
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    {
-      text: 'اهلااهلااهلااهلا',
-      time: new Date(),
-      isMine: true,
-      isCollapsed: true,
-    },
-    {
-      text: 'اهلااهلااهلا',
-      time: new Date(),
-      isMine: false,
-      isCollapsed: true,
-    },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    {
-      text: 'اهلااهلااهلااهلااهلااهلا',
-      time: new Date(),
-      isMine: true,
-      isCollapsed: true,
-    },
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-    {
-      text: 'اهلااهلااهلااهلااهلا',
-      time: new Date(),
-      isMine: false,
-      isCollapsed: true,
-    },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: false, isCollapsed: true },
-    { text: 'اهلا', time: new Date(), isMine: true, isCollapsed: true },
-  ];
+  messages: Message[] = [];
+  myUserId: string = '';
+  reciverId: string = '';
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private chatService: ChatService,
+    private signalrService: SignalrService
+  ) {
+    this.signalrService.startChatHubConnection();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reciverId = localStorage.getItem('customerId') || ''; // Default to empty string if null
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      this.myUserId = decodedToken.uid;
+      console.log(decodedToken.uid);
+    }
 
-  ngAfterViewChecked() {
+    this.route.params.subscribe((params) => {
+      this.chatId = +params['id'];
+      this.loadChat(this.chatId);
+    });
+  }
+
+  ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
 
   sendMessage(): void {
     if (this.newMessage.trim()) {
-      this.messages.push({
+      const newMessage: Message = {
         text: this.newMessage,
         time: new Date(),
         isMine: true,
         isCollapsed: true,
-      });
+      };
+      this.messages.push(newMessage);
       this.newMessage = '';
       this.scrollToBottom();
+      this.signalrService.sendMessage(newMessage.text, this.reciverId); // Send message via SignalrService
     }
   }
 
-  sendAttachment(): void {}
+  sendAttachment(): void {
+    // Implement attachment functionality if needed
+  }
 
   toggleMessage(message: Message): void {
     message.isCollapsed = !message.isCollapsed;
@@ -101,5 +97,25 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
+  }
+
+  loadChat(chatId: number): void {
+    this.chatService.getChatById(chatId).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.chatData = response.data;
+        this.chatPartner.name = response.data.user.userName;
+        this.chatPartner.imageUrl = `${environment.UrlForImages}${response.data.user.profileImage}`;
+        this.messages = response.data.messages.map((msg: any) => ({
+          text: msg.message,
+          time: new Date(msg.sentAt),
+          isMine: msg.senderId === this.myUserId,
+          isCollapsed: true,
+        }));
+      },
+      (error: any) => {
+        console.error('Error fetching chat data', error);
+      }
+    );
   }
 }

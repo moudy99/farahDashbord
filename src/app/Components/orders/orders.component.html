@@ -1,0 +1,114 @@
+<div class="overflow-hidden demo">
+     <div class="row" *ngIf="AllCHats.length > 0; else noChats">
+          <div class="col-md-12">
+               <div class="panel">
+                    <div class="panel-heading">
+                         <div class="row">
+                              <div class="col col-sm-12 text-center">
+                                   <p class="title">جميع <span>جميع المحادثات</span></p>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="panel-body table-responsive mx-4">
+                         <table class="table table-hover">
+                              <thead>
+                                   <tr class="active">
+                                        <th>#</th>
+                                        <th>المستخدم</th>
+                                        <th>الرسالة الأخيرة</th>
+                                        <th>الوقت</th>
+                                        <th>الإجراءات</th>
+                                        <th>الحالة</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                              <tbody>
+                                   <tr *ngFor="let chat of AllCHats; let i = index">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>
+                                             <div class="user-info">
+                                                  <div class="circle-avatar"
+                                                       [style.background-image]="'url(' + chat.user.profileImage + ')'"
+                                                       title="صورة المستخدم"></div>
+                                                  <span class="user-name">{{ chat.user.userName }}</span>
+                                             </div>
+                                        </td>
+                                        <td>{{ chat.lastMessage }}</td>
+                                        <td>{{ chat.lastMessageSentAt | date: 'short' }}</td>
+                                        <td class="text-center">
+                                             <button (click)="goToMessage(chat.chatId, chat.user.id)"
+                                                  class="btn action-btn btn-custom">
+                                                  <i class="fas fa-comments"></i> اذهب إلى الرسالة
+                                             </button>
+                                        </td>
+                                        <td class="text-center">
+                                             <span class="status" [ngClass]="{
+                                                            'read': chat.iamTheLastMessageSender || chat.isRead,
+                                                            'unread': !chat.iamTheLastMessageSender && !chat.isRead
+                                                       }">
+                                                  {{
+                                                  chat.iamTheLastMessageSender
+                                                  ? 'مقروءة'
+                                                  : chat.isRead
+                                                  ? 'مقروءة'
+                                                  : 'غير مقروءة'
+                                                  }}
+                                             </span>
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="panel-footer">
+                         <div class="row">
+                              <div class="col-xs-12 text-center">
+                                   <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                             <li [class.disabled]="currentPage === 1" (click)="changePage(1)">
+                                                  <a class="page-link" aria-label="First">
+                                                       <span aria-hidden="true">الأول</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === 1"
+                                                  (click)="changePage(currentPage - 1)">
+                                                  <a class="page-link" aria-label="Previous">
+                                                       <span aria-hidden="true">&laquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li *ngFor="let page of pages" [class.active]="currentPage === page"
+                                                  (click)="changePage(page)">
+                                                  <a class="page-link">{{ page }}</a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(currentPage + 1)">
+                                                  <a class="page-link" aria-label="Next">
+                                                       <span aria-hidden="true">&raquo;</span>
+                                                  </a>
+                                             </li>
+                                             <li [class.disabled]="currentPage === totalPages"
+                                                  (click)="changePage(totalPages)">
+                                                  <a class="page-link" aria-label="Last">
+                                                       <span aria-hidden="true">الأخير</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </nav>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <!-- Not Found -->
+     <ng-template #noChats>
+          <div class="row">
+               <div class="col-md-12 text-center not-found">
+                    <img src="../../../assets/NotFound.webp" alt="لم يتم العثور على محادثات" width="400" height="300">
+                    <p class="display-1 fw-bold">لا توجد محادثات متاحة حاليًا</p>
+               </div>
+          </div>
+     </ng-template>
+</div>
