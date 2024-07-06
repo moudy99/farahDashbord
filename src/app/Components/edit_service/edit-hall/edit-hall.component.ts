@@ -223,10 +223,11 @@ export class EditHallComponent implements OnInit {
           title: 'نجاح',
           text: 'تمت تعديل القاعة بنجاح.',
         });
-        this.hallServiceForm.reset();
-        this.images = [];
-        this.imageUrls = [];
-        features.clear();
+        // this.hallServiceForm.reset();
+        // this.images = [];
+        // this.imageUrls = [];
+        // features.clear();
+        this.router.navigate(['mangeServices']);
       },
       (error: any) => {
         console.log(error);

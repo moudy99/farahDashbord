@@ -163,6 +163,7 @@ export class EditBeautyCenterComponent implements OnInit {
             title: 'تم الحذف',
             text: 'تم حذف الصورة بنجاح.',
           });
+          this.router.navigate(['mangeServices']);
         },
         (error: any) => {
           Swal.fire({

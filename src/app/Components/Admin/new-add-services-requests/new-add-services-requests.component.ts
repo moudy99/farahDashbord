@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
@@ -309,7 +310,36 @@ export class NewAddServicesRequestsComponent implements OnInit {
     });
   }
 
-  showDetails(service: any) {}
+  showDetails(service: any) {
+    let serviceId: string;
+    let route: string;
+  console.log(service.type);
+  
+    switch (service.type) {
+      case "hall":
+        serviceId = service.hallID;
+        route = 'edithall';
+        break;
+      case "beauty Center":
+        serviceId = service.beautyCenterId;
+        route = 'editbeautycenter';
+        break;
+      case "car":
+        serviceId = service.carID;
+        route = 'editcar';
+        break;
+      case "photographer":
+        serviceId = service.photographyID;
+        route = 'editphotographer';
+        break;
+      default:
+        console.error("Unknown service type");
+        return;
+    }
+  
+  
+        this.router.navigate(['mangeServices', route,serviceId] );
+  }
 
   changePage(page: number) {
     if (page > 0 && page <= this.totalPages) {

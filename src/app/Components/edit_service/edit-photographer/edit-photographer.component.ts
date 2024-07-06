@@ -148,9 +148,10 @@ export class EditPhotographerComponent implements OnInit {
             title: 'تم التعديل بنجاح',
             text: 'تم التعديل علي خدمة المصور بنجاح.',
           });
-          this.photographerServiceForm.reset();
-          this.images = [];
-          this.imageUrls = [];
+          // this.photographerServiceForm.reset();
+          // this.images = [];
+          // this.imageUrls = [];
+          this.router.navigate(['mangeServices']);
         },
         (error) => {
           Swal.fire({

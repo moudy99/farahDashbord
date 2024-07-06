@@ -103,9 +103,48 @@ export class EditcarComponent implements OnInit {
 
   removeImage(image: { file: File; url: string }): void {
     this.images = this.images.filter((img) => img !== image);
+    if (this.carID) {
+      this.getUsersService.DeleteImage(this.carID, image.url).subscribe(
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الصورة بنجاح.',
+          });
+        },
+        (error: any) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'حدث خطأ أثناء حذف الصورة.',
+          });
+          console.error('Error deleting image:', error);
+        }
+      );
+    }
   }
   removeImageUrl(imageUrl: string) {
     this.imageUrls = this.imageUrls.filter((url) => url !== imageUrl);
+    if (this.carID) {
+      this.getUsersService.DeleteImage(this.carID,imageUrl).subscribe(
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الصورة بنجاح.',
+          });
+        },
+        (error: any) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'حدث خطأ أثناء حذف الصورة.',
+          });
+          console.error('Error deleting image:', error);
+        }
+      );
+    }
+    
   }
 
   onSubmit(): void {
@@ -142,8 +181,9 @@ export class EditcarComponent implements OnInit {
           title: 'تم التعديل بنجاح',
           text: 'تم تعديل خدمة السيارة بنجاح.',
         });
-        this.carServiceForm.reset();
-        this.images = [];
+        // this.carServiceForm.reset();
+        // this.images = [];
+        this.router.navigate(['mangeServices']);
       },
       error: (error) => {
         console.log(error);
