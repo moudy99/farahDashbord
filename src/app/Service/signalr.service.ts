@@ -58,7 +58,7 @@ export class SignalrService {
     });
 
     this.http
-      .post(`${environment.baseUrl}/chat/sendMessage`, dto, { headers })
+      .post(`${environment.baseUrl}/chat/send-message`, dto, { headers })
       .subscribe(
         () => {
           console.log('Message sent successfully');

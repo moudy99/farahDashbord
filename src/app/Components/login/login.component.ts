@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
+          console.log(response);
           localStorage.setItem('email', email);
           localStorage.setItem(
             'notSeenServicesCount',

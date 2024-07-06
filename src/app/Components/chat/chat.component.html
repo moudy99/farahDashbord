@@ -1,7 +1,7 @@
 <div class="chat-container">
-     <div class="chat-header">
-          <img [src]="chatPartner.imageUrl" alt="Chat Partner" class="chat-partner-image">
+     <div class="chat-header text-end">
           <span class="chat-partner-name">{{ chatPartner.name }}</span>
+          <img [src]="chatPartner.imageUrl" alt="Chat Partner" class="chat-partner-image">
      </div>
 
      <div class="chat-body" #chatBody>
@@ -15,7 +15,7 @@
                     <img [src]="chatPartner.imageUrl" alt="User Image" class="user-image">
                </ng-container>
                <ng-container *ngIf="message.isMine">
-                    <img [src]="myImageUrl" alt="User Image" class="user-image">
+                    <!-- <img [src]="myImageUrl" alt="User Image" class="user-image"> -->
                     <div class="message-content">
                          <p>{{ message.text }}</p>
                          <span class="message-time">{{ message.time | date:'shortTime' }}</span>
@@ -27,6 +27,6 @@
      <div class="chat-footer">
           <input type="text" [(ngModel)]="newMessage" placeholder="اكتب رسالتك هنا...">
           <button (click)="sendMessage()">إرسال</button>
-          <button (click)="sendAttachment()">إرفاق صورة</button>
+          <!-- <button (click)="sendAttachment()">إرفاق صورة</button> -->
      </div>
 </div>
