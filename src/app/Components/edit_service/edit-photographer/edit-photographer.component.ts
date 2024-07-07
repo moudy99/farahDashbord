@@ -6,6 +6,7 @@ import { PhotographyService } from 'src/app/Service/photography.service';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from 'src/app/Service/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-photographer',
@@ -25,7 +26,8 @@ export class EditPhotographerComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private getUsersService: GetUsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {
     this.photographerServiceForm = this.fb.group({
       description: ['', Validators.required],
@@ -178,5 +180,8 @@ export class EditPhotographerComponent implements OnInit {
           }
         );
     }
+  }
+  goBack() {
+    this.location.back();
   }
 }

@@ -43,3 +43,30 @@
     float: right;
   }
   
+  
+.goback {
+  color: #dc3545;
+  background-color: rgb(255 255 255);
+  font-size: 25px;
+  border: none;
+  font-weight: bold;
+
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  padding: 15px 30px;
+  position: relative;
+  box-shadow: -9px 6px 2px #0000004f;
+  transform: translateY(-2px);
+}
+
+.goback:hover {
+  box-shadow: none;
+  transform: translateY(0px);
+}
+.goback:focus {
+  color: #dc3545;
+  box-shadow: -5px 3px 2px #0000004f;
+
+  background-color: white;
+  transform: translateY(2px);
+}
