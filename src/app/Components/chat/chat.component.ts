@@ -62,6 +62,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatId = +params['id'];
       this.loadChat(this.chatId);
     });
+
+    this.signalrService.newMessageReceivedListener((date) => {
+      this.onMessageReceived(date);
+    });
   }
 
   ngAfterViewChecked(): void {
@@ -122,5 +126,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.error('Error fetching chat data', error);
       }
     );
+  }
+
+  onMessageReceived(message: any): void {
+    console.log('Get New Message ');
+    this.messages.push({
+      text: message.message,
+      time: message.sentAt,
+      isMine: false,
+      isCollapsed: true,
+    });
+    this.scrollToBottom();
   }
 }
