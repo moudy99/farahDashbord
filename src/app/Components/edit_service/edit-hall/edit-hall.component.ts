@@ -9,13 +9,15 @@ import { City } from 'src/app/Interfaces/city';
 import { Governorate } from 'src/app/Interfaces/governorate';
 import { GetUsersService } from 'src/app/Service/get-users.service';
 import { environment } from 'src/environments/environment.development';
+import { Location } from '@angular/common';
+import { AuthService } from 'src/app/Service/auth.service';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-edit-hall',
   templateUrl: './edit-hall.component.html',
-  styleUrls: ['./edit-hall.component.css']
+  styleUrls: ['./edit-hall.component.css'],
 })
 export class EditHallComponent implements OnInit {
   hallServiceForm: FormGroup;
@@ -26,7 +28,8 @@ export class EditHallComponent implements OnInit {
   AllGovernments: Governorate[] = [];
   Cites: City[] = [];
   newFeature: string = '';
-  hallId: string | null = "";
+  hallId: string | null = '';
+  Role: string | null = '';
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +37,9 @@ export class EditHallComponent implements OnInit {
     private addressService: AddressService,
     private router: Router,
     private route: ActivatedRoute,
-    private getUsersService: GetUsersService
+    private getUsersService: GetUsersService,
+    private location: Location,
+    private authService: AuthService
   ) {
     this.hallServiceForm = this.fb.group({
       name: ['', Validators.required],
@@ -49,22 +54,27 @@ export class EditHallComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Role = this.authService.getRole();
     this.loadGovernorates();
 
-    this.hallServiceForm.get('gove')?.valueChanges.subscribe((governorateID: number) => {
-      if (governorateID) {
-        this.onGovernorateChange(governorateID);
-      } else {
-        this.Cites = [];
-        this.hallServiceForm.get('city')?.reset({ value: '', disabled: true });
-      }
-    });
+    this.hallServiceForm
+      .get('gove')
+      ?.valueChanges.subscribe((governorateID: number) => {
+        if (governorateID) {
+          this.onGovernorateChange(governorateID);
+        } else {
+          this.Cites = [];
+          this.hallServiceForm
+            .get('city')
+            ?.reset({ value: '', disabled: true });
+        }
+      });
 
     this.hallId = this.route.snapshot.paramMap.get('id');
     if (this.hallId) {
       this.getUsersService.getServiceById(this.hallId).subscribe(
         (response: any) => {
-          console.log('Received data in EditHallComponent:', response.data); 
+          console.log('Received data in EditHallComponent:', response.data);
           this.populateForm(response.data);
         },
         (error: any) => {
@@ -83,11 +93,13 @@ export class EditHallComponent implements OnInit {
   }
 
   onGovernorateChange(governorateID: number): void {
-    this.addressService.getCitiesByGovId(governorateID).subscribe((response: any) => {
-      this.Cites = response.data;
+    this.addressService
+      .getCitiesByGovId(governorateID)
+      .subscribe((response: any) => {
+        this.Cites = response.data;
 
-      this.hallServiceForm.get('city')?.enable();
-    });
+        this.hallServiceForm.get('city')?.enable();
+      });
   }
 
   get features(): FormArray {
@@ -109,9 +121,13 @@ export class EditHallComponent implements OnInit {
 
   addFeatureFromModal() {
     if (this.newFeature.trim()) {
-      this.features.push(this.fb.group({ feature: [this.newFeature, Validators.required] }));
+      this.features.push(
+        this.fb.group({ feature: [this.newFeature, Validators.required] })
+      );
       this.newFeature = '';
-      const modal = bootstrap.Modal.getInstance(document.getElementById('featureModal'));
+      const modal = bootstrap.Modal.getInstance(
+        document.getElementById('featureModal')
+      );
       modal.hide();
     }
   }
@@ -179,13 +195,15 @@ export class EditHallComponent implements OnInit {
         }
       );
     }
-
   }
 
   onSubmit(): void {
     this.hallServiceForm.markAllAsTouched();
 
-    if (this.hallServiceForm.invalid || (this.images.length === 0 && this.imageUrls.length === 0)) {
+    if (
+      this.hallServiceForm.invalid ||
+      (this.images.length === 0 && this.imageUrls.length === 0)
+    ) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
@@ -196,7 +214,10 @@ export class EditHallComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('Name', this.hallServiceForm.get('name')?.value);
-    formData.append('Description', this.hallServiceForm.get('description')?.value);
+    formData.append(
+      'Description',
+      this.hallServiceForm.get('description')?.value
+    );
     formData.append('Price', this.hallServiceForm.get('price')?.value);
     formData.append('Capacity', this.hallServiceForm.get('capacity')?.value);
     formData.append('GovernorateID', this.hallServiceForm.get('gove')?.value);
@@ -250,19 +271,23 @@ export class EditHallComponent implements OnInit {
       capacity: data.capacity,
       gove: data.governorateID,
       city: data.city,
-      images: data.pictureUrls
+      images: data.pictureUrls,
     });
-  
+
     // Log image URLs to check if they are correct
     this.imageUrls = data.pictureUrls.map((pictureUrl: string) => {
       const fullUrl = `${environment.UrlForImages}${pictureUrl}`;
       console.log(fullUrl);
       return fullUrl;
     });
-  
+
     data.features.forEach((feature: string) => {
-      this.features.push(this.fb.group({ feature: [feature, Validators.required] }));
+      this.features.push(
+        this.fb.group({ feature: [feature, Validators.required] })
+      );
     });
   }
-  
+  goBack() {
+    this.location.back();
+  }
 }
