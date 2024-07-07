@@ -3,5 +3,4 @@ export enum UserType {
   Photographer,
   CarOwner,
   BeautyCenterOwner,
-  DressesOwner,
 }

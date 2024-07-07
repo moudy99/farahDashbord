@@ -16,20 +16,25 @@ export class OwnerService {
     page: number,
     pageSize: number,
     accountStatus: number | null,
-    isBlocked: boolean | null
+    isBlocked: boolean | null,
+    selectedUserType: string | null
   ): Observable<any> {
     const url = `${environment.baseUrl}/Admin/owners`;
-    const params = {
-      page: page.toString(),
-      pageSize: pageSize.toString(),
-      status:
-        accountStatus !== null
-          ? accountStatus !== 0
-            ? accountStatus.toString()
-            : '0'
-          : '',
-      isBlocked: isBlocked ? isBlocked.toString() : '',
-    };
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (accountStatus !== null) {
+      params = params.set('status', accountStatus.toString());
+    }
+
+    if (isBlocked !== null) {
+      params = params.set('isBlocked', isBlocked.toString());
+    }
+
+    if (selectedUserType !== null) {
+      params = params.set('userType', selectedUserType);
+    }
 
     return this.http.get(url, { params });
   }
@@ -84,10 +89,10 @@ export class OwnerService {
   }
 
   GetProfileImage(imagePath: string): Observable<Blob> {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${environment.UrlForImages}/${imagePath}`;
     return this.http.get(url, { headers, responseType: 'blob' });
   }
-
 }

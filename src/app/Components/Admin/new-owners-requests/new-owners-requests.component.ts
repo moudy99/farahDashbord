@@ -24,7 +24,7 @@ export class NewOwnersRequestsComponent implements OnInit {
   totalPages: number = 0;
   pages: number[] = [];
   isLoading: boolean = false;
-
+  selectedUserType: string = '';
   constructor(
     private getUsersService: GetUsersService,
     private spinner: NgxSpinnerService,
@@ -40,7 +40,13 @@ export class NewOwnersRequestsComponent implements OnInit {
   getAllPendingOwners(): void {
     this.spinner.show();
     this.ownerServices
-      .getAllOwners(this.currentPage, this.pageSize, 0, null)
+      .getAllOwners(
+        this.currentPage,
+        this.pageSize,
+        0,
+        null,
+        this.selectedUserType
+      )
       .subscribe(
         (response: OwnerResponse) => {
           this.paginatedOwners = response.data.map((owner) => ({

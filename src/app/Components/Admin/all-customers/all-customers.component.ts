@@ -40,13 +40,13 @@ export class AllCustomersComponent implements OnInit {
         (response: CustomerResponse) => {
           this.AllCustomers = response.data.map((customer) => ({
             ...customer,
-            profileImage: customer.profileImage.includes(
-              'images/CustomersImages'
-            )
-              ? `${environment.UrlForImages}/${customer.profileImage}`
-              : customer.profileImage,
+            profileImage:
+              customer.profileImage &&
+              customer.profileImage.includes('images/CustomersImages')
+                ? `${environment.UrlForImages}/${customer.profileImage}`
+                : customer.profileImage,
           }));
-          console.log(this.AllCustomers);
+
           this.totalPages = response.paginationInfo.totalPages;
           this.generatePageNumbers();
           this.spinner.hide();
