@@ -97,13 +97,14 @@
                 <a [routerLink]="['/orders']" [routerLinkActive]="'test px-3'" [routerLinkActiveOptions]="{exact:true}"
                     class="nav-link align-middle">
                     <div class="d-flex justify-content-around">
-                        <i class="fs-4 bi bi-inbox-fill ms-2"></i>
-                        <span class="ms-2 d-none d-sm-inline fs-5">الطلبات الواردة</span>
+                        <i class="fs-4 bi bi-envelope-fill ms-2"></i>
+                        <span class="ms-2 d-none d-sm-inline fs-5">الرسائل الواردة</span>
+
                     </div>
                 </a>
             </li>
 
-            <li class="nav-item" *ngIf="role === 'Owner'">
+            <!-- <li class="nav-item" *ngIf="role === 'Owner'">
                 <a [routerLink]="['/contactUs']" [routerLinkActive]="'test px-3'"
                     [routerLinkActiveOptions]="{exact:true}" class="nav-link align-middle">
                     <div class="d-flex justify-content-around">
@@ -111,7 +112,7 @@
                         <span class="ms-2 d-none d-sm-inline fs-5">الدعم الفني</span>
                     </div>
                 </a>
-            </li>
+            </li> -->
 
             <li class="nav-item" *ngIf="role === 'Owner'">
                 <a [routerLink]="['/editProfile/general']" [routerLinkActive]="'test px-3'"

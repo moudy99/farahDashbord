@@ -54,7 +54,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (token) {
       const decodedToken: any = jwtDecode(token);
       this.myUserId = decodedToken.uid;
-      console.log(decodedToken.uid);
+      console.log(decodedToken);
+      console.log('=====================>', decodedToken.uid);
     }
 
     this.route.params.subscribe((params) => {
@@ -105,7 +106,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.log(response);
         this.chatData = response.data;
         this.chatPartner.name = response.data.user.userName;
-        this.chatPartner.imageUrl = `${environment.UrlForImages}${response.data.user.profileImage}`;
+        this.chatPartner.imageUrl = response.data.user.profileImage.includes(
+          'images/CustomersImages'
+        )
+          ? `${environment.UrlForImages}${response.data.user.profileImage}`
+          : response.data.user.profileImage;
         this.messages = response.data.messages.map((msg: any) => ({
           text: msg.message,
           time: new Date(msg.sentAt),
