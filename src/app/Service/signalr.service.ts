@@ -38,9 +38,9 @@ export class SignalrService {
       );
   };
 
-  public addTransferMessageListener = () => {
-    this.chatHubConnection.on('ReceiveMessage', (message) => {
-      this.messages.next([...this.messages.value, message]);
+  public newMessageReceivedListener = (callback: (data: any) => void): void => {
+    this.chatHubConnection.on('ReceiveMessage', (data) => {
+      callback(data);
     });
   };
 
