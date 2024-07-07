@@ -26,6 +26,7 @@ export class AllUsersComponent implements OnInit {
 
   accountStatus: number | null = null;
   isBlocked: boolean | null = null;
+  selectedUserType: string = '';
 
   originalIsBlocked: boolean | null = null;
 
@@ -48,7 +49,8 @@ export class AllUsersComponent implements OnInit {
         this.currentPage,
         this.pageSize,
         this.accountStatus,
-        this.isBlocked
+        this.isBlocked,
+        this.selectedUserType
       )
       .subscribe(
         (response: OwnerResponse) => {
@@ -66,6 +68,12 @@ export class AllUsersComponent implements OnInit {
         }
       );
   }
+
+  filterOwners(): void {
+    this.currentPage = 1;
+    this.getAllOwners();
+  }
+
   generatePageNumbers(): void {
     const totalPagesToShow = 5;
     const pagesToShow = totalPagesToShow * 2;
@@ -150,6 +158,7 @@ export class AllUsersComponent implements OnInit {
       }
     });
   }
+
   showDetails(owner: any) {
     console.log(owner);
     this.store.dispatch(selectOwner({ owner }));
