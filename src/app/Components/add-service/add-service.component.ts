@@ -26,12 +26,6 @@ export class AddServiceComponent {
       description: 'إضافة بيوتي سنتر لتجهيز العروس بأحدث صيحات الجمال.',
     },
     {
-      title: 'اضافة فستان',
-      icon: 'bi bi-person-standing-dress',
-      route: 'addDress',
-      description: 'إضافة فستان زفاف لتكمل إطلالتك الخاصة.',
-    },
-    {
       title: 'اضافة مصور',
       icon: 'bi bi-camera',
       route: 'addPhotographer',

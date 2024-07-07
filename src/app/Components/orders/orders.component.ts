@@ -39,7 +39,11 @@ export class OrdersComponent implements OnInit {
           ...chat,
           user: {
             ...chat.user,
-            profileImage: `${environment.UrlForImages}/${chat.user.profileImage}`,
+            profileImage: chat.user.profileImage.includes(
+              'images/CustomersImages'
+            )
+              ? `${environment.UrlForImages}/${chat.user.profileImage}`
+              : chat.user.profileImage,
           },
           lastMessageSentAtFormatted: this.FormatTime.formatingTime(
             new Date(chat.lastMessageSentAt)

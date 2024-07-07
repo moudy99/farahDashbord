@@ -5,25 +5,27 @@ import { GetUsersService } from 'src/app/Service/get-users.service';
 import { PhotographyService } from 'src/app/Service/photography.service';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment.development';
+import { AuthService } from 'src/app/Service/auth.service';
 
 @Component({
   selector: 'app-edit-photographer',
   templateUrl: './edit-photographer.component.html',
-  styleUrls: ['./edit-photographer.component.css']
+  styleUrls: ['./edit-photographer.component.css'],
 })
 export class EditPhotographerComponent implements OnInit {
   photographerServiceForm: FormGroup;
   images: { file: File; url: string }[] = [];
   imageUrls: string[] = [];
   ownerID: string = 'owner-id-string';
-  PhotoId: string | null = "";
-
+  PhotoId: string | null = '';
+  Role: string | null = '';
   constructor(
     private fb: FormBuilder,
     private photographyService: PhotographyService,
     private router: Router,
     private route: ActivatedRoute,
-    private getUsersService: GetUsersService
+    private getUsersService: GetUsersService,
+    private authService: AuthService
   ) {
     this.photographerServiceForm = this.fb.group({
       description: ['', Validators.required],
@@ -31,11 +33,15 @@ export class EditPhotographerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Role = this.authService.getRole();
     this.PhotoId = this.route.snapshot.paramMap.get('id');
     if (this.PhotoId) {
       this.getUsersService.getServiceById(this.PhotoId).subscribe(
         (response: any) => {
-          console.log('Received data in EditPhotographerComponent:', response.data); // Log data for debugging
+          console.log(
+            'Received data in EditPhotographerComponent:',
+            response.data
+          );
           this.populateForm(response.data);
         },
         (error: any) => {
@@ -52,8 +58,9 @@ export class EditPhotographerComponent implements OnInit {
       description: data.description,
     });
 
-    this.imageUrls = data.pictureUrls
-      .map((pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`);
+    this.imageUrls = data.pictureUrls.map(
+      (pictureUrl: string) => `${environment.UrlForImages}${pictureUrl}`
+    );
   }
 
   onFileSelected(event: any): void {
@@ -123,7 +130,10 @@ export class EditPhotographerComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.photographerServiceForm.invalid || (this.images.length === 0 && this.imageUrls.length === 0)) {
+    if (
+      this.photographerServiceForm.invalid ||
+      (this.images.length === 0 && this.imageUrls.length === 0)
+    ) {
       Swal.fire({
         icon: 'error',
         title: 'خطأ',
@@ -134,34 +144,39 @@ export class EditPhotographerComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('OwnerID', this.ownerID);
-    formData.append('Description', this.photographerServiceForm.get('description')?.value);
+    formData.append(
+      'Description',
+      this.photographerServiceForm.get('description')?.value
+    );
 
     this.images.forEach((image, index) => {
       formData.append('Pictures', image.file, image.file.name);
     });
 
     if (this.PhotoId) {
-      this.photographyService.updatePhotographerService(this.PhotoId, formData).subscribe(
-        (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'تم التعديل بنجاح',
-            text: 'تم التعديل علي خدمة المصور بنجاح.',
-          });
-          // this.photographerServiceForm.reset();
-          // this.images = [];
-          // this.imageUrls = [];
-          this.router.navigate(['mangeServices']);
-        },
-        (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'خطأ',
-            text: 'حدث خطأ أثناء تعديل خدمة المصور. حاول مرة أخرى.',
-          });
-          console.error('Error:', error);
-        }
-      );
+      this.photographyService
+        .updatePhotographerService(this.PhotoId, formData)
+        .subscribe(
+          (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'تم التعديل بنجاح',
+              text: 'تم التعديل علي خدمة المصور بنجاح.',
+            });
+            // this.photographerServiceForm.reset();
+            // this.images = [];
+            // this.imageUrls = [];
+            this.router.navigate(['mangeServices']);
+          },
+          (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'خطأ',
+              text: 'حدث خطأ أثناء تعديل خدمة المصور. حاول مرة أخرى.',
+            });
+            console.error('Error:', error);
+          }
+        );
     }
   }
 }
