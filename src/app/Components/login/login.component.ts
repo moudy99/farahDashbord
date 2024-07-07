@@ -6,6 +6,7 @@ import { SendOtpService } from 'src/app/Service/send-otp.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ResetPasswordService } from 'src/app/Service/reset-password.service';
 import Swal from 'sweetalert2';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -46,8 +47,9 @@ export class LoginComponent implements OnInit {
     if (typeof email === 'string' && typeof password === 'string') {
       this.loginService.login(email, password).subscribe({
         next: (response: any) => {
-          console.log(response);
-          localStorage.setItem('email', email);
+          const decodedToken: any = jwtDecode(response.body.data.token);
+          const uid = decodedToken.uid;
+          localStorage.setItem('currentUserId', uid);
           localStorage.setItem(
             'notSeenServicesCount',
             response.body.data.notSeenServicesCount
@@ -55,6 +57,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem(
             'notSeenRegisteredOwners',
             response.body.data.notSeenRegisteredOwners
+          );
+          localStorage.setItem(
+            'notSeenMessages',
+            response.body.data.notSeenMessages
           );
 
           this.spinner.hide();
