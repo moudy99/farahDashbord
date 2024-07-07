@@ -40,6 +40,7 @@ export class SignalrService {
 
   public newMessageReceivedListener = (callback: (data: any) => void): void => {
     this.chatHubConnection.on('ReceiveMessage', (data) => {
+      console.log('Received data:', data);
       callback(data);
     });
   };
@@ -97,6 +98,12 @@ export class SignalrService {
   public newServiceAdded = (callback: (data: any) => void): void => {
     this.notificationHubConnection.on('newServicesAdded', (data) => {
       console.log('newServicesAdded event received:', data);
+      callback(data);
+    });
+  };
+  public newMessageReceived = (callback: (data: any) => void): void => {
+    this.notificationHubConnection.on('newMessageReceived', (data) => {
+      localStorage.setItem('newMessagesReceiverId', data);
       callback(data);
     });
   };

@@ -61,7 +61,7 @@
                 </a>
             </li>
 
-            <li class="nav-item" *ngIf="role === 'Admin'">
+            <!-- <li class="nav-item" *ngIf="role === 'Admin'">
                 <a [routerLink]="['/complains']" [routerLinkActive]="'test px-3'"
                     [routerLinkActiveOptions]="{exact:true}" class="nav-link align-middle" (click)="openComplaint()">
                     <span *ngIf="ComplainsNum > 0" class="notification-count">{{ newComplainsCount }}</span>
@@ -70,7 +70,7 @@
                         <span class="ms-2 d-none d-sm-inline fs-5">الشكاوي</span>
                     </div>
                 </a>
-            </li>
+            </li> -->
 
 
             <li class="nav-item" *ngIf="role === 'Owner'">
@@ -95,11 +95,11 @@
 
             <li class="nav-item" *ngIf="role === 'Owner'">
                 <a [routerLink]="['/orders']" [routerLinkActive]="'test px-3'" [routerLinkActiveOptions]="{exact:true}"
-                    class="nav-link align-middle">
+                    class="nav-link align-middle" (click)="openMessages()">
+                    <span *ngIf="MessagesNum > 0" class="notification-count">{{newMessagesCount}}</span>
                     <div class="d-flex justify-content-around">
                         <i class="fs-4 bi bi-envelope-fill ms-2"></i>
                         <span class="ms-2 d-none d-sm-inline fs-5">الرسائل الواردة</span>
-
                     </div>
                 </a>
             </li>

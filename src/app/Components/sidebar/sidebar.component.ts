@@ -13,9 +13,13 @@ export class SidebarComponent implements DoCheck, OnInit {
   OwnersNum: number = 0;
   ServicesCount: number = 0;
   ComplainsNum: number = 0;
+  MessagesNum: number = 0;
   newOwnersRegisterCount: string = `${this.OwnersNum}`;
   newServicesAddedCount: string = `${this.ServicesCount}`;
-  newComplainsCount: string = `${this.ComplainsNum}`;
+  newMessagesCount: string = `${this.ServicesCount}`;
+
+  currentUserID: string = '';
+
   token: any;
   tokenData: any;
   isLogged = false;
@@ -24,17 +28,18 @@ export class SidebarComponent implements DoCheck, OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-
     private signalrService: SignalrService,
     private toastr: ToastrService
   ) {}
   // sidebar.component.ts
   ngOnInit(): void {
+    this.currentUserID = localStorage.getItem('currentUserId') || '';
     this.role = this.authService.getRole();
     this.signalrService.startNotificationsHubConnection();
 
     const storedServicesCount = localStorage.getItem('notSeenServicesCount');
     const storedOwnersCount = localStorage.getItem('notSeenRegisteredOwners');
+    const storeNewMessagesCount = localStorage.getItem('notSeenMessages');
 
     if (storedServicesCount) {
       this.ServicesCount = parseInt(storedServicesCount, 10);
@@ -45,6 +50,10 @@ export class SidebarComponent implements DoCheck, OnInit {
       this.OwnersNum = parseInt(storedOwnersCount, 10);
       this.newOwnersRegisterCount = `${this.OwnersNum}`;
     }
+    if (storeNewMessagesCount) {
+      this.MessagesNum = parseInt(storeNewMessagesCount, 10);
+      this.newMessagesCount = `${this.MessagesNum}`;
+    }
 
     if (this.role === 'Admin') {
       this.signalrService.newOwnerRegister(() => {
@@ -54,6 +63,12 @@ export class SidebarComponent implements DoCheck, OnInit {
         this.newServicesNotification(data);
       });
     }
+    // if (this.role == 'Owner') {
+    //   console.log(
+    //     this.currentUserID === localStorage.getItem('newMessagesReceiverId')
+    //   );
+    //   this.signalrService.newMessageReceived((data) => {});
+    // }
   }
 
   ngDoCheck(): void {
@@ -85,23 +100,24 @@ export class SidebarComponent implements DoCheck, OnInit {
       this.newServicesAddedCount = `${this.ServicesCount}`;
     }
   }
-
-  public newComplaintNotification(): void {
-    this.toastr.info('تم تسجيل مالك جديد في الموقع', 'تسجيل مالك جديد');
-    this.ComplainsNum++;
-    if (this.ComplainsNum > 9) {
-      this.newComplainsCount = `+9`;
+  public newMessagedReceived(data: any): void {
+    console.log('New Message Received:', data);
+    // this.toastr.info(`وصول رسالة جديدة ${data}`, 'رسالة جديدة');
+    this.MessagesNum++;
+    if (this.MessagesNum > 9) {
+      this.newMessagesCount = `+9`;
     } else {
-      this.newComplainsCount = `${this.ComplainsNum}`;
+      this.newMessagesCount = `${this.MessagesNum}`;
     }
   }
-  public openComplaint() {
-    this.ComplainsNum = 0;
-    this.newComplainsCount = `${this.ComplainsNum}`;
-  }
+
   public openNewServices() {
     this.ServicesCount = 0;
     this.newServicesAddedCount = `${this.ServicesCount}`;
+  }
+  public openMessages() {
+    this.MessagesNum = 0;
+    this.newMessagesCount = `${this.MessagesNum}`;
   }
   public openNewOwnerRequests() {
     this.OwnersNum = 0;
