@@ -122,5 +122,6 @@ export class SidebarComponent implements DoCheck, OnInit {
   public openNewOwnerRequests() {
     this.OwnersNum = 0;
     this.newOwnersRegisterCount = `${this.OwnersNum}`;
+    localStorage.removeItem('notSeenMessages');
   }
 }

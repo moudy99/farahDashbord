@@ -111,7 +111,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.chatData = response.data;
         this.chatPartner.name = response.data.user.userName;
         this.chatPartner.imageUrl = response.data.user.profileImage.includes(
-          'images/CustomersImages'
+          '/Images/CustomersImages'
         )
           ? `${environment.UrlForImages}${response.data.user.profileImage}`
           : response.data.user.profileImage;
