@@ -40,7 +40,7 @@ export class OrdersComponent implements OnInit {
           user: {
             ...chat.user,
             profileImage: chat.user.profileImage.includes(
-              'images/CustomersImages'
+              'Images/CustomersImages'
             )
               ? `${environment.UrlForImages}/${chat.user.profileImage}`
               : chat.user.profileImage,

@@ -44,3 +44,6 @@ ul {
   justify-content: center;
   font-weight: 600;
 }
+a{
+  cursor: pointer !important;
+}
